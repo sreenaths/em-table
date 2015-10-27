@@ -1,0 +1,9 @@
+{{#if view.cellContent.isPending}}
+  <i class="waiting"></i>&nbsp;
+{{else}}
+  {{#if view.cellContent.displayText}}
+    {{view.cellContent.displayText}}
+  {{else}}
+    <span class="message">Not Available!</span>
+  {{/if}}
+{{/if}}
