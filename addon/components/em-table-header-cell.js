@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/em-table-header-cell';
 
 export default Ember.Component.extend({
-  layout: layout
+  layout: layout,
 
   sortIconCSS: function () {
     var css = 'sort-icon ';
