@@ -1,5 +1,5 @@
-{{#unbound unless view.cellContent.displayText}}
+{{#unless (unbound cellContent.displayText)}}
   <span class="message">Not Available!</span>
 {{else}}
-  {{unbound view.cellContent.displayText}}
-{{/unbound}}
+  {{unbound cellContent.displayText}}
+{{/unless}}

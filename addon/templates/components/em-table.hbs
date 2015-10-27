@@ -3,7 +3,7 @@
     <div class='table-header'>
       <div class="horizontal-half align-top">
         {{#if enableSearch}}
-          {{view App.BasicTableComponent.SearchView
+          {{em-table-search-ui
           text=searchText
           placeholder="Search..."
           }}
@@ -16,10 +16,7 @@
         </div>
       </div><div class="horizontal-half align-top align-children-right">
       {{#if enablePagination}}
-        {{view App.BasicTableComponent.PaginationView pageNum=pageNum totalPages=totalPages}}
-      {{/if}}
-      {{#if extraHeaderItem}}
-        {{view extraHeaderItem}}
+        {{em-table-pagination-ui pageNum=pageNum totalPages=totalPages}}
       {{/if}}
     </div>
     </div>
@@ -31,15 +28,15 @@
       <div class="data-availability-message">No records available!</div>
     {{else}}
       <div class='table-body'>
-        {{#each column in _columns}}
-          <div {{bind-attr
-          style=column.customStyle
-          class=":table-column _view.contentIndex::first-item"
-          }}>
-            {{view column.headerCellView}}
-            {{#each row in _rows}}
+        {{#each _columns as |column|}}
+          <div
+          style="{{column.customStyle}}"
+          class="table-column {{_view.contentIndex 'first-item'}}"
+          >
+            {{em-table-header-cell}}
+            {{#each _rows as |row|}}
               <div class='table-cell {{unbound firstItemCSS _view}}'>
-                {{view column.cellView row=row}}
+                {{em-table-cell row=row}}
               </div>
             {{/each}}
           </div>
@@ -51,7 +48,7 @@
     <div class="horizontal-half align-top">
     </div><div class="horizontal-half align-top align-children-right">
     {{#if hasPageNavOnFooter}}
-      {{view App.BasicTableComponent.PaginationView pageNum=pageNum totalPages=totalPages}}
+      {{em-table-pagination-ui pageNum=pageNum totalPages=totalPages}}
     {{/if}}
   </div>
   </div>

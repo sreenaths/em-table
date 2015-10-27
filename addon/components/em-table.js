@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import layout from '../templates/components/em-table';
 
+import Cell from 'em-table-cell';
+import HeaderCell from 'em-table-header-cell';
+
 export default Ember.Component.extend({
   layout: layout,
 
@@ -47,7 +50,7 @@ export default Ember.Component.extend({
   }.property('enableSearch', 'enablePagination', 'extraHeaderItem', '_statusMessage'),
 
   _statusMessage: function() {
-    if(this.get('enableStatus') == false) {
+    if(this.get('enableStatus') === false) {
       return null;
     }
     if(this.get('isSorting')) {
@@ -75,7 +78,7 @@ export default Ember.Component.extend({
         return false;
       }
       value = column.getSearchValue(this);
-      return (typeof value == 'string') ? value.match(regex) : false;
+      return (typeof value === 'string') ? value.match(regex) : false;
     }
 
     this.set('isSearching', false);
@@ -84,9 +87,9 @@ export default Ember.Component.extend({
       return rows;
     }
     else {
-      searchColumnNames = this.get('searchColumnNames'),
+      searchColumnNames = this.get('searchColumnNames');
       columns = searchColumnNames ? this.get('columns').filter(function (column) {
-        return searchColumnNames.indexOf(column.get('headerCellName')) != -1;
+        return searchColumnNames.indexOf(column.get('headerCellName')) !== -1;
       }) : this.get('columns');
 
       return rows.filter(function (row) {
@@ -111,8 +114,8 @@ export default Ember.Component.extend({
 
         column.setProperties({
           width: widthPercentageToFit + "%",
-          cellView: App.BasicTableComponent.CellView.extend(cellOptions),
-          headerCellView: App.BasicTableComponent.HeaderCellView.extend({
+          cellView: Cell.extend(cellOptions),
+          headerCellView: HeaderCell.extend({
             column: column,
             table: this
           })
@@ -138,7 +141,7 @@ export default Ember.Component.extend({
 
     if(searchText) {
       delimIndex = searchText.indexOf(':');
-      if(delimIndex != -1) {
+      if(delimIndex !== -1) {
         columnNames = searchText.substr(0, delimIndex).
           split(",").
           reduce(function (arr, columnName) {
@@ -170,7 +173,7 @@ export default Ember.Component.extend({
   _sortObserver: function () {
     var rows = this.get('rows'),
         column = this.get('columns').findBy('id', this.get('sortColumnId')),
-        ascending = this.get('sortOrder') == 'asc',
+        ascending = this.get('sortOrder') === 'asc',
         that = this;
 
     if(rows && rows.get('length') > 0 && column) {
@@ -217,14 +220,14 @@ export default Ember.Component.extend({
       this.set('searchText', searchText);
     },
     sort: function (columnId) {
-      if(this.get('sortColumnId') != columnId) {
+      if(this.get('sortColumnId') !== columnId) {
         this.setProperties({
           sortColumnId: columnId,
           sortOrder: 'asc'
         });
       }
       else {
-        this.set('sortOrder', this.get('sortOrder') == 'asc' ? 'desc' : 'asc');
+        this.set('sortOrder', this.get('sortOrder') === 'asc' ? 'desc' : 'asc');
       }
     },
 

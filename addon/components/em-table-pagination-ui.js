@@ -7,11 +7,11 @@ export default Ember.Component.extend({
   classNames: ['pagination-view'],
 
   atFirst: function () {
-    return this.get('pageNum') == 1;
+    return this.get('pageNum') === 1;
   }.property('pageNum'),
 
   atLast: function () {
-    return this.get('pageNum') == this.get('totalPages');
+    return this.get('pageNum') === this.get('totalPages');
   }.property('pageNum', 'totalPages'),
 
   _possiblePages: function () {
@@ -23,7 +23,8 @@ export default Ember.Component.extend({
         delta = 0;
 
     if(totalPages > 5) {
-      startPage = pageNum - 2, endPage = pageNum + 2;
+      startPage = pageNum - 2;
+      endPage = pageNum + 2;
 
       if(startPage < 1) {
         delta = 1 - startPage;
@@ -32,12 +33,13 @@ export default Ember.Component.extend({
         delta = totalPages - endPage;
       }
 
-      startPage += delta, endPage += delta;
+      startPage += delta;
+      endPage += delta;
     }
 
     while(startPage <= endPage) {
       possiblePages.push({
-        isCurrent: startPage == pageNum,
+        isCurrent: startPage === pageNum,
         pageNum: startPage++
       });
     }

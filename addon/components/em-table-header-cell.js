@@ -6,10 +6,10 @@ export default Ember.Component.extend({
 
   sortIconCSS: function () {
     var css = 'sort-icon ';
-    if(this.get('column.searchAndSortable') == false) {
+    if(this.get('column.searchAndSortable') === false) {
       css = 'no-display';
     }
-    else if(this.get('parentView.sortColumnId') == this.get('column.id')) {
+    else if(this.get('parentView.sortColumnId') === this.get('column.id')) {
       css += this.get('parentView.sortOrder');
     }
 
@@ -17,22 +17,19 @@ export default Ember.Component.extend({
   }.property('parentView.sortOrder', 'parentView.sortColumnId', 'column.searchAndSortable'),
 
   _onColResize: function (event) {
-    var data = event.data;
-
-    if(!data.startEvent) {
-      data.startEvent = event;
+    if(!this.startEvent) {
+      this.startEvent = event;
     }
 
-    data.thisHeader.set(
+    this.header.set(
       'column.width',
-      (data.startWidth + event.clientX - data.startEvent.clientX) + 'px'
+      (this.startWidth + event.clientX - this.startEvent.clientX) + 'px'
     );
   },
 
-  _endColResize: function (event) {
-    var thisHeader = event.data.thisHeader;
-    $(document).off('mousemove', thisHeader._onColResize);
-    $(document).off('mouseup', thisHeader._endColResize);
+  _endColResize: function () {
+    document.removeEventListener('mousemove', this.onColResize);
+    document.removeEventListener('mouseup', this.endColResize);
   },
 
   actions: {
@@ -46,12 +43,15 @@ export default Ember.Component.extend({
     },
     startColResize: function () {
       var mouseTracker = {
-        thisHeader: this,
-        startWidth: $(this.get('element')).width(),
+        header: this,
+        startWidth: this.get('element').offsetWidth,
         startEvent: null
       };
-      $(document).on('mousemove', mouseTracker, this._onColResize);
-      $(document).on('mouseup', mouseTracker, this._endColResize);
+      mouseTracker.onColResize = this._onColResize.bind(mouseTracker);
+      mouseTracker.endColResize = this._endColResize.bind(mouseTracker);
+
+      document.addEventListener('mousemove', mouseTracker.onColResize);
+      document.addEventListener('mouseup', mouseTracker.onColResize);
     }
   }
 });

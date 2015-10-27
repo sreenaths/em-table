@@ -4,7 +4,7 @@ var ObjectPromiseController = Ember.ObjectController.extend(Ember.PromiseProxyMi
 
 function stringifyNumbers(content) {
   var displayText = content.displayText;
-  if(typeof displayText == 'number') {
+  if(typeof displayText === 'number') {
     content.displayText = displayText.toString();
   }
   return content;
@@ -27,7 +27,7 @@ export default Ember.Component.extend({
     this.set('observedPath', path);
   },
 
-  _removeObserver: function (path) {
+  _removeObserver: function () {
     var path = this.get('observedPath');
     if(path) {
       this.get('row').removeObserver(path, this, this._onValueChange);
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
   },
 
   _normalizeContent: function (content) {
-    return stringifyNumbers(content && typeof content == 'object' ? content : {
+    return stringifyNumbers(content && typeof content === 'object' ? content : {
       displayText: content
     });
   },
@@ -55,7 +55,7 @@ export default Ember.Component.extend({
   cellContent: function () {
     var cellContent = this.get('column').getCellContent(this.get('row'));
 
-    if(cellContent && $.isFunction(cellContent.then)) {
+    if(cellContent && cellContent.then) {
       return ObjectPromiseController.create({
         promise: cellContent.then(this._normalizeContent)
       });

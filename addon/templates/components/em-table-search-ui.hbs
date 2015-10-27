@@ -1,13 +1,12 @@
-<div {{bind-attr class=":input-group view._validRegEx::has-error"}}>
+<div class="input-group {{_validRegEx 'has-error'}}">
   {{input
   class="form-control"
-  placeholder=view.placeholder
-  action="search"
-  value=view._boundText
-  targetObject=view
+  placeholder=placeholder
+  enter="search"
+  value=_boundText
   }}
   <span class="input-group-btn">
-    <button class="btn btn-default" type="button" {{action "search" target='view'}}>
+    <button class="btn btn-default" type="button" {{action "search"}}>
       Search
     </button>
   </span>
