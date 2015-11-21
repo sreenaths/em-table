@@ -7,11 +7,11 @@ export default Ember.Component.extend({
   classNames: ['search-view'],
 
   text: '',
-  _boundText: function () {
+  _boundText: Ember.computed(function () {
     return this.get('text') || '';
-  }.property(),
+  }),
 
-  _validRegEx: function () {
+  _validRegEx: Ember.computed('_boundText', function () {
     var regExText = this.get('_boundText');
     regExText = regExText.substr(regExText.indexOf(':') + 1);
     try {
@@ -21,7 +21,7 @@ export default Ember.Component.extend({
       return false;
     }
     return true;
-  }.property('_boundText'),
+  }),
 
   actions: {
     search: function () {

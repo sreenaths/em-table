@@ -11,10 +11,10 @@ function stringifyNumbers(content) {
 }
 
 export default Ember.Component.extend({
-  layoutName: function () {
+  layoutName: Ember.computed('column.observePath', function () {
     var template = this.get('column.observePath') ? 'em-table-bounded-cell' : 'em-table-cell';
     return 'components/' + template;
-  }.property('column.observePath'),
+  }),
 
   classNames: ['cell-content'],
 
@@ -41,18 +41,18 @@ export default Ember.Component.extend({
     });
   },
 
-  _pathObserver: function () {
+  _pathObserver: Ember.on('init', Ember.observer('row', 'column.contentPath', 'column.observePath', function () {
     var path = this.get('column.contentPath');
     if(path && this.get('column.observePath')) {
       this._addObserver(path);
     }
-  }.observes('row', 'column.contentPath', 'column.observePath').on('init'),
+  })),
 
   _onValueChange: function (row, path) {
     this.set('value', row.get(path));
   },
 
-  cellContent: function () {
+  cellContent: Ember.computed('row', 'column', 'value', function () {
     var cellContent = this.get('column').getCellContent(this.get('row'));
 
     if(cellContent && cellContent.then) {
@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     }
 
     return this._normalizeContent(cellContent);
-  }.property('row', 'column', 'value'),
+  }),
 
   willDestroy: function () {
     this._removeObserver();

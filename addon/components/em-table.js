@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/em-table';
 
-import Cell from 'em-table-cell';
-import HeaderCell from 'em-table-header-cell';
+import Cell from './em-table-cell';
+import HeaderCell from './em-table-header-cell';
 
 export default Ember.Component.extend({
   layout: layout,
@@ -34,22 +34,22 @@ export default Ember.Component.extend({
     this._sortObserver();
   },
 
-  totalPages: function () {
+  totalPages: Ember.computed('_searchedRows.length', 'rowCount', function () {
     return Math.ceil(this.get('_searchedRows.length') / this.get('rowCount'));
-  }.property('_searchedRows.length', 'rowCount'),
+  }),
 
-  hasPageNavOnFooter: function () {
+  hasPageNavOnFooter: Ember.computed('enablePagination', '_rows.length', 'pageNavOnFooterAt', function () {
     return this.get('enablePagination') && this.get('_rows.length') >= this.get('pageNavOnFooterAt');
-  }.property('enablePagination', '_rows.length', 'pageNavOnFooterAt'),
+  }),
 
-  _showHeader: function () {
+  _showHeader: Ember.computed('enableSearch', 'enablePagination', 'extraHeaderItem', '_statusMessage', function () {
     return this.get('enableSearch') ||
         this.get('enablePagination') ||
         this.get('extraHeaderItem') ||
         this.get('_statusMessage');
-  }.property('enableSearch', 'enablePagination', 'extraHeaderItem', '_statusMessage'),
+  }),
 
-  _statusMessage: function() {
+  _statusMessage: Ember.computed('isSearching', 'isSorting', 'statusMessage', 'enableStatus', function() {
     if(this.get('enableStatus') === false) {
       return null;
     }
@@ -60,13 +60,13 @@ export default Ember.Component.extend({
       return "Searching...";
     }
     return this.get('statusMessage');
-  }.property('isSearching', 'isSorting', 'statusMessage', 'enableStatus'),
+  }),
 
-  _pageNumResetObserver: function () {
+  _pageNumResetObserver: Ember.observer('searchRegEx', 'rowCount', function () {
     this.set('pageNum', 1);
-  }.observes('searchRegEx', 'rowCount'),
+  }),
 
-  _searchedRows: function () {
+  _searchedRows: Ember.computed('columns.[]', '_sortedRows.[]', 'searchRegEx', function () {
     var regex = this.get('searchRegEx'),
         rows = this.get('_sortedRows') || [],
         searchColumnNames,
@@ -96,9 +96,9 @@ export default Ember.Component.extend({
         return columns.some(checkRow, row);
       });
     }
-  }.property('columns.@each', '_sortedRows.@each', 'searchRegEx'),
+  }),
 
-  _columns: function () {
+  _columns: Ember.computed('columns', function () {
     var columns = this.get('columns'),
         widthPercentageToFit = 100 / columns.length;
 
@@ -123,16 +123,16 @@ export default Ember.Component.extend({
       });
 
     return columns;
-  }.property('columns'),
+  }),
 
-  _rows: function () {
+  _rows: Ember.computed('_searchedRows.[]', 'rowCount', 'pageNum', function () {
     var startIndex = (this.get('pageNum') - 1) * this.get('rowCount'),
         rows = this.get('_searchedRows').slice(startIndex, startIndex + this.get('rowCount'));
     this.sendAction('rowsChanged', rows);
     return rows;
-  }.property('_searchedRows.@each', 'rowCount', 'pageNum'),
+  }),
 
-  _searchObserver: function () {
+  _searchObserver: Ember.observer('searchText', function () {
     var searchText = this.get('searchText'),
         columnNames = [],
         delimIndex,
@@ -168,11 +168,14 @@ export default Ember.Component.extend({
         });
       }, 400);
     }
-  }.observes('searchText'),
+  }),
 
-  _sortObserver: function () {
+  _sortObserver: Ember.observer('sortColumnId', 'sortOrder', 'rows.[]', function () {
     var rows = this.get('rows'),
-        column = this.get('columns').findBy('id', this.get('sortColumnId')),
+        sortColumnId = this.get('sortColumnId'),
+        column = this.get('columns').find(function (element) {
+          return element.get('id') === sortColumnId;
+        }),
         ascending = this.get('sortOrder') === 'asc',
         that = this;
 
@@ -213,7 +216,7 @@ export default Ember.Component.extend({
     else {
       this.set('_sortedRows', rows);
     }
-  }.observes('sortColumnId', 'sortOrder', 'rows.@each'),
+  }),
 
   actions: {
     search: function (searchText) {

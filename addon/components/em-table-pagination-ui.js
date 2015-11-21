@@ -6,15 +6,15 @@ export default Ember.Component.extend({
 
   classNames: ['pagination-view'],
 
-  atFirst: function () {
+  atFirst: Ember.computed('pageNum', function () {
     return this.get('pageNum') === 1;
-  }.property('pageNum'),
+  }),
 
-  atLast: function () {
+  atLast: Ember.computed('pageNum', 'totalPages', function () {
     return this.get('pageNum') === this.get('totalPages');
-  }.property('pageNum', 'totalPages'),
+  }),
 
-  _possiblePages: function () {
+  _possiblePages: Ember.computed('pageNum', 'totalPages', function () {
     var pageNum = this.get('pageNum'),
         totalPages = this.get('totalPages'),
         possiblePages = [],
@@ -45,5 +45,5 @@ export default Ember.Component.extend({
     }
 
     return possiblePages;
-  }.property('pageNum', 'totalPages')
+  })
 });

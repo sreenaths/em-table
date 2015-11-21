@@ -18,9 +18,9 @@ export default Ember.Object.extend({
 
   width: "",
 
-  customStyle: function () {
+  customStyle: Ember.computed('width', function () {
     return 'width:%@'.fmt(this.get('width'));
-  }.property('width'),
+  }),
 
   getSearchValue: getContentAtPath,
   getSortValue: getContentAtPath,

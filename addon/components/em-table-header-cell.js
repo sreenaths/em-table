@@ -4,7 +4,7 @@ import layout from '../templates/components/em-table-header-cell';
 export default Ember.Component.extend({
   layout: layout,
 
-  sortIconCSS: function () {
+  sortIconCSS: Ember.computed('parentView.sortOrder', 'parentView.sortColumnId', 'column.searchAndSortable', function () {
     var css = 'sort-icon ';
     if(this.get('column.searchAndSortable') === false) {
       css = 'no-display';
@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     }
 
     return css;
-  }.property('parentView.sortOrder', 'parentView.sortColumnId', 'column.searchAndSortable'),
+  }),
 
   _onColResize: function (event) {
     if(!this.startEvent) {
