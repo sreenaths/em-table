@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-var ObjectPromiseController = Ember.ObjectController.extend(Ember.PromiseProxyMixin);
+var ObjectPromiseController = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
 function stringifyNumbers(content) {
   var displayText = content.displayText;
