@@ -42,6 +42,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-cli-less": "^1.4.0",
     "ember-cli-htmlbars": "^1.0.1"
   },
   "ember-addon": {
