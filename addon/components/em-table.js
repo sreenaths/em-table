@@ -18,6 +18,11 @@ export default Ember.Component.extend({
 
   classNames: ["em-table"],
 
+  displayFooter: Ember.computed("definition.minRowsForFooter", "dataProcessor.processedRows.length", function () {
+    console.log(this.get("dataProcessor.processedRows.length"));
+    return this.get("definition.minRowsForFooter") <= this.get("dataProcessor.processedRows.length");
+  }),
+
   setDefinitionInProcessor: Ember.on("init", Ember.observer('definition', function () {
     this.set('dataProcessor.tableDefinition', this.get('definition'));
   })),

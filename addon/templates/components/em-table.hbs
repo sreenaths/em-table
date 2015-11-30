@@ -27,8 +27,10 @@
 </div>
 
 {{!--Footer--}}
-<div class='table-footer'>
-  {{#each footerComponentNames as |componentName|}}
-    {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
-  {{/each}}
-</div>
+{{#if displayFooter}}
+  <div class='table-footer'>
+    {{#each footerComponentNames as |componentName|}}
+      {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
+    {{/each}}
+  </div>
+{{/if}}
