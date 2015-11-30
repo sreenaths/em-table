@@ -40,13 +40,13 @@ function createData(columnCount, rowCount) {
   data[3].set('col1', "Data that would be clipped with ellipsis.");
 
   // Generate dynamic part of data
-  setInterval(function () {
+  window.setInterval(function () {
     var row = parseInt(Math.random() * rowCount),
         col = parseInt(Math.random() * columnCount),
         value = data[row].get("col" + col);
 
     if(value) {
-      value = value.split(" : ")[0],
+      value = value.split(" : ")[0];
       value = value + " : " + parseInt(Math.random() * 100);
 
       data[row].set("col" + col, value);
