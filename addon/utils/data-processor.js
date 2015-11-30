@@ -75,7 +75,6 @@ export default Ember.Object.extend({
         });
 
         sortArray.sort(function (a, b){
-          console.log(a.value, b.value);
           if(ascending ^ (a.value > b.value)) {
             return -1;
           }
