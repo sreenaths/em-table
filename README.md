@@ -1,6 +1,7 @@
 # Em-table
 
-This README outlines the details of collaborating on this Ember addon.
+A simple table component for Ember 2.0.
+Supports- Sorting, Searching, Pagination, Cell-level loading
 
 ## Installation
 
