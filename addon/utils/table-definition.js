@@ -21,5 +21,10 @@ export default Ember.Object.extend({
 
   minRowsForFooter: 25,
 
-  columns: []
+  columns: [],
+
+  _pageNumResetObserver: Ember.observer('searchText', 'rowCount', function () {
+    this.set('pageNum', 1);
+  }),
+
 });
