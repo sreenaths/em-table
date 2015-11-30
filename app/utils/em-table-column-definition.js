@@ -1,1 +1,0 @@
-export { default } from 'em-table/utils/em-table-column-definition';

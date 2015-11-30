@@ -17,8 +17,9 @@ var ColumnDefinition = Ember.Object.extend({
 
   cellComponentName: null,
 
-  searchable: null,
-  sortable: null,
+  enableSearch: true,
+  enableSort: true,
+  enableColumnResize: true,
 
   contentPath: null,
   observePath: false,
@@ -26,7 +27,13 @@ var ColumnDefinition = Ember.Object.extend({
   onSort: null,
   getCellContent: getContentAtPath,
   getSearchValue: getContentAtPath,
-  getSortValue: getContentAtPath
+  getSortValue: getContentAtPath,
+
+  init: function () {
+    if(!this.get("id")) {
+      throw new Error("ID is not set.");
+    }
+  }
 });
 
 ColumnDefinition.make = function (rawDefinition) {
