@@ -1,6 +1,5 @@
-{{tableDefinition.enablePagination}}
 <ul class="page-list">
-  <li class="{{if atFirst 'clickable'}}" {{action 'changePage' 1}}>
+  <li class="{{unless atFirst 'clickable'}}" {{action 'changePage' 1}}>
     First
   </li>
   {{#each _possiblePages as |page|}}
@@ -10,15 +9,17 @@
   {{/each}}
   {{#unless hideLast}}
     <li class="{{if atLast 'clickable'}}" {{action 'changePage' totalPages}}>
-      Last - {{totalPages}}
+      Last - {{dataProcessor.totalPages}}
     </li>
   {{/unless}}
 </ul>
+
 <div class='row-select'>
-  <div>Rows</div>
-{{!--  <select onchange={{action "select" value="target.value"}}>
+  <select onchange={{action "rowSelected" value="target.value"}}>
     {{#each rowCountOptions as |option|}}
-      <option value={{option}} selected={{eq rowCount option}}>{{option}}</option>
+      <option value={{option.value}} selected={{option.selected}}>
+        {{option.value}} Rows
+      </option>
     {{/each}}
-  </select> --}}
+  </select>
 </div>

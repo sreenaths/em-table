@@ -1,19 +1,23 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  enableSearch: true,
-  enableSort: true,
-  enablePagination: false,
-  enableColumnResize: true,
 
+  // Search
+  enableSearch: true,
+  searchText: '',
+
+  // Sort
+  enableSort: true,
   sortColumnId: '',
   sortOrder: '',
 
-  searchText: 'A',
-
+  // Pagination
+  enablePagination: true,
   pageNum: 1,
   rowCount: 10,
   rowCountOptions: [5, 10, 25, 50, 100],
+
+  enableColumnResize: true,
 
   minRowsForFooter: 25,
 

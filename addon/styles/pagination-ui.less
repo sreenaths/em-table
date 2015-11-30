@@ -1,5 +1,9 @@
 .pagination-ui {
   .inline-block;
+  .align-top;
+  .absolute;
+
+  right: 0px;
 
   .page-list {
     .inline-block;
@@ -9,6 +13,7 @@
 
     border: 1px solid @border-color;
     border-radius: 5px;
+    background-color: @table-bg;
 
     padding: 0px;
 
@@ -17,8 +22,8 @@
     li {
       .inline-block;
 
-      padding: 6px 10px;
-      font-size: 14px;
+      padding: 2px 10px;
+      font-size: @font-size;
 
       border-left: 1px solid @border-color;
 
@@ -40,5 +45,18 @@
     :first-child {
       border-left: none;
     }
+  }
+
+  .row-select {
+    margin-left: 5px;
+
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.table-footer {
+  .pagination-ui {
+    position: static;
   }
 }

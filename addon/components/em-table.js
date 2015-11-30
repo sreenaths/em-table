@@ -22,10 +22,6 @@ export default Ember.Component.extend({
     this.set('dataProcessor.tableDefinition', this.get('definition'));
   })),
 
-  totalPages: Ember.computed('_searchedRows.length', 'rowCount', function () {
-    return Math.ceil(this.get('_searchedRows.length') / this.get('rowCount'));
-  }),
-
   hasPageNavOnFooter: Ember.computed('enablePagination', '_rows.length', 'pageNavOnFooterAt', function () {
     return this.get('enablePagination') && this.get('_rows.length') >= this.get('pageNavOnFooterAt');
   }),

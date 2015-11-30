@@ -4,6 +4,7 @@
 @import "./shared";
 
 @import "./search-ui";
+@import "./pagination-ui";
 
 .em-table {
   .use-gpu;
@@ -29,7 +30,7 @@
     margin: 5px 0px;
 
     .data-availability-message {
-      font-size: 24px;
+      font-size: @font-size;
       text-align: center;
     }
 
@@ -60,7 +61,7 @@
         }
 
         .header-body, .table-cell {
-          font-size: 13px;
+          font-size: @font-size;
           white-space: nowrap;
           text-overflow: ellipsis;
 
