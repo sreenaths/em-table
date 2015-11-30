@@ -8,7 +8,7 @@
     </li>
   {{/each}}
   {{#unless hideLast}}
-    <li class="{{if atLast 'clickable'}}" {{action 'changePage' totalPages}}>
+    <li class="{{unless atLast 'clickable'}}" {{action 'changePage' dataProcessor.totalPages}}>
       Last - {{dataProcessor.totalPages}}
     </li>
   {{/unless}}

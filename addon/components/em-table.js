@@ -46,8 +46,11 @@ export default Ember.Component.extend({
     search: function (searchText) {
       this.set('definition.searchText', searchText);
     },
+    rowChanged: function (rowCount) {
+      this.set('definition.rowCount', rowCount);
+    },
     changePage: function (pageNum) {
-      this.set('pageNum', pageNum);
+      this.set('definition.pageNum', pageNum);
     }
   }
 });

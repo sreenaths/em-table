@@ -14,8 +14,8 @@ export default Ember.Component.extend({
     return this.get('tableDefinition.pageNum') === 1;
   }),
 
-  atLast: Ember.computed('tableDefinition.pageNum', 'tableDefinition.totalPages', function () {
-    return this.get('tableDefinition.pageNum') === this.get('tableDefinition.totalPages');
+  atLast: Ember.computed('tableDefinition.pageNum', 'dataProcessor.totalPages', function () {
+    return this.get('tableDefinition.pageNum') === this.get('dataProcessor.totalPages');
   }),
 
   rowCountOptions: Ember.computed('tableDefinition.rowCountOptions', 'tableDefinition.rowCount', function () {
@@ -66,9 +66,12 @@ export default Ember.Component.extend({
   actions: {
     rowSelected: function (value) {
       value = parseInt(value);
-      if(this.get('tableDefinition.rowCount') != value) {
-        this.get('parentView').send('search', value);
+      if(this.get('tableDefinition.rowCount') !== value) {
+        this.get('parentView').send('rowChanged', value);
       }
+    },
+    changePage: function (value) {
+      this.get('parentView').send('changePage', value);
     }
   }
 });
