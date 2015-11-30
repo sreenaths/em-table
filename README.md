@@ -10,14 +10,15 @@ Supports- Sorting, Searching, Pagination & Cell-level loading
 * `npm install`
 * `bower install`
 
-## Running
+## Running demo app
 
 * `ember server`
 * Visit your app at http://localhost:4200.
 
+Checkout the demo app to see a sample implementation. Its under tests/dummy/app.
+
 ## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
