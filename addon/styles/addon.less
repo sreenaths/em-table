@@ -1,3 +1,146 @@
-div {
-color: red;
+
+// Imports
+@import "./colors";
+@import "./shared";
+
+@import "./search-ui";
+
+.em-table {
+  .use-gpu;
+
+  margin: 10px 0px;
+  overflow: hidden;
+
+  .table-header {
+    // Table header styles
+  }
+
+  .table-footer {
+    // Table footer styles
+  }
+
+  .table-body{
+    .force-scrollbar;
+
+    border: 1px solid @border-color;
+    border-radius: @border-radius;
+    background-color: @table-bg;
+
+    margin: 5px 0px;
+
+    .data-availability-message {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .table-scroll-body {
+      //Adding this here will keep the column, and table background same white
+      //making the UI look better when scroll bar is shown
+      .dotted-background;
+
+      white-space: nowrap;
+      font-size: 0; // If not set, each column will have a space in between
+
+      .table-column {
+        background-color: @table-bg;
+
+        overflow: hidden;
+        display: inline-block;
+        min-width: 150px;
+
+        &.inner {
+          border-left: 1px solid @border-color;
+          margin-left: -1px;
+        }
+
+        // Just the shaded
+        .table-header-cell {
+          background-color: @bg-grey;
+          border-bottom: 1px solid @border-color;
+        }
+
+        .header-body, .table-cell {
+          font-size: 13px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          overflow: hidden;
+
+          min-height: 1em;
+          padding: 5px;
+        }
+
+        .header-body {
+          font-weight: bold;
+
+          padding-right: 15px; // To compensate space occupied by sort/resize buttons
+          position: relative; // So that buttons can be positioned
+
+          .sort-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 8px;
+            top: 9px;
+
+            &:before, &:after {
+              font-size: .5em;
+              opacity: .5;
+              position: absolute;
+            }
+
+            &:before {
+              content: "\25B2";
+
+              top: -2px;
+              right: 0px;
+            }
+
+            &:after {
+              content: "\25BC";
+
+              top: 4px;
+              right: 0px;
+            }
+
+            &.asc{
+              &:before {
+                display: none;
+              }
+              &:after {
+                opacity: 1;
+                top: 1px;
+              }
+            }
+
+            &.desc {
+              &:before {
+                opacity: 1;
+                top: 1px;
+              }
+              &:after {
+                display: none;
+              }
+            }
+          }
+
+          .resize-column:after {
+            content: "\22EE";
+            cursor: col-resize;
+            opacity: .3;
+
+            position: absolute;
+            right: 2px;
+            top: 6px;
+          }
+        }
+
+        .table-cell {
+          &.inner {
+            border-top: 1px dotted @border-color;
+            margin-top: -1px;
+          }
+        }
+      }
+    }
+  }
 }

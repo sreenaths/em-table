@@ -1,0 +1,44 @@
+.pagination-ui {
+  .inline-block;
+
+  .page-list {
+    .inline-block;
+    .align-top;
+
+    overflow: hidden;
+
+    border: 1px solid @border-color;
+    border-radius: 5px;
+
+    padding: 0px;
+
+    font-size: 0px;
+
+    li {
+      .inline-block;
+
+      padding: 6px 10px;
+      font-size: 14px;
+
+      border-left: 1px solid @border-color;
+
+      pointer-events: none;
+
+      &.clickable {
+        pointer-events: auto;
+        &:hover {
+          background-color: @bg-grey;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .total-page-count {
+      font-size: .8em;
+    }
+
+    :first-child {
+      border-left: none;
+    }
+  }
+}
