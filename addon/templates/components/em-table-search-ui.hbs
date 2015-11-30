@@ -1,13 +1,6 @@
-<div class="input-group {{_validRegEx 'has-error'}}">
-  {{input
-  class="form-control"
-  placeholder=placeholder
+{{input
+  placeholder="Search..."
   enter="search"
-  value=_boundText
-  }}
-  <span class="input-group-btn">
-    <button class="btn btn-default" type="button" {{action "search"}}>
-      Search
-    </button>
-  </span>
-</div>
+  value=text
+}}
+<button type="button" {{action "search"}}>Search</button>

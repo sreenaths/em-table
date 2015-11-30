@@ -4,7 +4,10 @@ import layout from '../templates/components/em-table-pagination-ui';
 export default Ember.Component.extend({
   layout: layout,
 
-  classNames: ['pagination-view'],
+  classNames: ['pagination-ui'],
+
+  tableDefinition: null,
+  isVisible: Ember.computed.alias('tableDefinition.enablePagination'),
 
   atFirst: Ember.computed('pageNum', function () {
     return this.get('pageNum') === 1;

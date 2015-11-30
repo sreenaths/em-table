@@ -1,68 +1,75 @@
 import Ember from 'ember';
-
-var ObjectPromiseController = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
-
-function stringifyNumbers(content) {
-  var displayText = content.displayText;
-  if(typeof displayText === 'number') {
-    content.displayText = displayText.toString();
-  }
-  return content;
-}
+import layout from '../templates/components/em-table-cell';
 
 export default Ember.Component.extend({
-  layoutName: Ember.computed('column.observePath', function () {
-    var template = this.get('column.observePath') ? 'em-table-bounded-cell' : 'em-table-cell';
-    return 'components/' + template;
+  layout: layout,
+
+  classNames: ['table-cell'],
+  classNameBindings: ['innerCell'],
+
+  innerCell: Ember.computed('index', function () {
+    if(this.get('index')) {
+      return 'inner';
+    }
   }),
 
-  classNames: ['cell-content'],
+  row: null,
+  columnDefinition: null,
 
-  value: null,
-  observedPath: null,
+  _value: null,
+  _observedPath: null,
+  _cellContent: null,
+  _isPending: false,
 
   _addObserver: function (path) {
     this._removeObserver();
     this.get('row').addObserver(path, this, this._onValueChange);
-    this.set('observedPath', path);
+    this.set('_observedPath', path);
   },
 
   _removeObserver: function () {
-    var path = this.get('observedPath');
+    var path = this.get('_observedPath');
     if(path) {
       this.get('row').removeObserver(path, this, this._onValueChange);
-      this.set('observedPath', null);
+      this.set('_observedPath', null);
     }
   },
 
+  //TODO: Create a txt component, and move formatting, not available etc. into it
   _normalizeContent: function (content) {
-    return stringifyNumbers(content && typeof content === 'object' ? content : {
-      displayText: content
-    });
+    if(typeof content === 'number') {
+      content = content.toString();
+    }
+    return content;
   },
 
-  _pathObserver: Ember.on('init', Ember.observer('row', 'column.contentPath', 'column.observePath', function () {
-    var path = this.get('column.contentPath');
-    if(path && this.get('column.observePath')) {
+  _pathObserver: Ember.on('init', Ember.observer('row', 'columnDefinition.contentPath', 'columnDefinition.observePath', function () {
+    var path = this.get('columnDefinition.contentPath');
+    if(path && this.get('columnDefinition.observePath')) {
       this._addObserver(path);
     }
   })),
 
   _onValueChange: function (row, path) {
-    this.set('value', row.get(path));
+    this.set('_value', row.get(path));
   },
 
-  cellContent: Ember.computed('row', 'column', 'value', function () {
-    var cellContent = this.get('column').getCellContent(this.get('row'));
-
+  _cellContentObserver: Ember.on('init', Ember.observer('row', 'columnDefinition', '_value', function () {
+    var cellContent = this.get('columnDefinition').getCellContent(this.get('row')),
+        that = this;
     if(cellContent && cellContent.then) {
-      return ObjectPromiseController.create({
-        promise: cellContent.then(this._normalizeContent)
+      cellContent.then(function (content) {
+        that.setProperties({
+          _cellContent: this._normalizeContent(content),
+          _isPending: false
+        });
       });
+      this.set('_isPending', true);
     }
-
-    return this._normalizeContent(cellContent);
-  }),
+    else {
+      this.set('_cellContent', this._normalizeContent(cellContent));
+    }
+  })),
 
   willDestroy: function () {
     this._removeObserver();

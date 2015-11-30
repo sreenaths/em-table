@@ -1,55 +1,34 @@
-<div class='table-container'>
-  {{#if _showHeader}}
-    <div class='table-header'>
-      <div class="horizontal-half align-top">
-        {{#if enableSearch}}
-          {{em-table-search-ui
-          text=searchText
-          placeholder="Search..."
-          }}
-        {{/if}}
-        <div class="table-message">
-          {{#if _statusMessage}}
-            <i class="waiting"></i>
-            {{_statusMessage}}
-          {{/if}}
-        </div>
-      </div><div class="horizontal-half align-top align-children-right">
-      {{#if enablePagination}}
-        {{em-table-pagination-ui pageNum=pageNum totalPages=totalPages}}
-      {{/if}}
+{{!--Header--}}
+<div class='table-header'>
+  {{#each headerComponentNames as |componentName|}}
+    {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
+  {{/each}}
+</div>
+
+{{!--Body--}}
+<div class='table-body'>
+  {{#unless _columns.length}}
+    <div class="data-availability-message">No columns available!</div>
+  {{else}}{{#unless dataProcessor.processedRows.length}}
+    <div class="data-availability-message">No records available!</div>
+  {{else}}
+    <div class='table-scroll-body'>
+      {{#each _columns as |column colIndex|}}
+        {{em-table-column
+          rows=dataProcessor.processedRows
+          definition=column.definition
+          defaultWidth=column.width
+          tableDefinition=definition
+          index=colIndex
+        }}
+      {{/each}}
     </div>
-    </div>
-  {{/if}}
-  <div class='table-body-container'>
-    {{#unless _columns.length}}
-      <div class="data-availability-message">No columns available!</div>
-    {{else}}{{#unless _rows.length}}
-      <div class="data-availability-message">No records available!</div>
-    {{else}}
-      <div class='table-body'>
-        {{#each _columns as |column|}}
-          <div
-          style="{{column.customStyle}}"
-          class="table-column {{_view.contentIndex 'first-item'}}"
-          >
-            {{em-table-header-cell}}
-            {{#each _rows as |row|}}
-              <div class='table-cell {{unbound firstItemCSS _view}}'>
-                {{em-table-cell row=row}}
-              </div>
-            {{/each}}
-          </div>
-        {{/each}}
-      </div>
-    {{/unless}}{{/unless}}
-  </div>
-  <div class='table-footer'>
-    <div class="horizontal-half align-top">
-    </div><div class="horizontal-half align-top align-children-right">
-    {{#if hasPageNavOnFooter}}
-      {{em-table-pagination-ui pageNum=pageNum totalPages=totalPages}}
-    {{/if}}
-  </div>
-  </div>
+  {{/unless}}{{/unless}}
+</div>
+
+{{!--Footer--}}
+<div class='table-footer'>
+  {{#each footerComponentNames as |componentName|}}
+    {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
+  {{/each}}
 </div>

@@ -1,5 +1,13 @@
-{{#unless (unbound cellContent.displayText)}}
-  <span class="message">Not Available!</span>
+{{#if _isPending}}
+  <i class="waiting"></i>&nbsp;Loading...&nbsp;
 {{else}}
-  {{unbound cellContent.displayText}}
-{{/unless}}
+  {{#if _cellContent}}
+    {{#if columnOptions.componentName}}
+      {{component columnOptions.componentName content=_cellContent}}
+    {{else}}
+      {{_cellContent}}
+    {{/if}}
+  {{else}}
+    <span class="message">Not Available!</span>
+  {{/if}}
+{{/if}}

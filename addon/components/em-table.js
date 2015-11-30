@@ -1,38 +1,26 @@
 import Ember from 'ember';
-import layout from '../templates/components/em-table';
+import Definition from '../utils/table-definition';
+import DataProcessor from '../utils/data-processor';
 
-import Cell from './em-table-cell';
-import HeaderCell from './em-table-header-cell';
+import layout from '../templates/components/em-table';
 
 export default Ember.Component.extend({
   layout: layout,
 
-  sortColumnId: '',
-  sortOrder: '',
+  definition: Definition.create(),
+  dataProcessor: DataProcessor.create(),
 
-  searchText: '',
-  searchRegEx: null,
-  searchColumnNames: null,
+  rows: Ember.computed.alias('dataProcessor.rows'),
+  columns: Ember.computed.alias('definition.columns'),
 
-  statusMessage: null,
+  headerComponentNames: ['em-table-search-ui', 'em-table-pagination-ui'],
+  footerComponentNames: ['em-table-pagination-ui'],
 
-  isSorting: false,
-  isSearching: false,
+  classNames: ["em-table"],
 
-  pageNum: 1,
-  rowCount: 10,
-  rowCountOptions: [5, 10, 25, 50, 100],
-  pageNavOnFooterAt: 25,
-
-  _sortedRows: null,
-
-  init: function () {
-    this._super();
-    if(this.get('searchText')) {
-      this._searchObserver();
-    }
-    this._sortObserver();
-  },
+  setDefinitionInProcessor: Ember.on("init", Ember.observer('definition', function () {
+    this.set('dataProcessor.tableDefinition', this.get('definition'));
+  })),
 
   totalPages: Ember.computed('_searchedRows.length', 'rowCount', function () {
     return Math.ceil(this.get('_searchedRows.length') / this.get('rowCount'));
@@ -40,13 +28,6 @@ export default Ember.Component.extend({
 
   hasPageNavOnFooter: Ember.computed('enablePagination', '_rows.length', 'pageNavOnFooterAt', function () {
     return this.get('enablePagination') && this.get('_rows.length') >= this.get('pageNavOnFooterAt');
-  }),
-
-  _showHeader: Ember.computed('enableSearch', 'enablePagination', 'extraHeaderItem', '_statusMessage', function () {
-    return this.get('enableSearch') ||
-        this.get('enablePagination') ||
-        this.get('extraHeaderItem') ||
-        this.get('_statusMessage');
   }),
 
   _statusMessage: Ember.computed('isSearching', 'isSorting', 'statusMessage', 'enableStatus', function() {
@@ -98,31 +79,16 @@ export default Ember.Component.extend({
     }
   }),
 
-  _columns: Ember.computed('columns', function () {
-    var columns = this.get('columns'),
-        widthPercentageToFit = 100 / columns.length;
+  _columns: Ember.computed('definition.columns', function () {
+    var columns = this.get('definition.columns'),
+        widthText = (100 / columns.length) + "%";
 
-      columns.map(function (column) {
-        var templateName = column.get('templateName'),
-            cellOptions = {
-              column: column
-            };
-
-        if(templateName) {
-          cellOptions.templateName = templateName;
-        }
-
-        column.setProperties({
-          width: widthPercentageToFit + "%",
-          cellView: Cell.extend(cellOptions),
-          headerCellView: HeaderCell.extend({
-            column: column,
-            table: this
-          })
-        });
-      });
-
-    return columns;
+    return columns.map(function (column) {
+      return {
+        definition: column,
+        width: widthText
+      };
+    });
   }),
 
   _rows: Ember.computed('_searchedRows.[]', 'rowCount', 'pageNum', function () {
@@ -220,20 +186,8 @@ export default Ember.Component.extend({
 
   actions: {
     search: function (searchText) {
-      this.set('searchText', searchText);
+      this.set('definition.searchText', searchText);
     },
-    sort: function (columnId) {
-      if(this.get('sortColumnId') !== columnId) {
-        this.setProperties({
-          sortColumnId: columnId,
-          sortOrder: 'asc'
-        });
-      }
-      else {
-        this.set('sortOrder', this.get('sortOrder') === 'asc' ? 'desc' : 'asc');
-      }
-    },
-
     changePage: function (pageNum) {
       this.set('pageNum', pageNum);
     }

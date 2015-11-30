@@ -4,30 +4,16 @@ import layout from '../templates/components/em-table-search-ui';
 export default Ember.Component.extend({
   layout: layout,
 
-  classNames: ['search-view'],
+  classNames: ['search-ui'],
 
-  text: '',
-  _boundText: Ember.computed(function () {
-    return this.get('text') || '';
-  }),
+  tableDefinition: null,
+  isVisible: Ember.computed.alias('tableDefinition.enableSearch'),
 
-  _validRegEx: Ember.computed('_boundText', function () {
-    var regExText = this.get('_boundText');
-    regExText = regExText.substr(regExText.indexOf(':') + 1);
-    try {
-      new RegExp(regExText, 'im');
-    }
-    catch(e) {
-      return false;
-    }
-    return true;
-  }),
+  text: Ember.computed.oneWay('tableDefinition.searchText'),
 
   actions: {
     search: function () {
-      if(this.get('_validRegEx')) {
-        this.get('parentView').send('search', this.get('_boundText'));
-      }
+      this.get('parentView').send('search', this.get('text'));
     }
   }
 });
