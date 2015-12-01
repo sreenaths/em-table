@@ -1,0 +1,9 @@
+{{#if content.routeName}}
+  {{#link-to content.routeName content.id}}
+    {{content.displayText}}
+  {{/link-to}}
+{{else}}{{#if content.displayText}}
+  {{content.displayText}}
+{{else}}
+  <span class="message">Not Available!</span>
+{{/if}}{{/if}}

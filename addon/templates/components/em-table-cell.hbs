@@ -2,8 +2,8 @@
   <i class="waiting"></i>&nbsp;Loading...&nbsp;
 {{else}}
   {{#if _cellContent}}
-    {{#if columnOptions.componentName}}
-      {{component columnOptions.componentName content=_cellContent}}
+    {{#if columnDefinition.cellComponentName}}
+      {{component columnDefinition.cellComponentName content=_cellContent}}
     {{else}}
       {{_cellContent}}
     {{/if}}

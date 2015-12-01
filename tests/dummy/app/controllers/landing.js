@@ -17,6 +17,21 @@ function createColumn(columnCount) {
 
   columns[1].headerTitle = "Header that would be clipped with ellipsis.";
 
+  columns.push({
+    id: 'linkedColumn',
+    headerTitle: 'Linked Column',
+    contentPath: 'rowId',
+    observePath: true,
+    cellComponentName: 'em-table-linked-cell',
+    getCellContent: function (row) {
+      return {
+        routeName: 'row',
+        id: row.get('rowId'),
+        displayText: "Row " + row.get('rowId') + " link"
+      };
+    }
+  });
+
   return ColumnDef.make(columns);
 }
 
@@ -30,6 +45,7 @@ function createData(columnCount, rowCount) {
     for(var i = 0; i < columnCount; i++) {
       row.set('col' + i, 'Column ' + i + ' - Data ' + j);
     }
+    row.set('rowId', j);
     data.push(row);
   }
 

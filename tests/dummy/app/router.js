@@ -7,6 +7,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('landing', {path: '/'});
+  this.route('row', {path: '/row/:row_id'});
 });
 
 export default Router;
