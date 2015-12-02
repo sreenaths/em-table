@@ -1,7 +1,7 @@
 <div class="header-body">
   {{title}}
   {{#if tableDefinition.enableSort}}{{#if definition.enableSort}}
-    <i class="sort-icon {{sortIconCSS}}" {{action 'sort'}}></i>
+    <span class="sort-icon {{sortIconCSS}}" {{action 'sort'}}></span>
   {{/if}}{{/if}}
   {{#if tableDefinition.enableColumnResize}}{{#if definition.enableColumnResize}}
     <span class="resize-column" {{action 'startColResize' on="mouseDown"}}></span>
