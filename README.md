@@ -1,24 +1,24 @@
 # Em-table
 
-A simple table component for Ember 2.0.
+A simple table component for Ember 1.13.11 and higher.
 
 Supports - Sorting, Searching, Pagination & Cell-level loading
-For more info & examples please visit [em-table wiki].(https://github.com/sreenaths/em-table/wiki)
+For more info & examples please visit [em-table wiki](https://github.com/sreenaths/em-table/wiki).
 
 ## Usage
 
-* Add em-table as dependency in package.json
+* Add `em-table` as dependency in your project's package.json
 * npm install
 * Add the table using `{{em-table columns=columns rows=rows}}`
-** `columns` must be an ember array of column definitions (`import ColumnDef from 'em-table/utils/column-definition';`)
-** `rows` an Ember array of Ember records
+  * **columns** - Must be an Ember.Array of column definitions ( `import ColumnDef from 'em-table/utils/column-definition';` )
+  * **rows** -  An Ember.Array of Ember.Object(s)
+
+* Checkout the demo app to see a sample implementation. Its under `tests/dummy/app`.
 
 ## Running demo app
 
 * `ember server`
 * Visit your app at http://localhost:4200.
-
-Checkout the demo app to see a sample implementation. Its under tests/dummy/app.
 
 ## Dev Installation
 
@@ -34,5 +34,3 @@ Checkout the demo app to see a sample implementation. Its under tests/dummy/app.
 ## Building
 
 * `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
