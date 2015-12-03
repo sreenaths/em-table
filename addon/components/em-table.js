@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     return this.get("definition.minRowsForFooter") <= this.get("dataProcessor.processedRows.length");
   }),
 
-  setDefinitionInProcessor: Ember.on("init", Ember.observer('definition', function () {
+  setDefinitionInProcessor: Ember.on("init", Ember.observer('definition', 'dataProcessor', function () {
     this.set('dataProcessor.tableDefinition', this.get('definition'));
   })),
 
