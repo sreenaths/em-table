@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+import TableDef from 'em-table/utils/table-definition';
 import ColumnDef from 'em-table/utils/column-definition';
 
 function createColumn(columnCount) {
@@ -73,6 +74,8 @@ function createData(columnCount, rowCount) {
 }
 
 export default Ember.Controller.extend({
-  columns: createColumn(5),
+  definition: TableDef.create({
+    columns: createColumn(5),
+  }),
   rows: createData(5, 8)
 });
