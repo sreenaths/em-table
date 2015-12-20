@@ -6,11 +6,13 @@ Supports - Sorting, Searching, Pagination & Cell-level loading.
 
 For more info & examples please visit [em-table wiki](https://github.com/sreenaths/em-table/wiki).
 
+## Installation
+
+`npm install --save em-table`
+
 ## Usage
 
-* Add latest **em-table** as dependency in your project's `package.json`
-* Run `npm install`
-* Add the table using `{{em-table columns=columns rows=rows}}`
+* Table can now be added into your template using em-table tag. For example `{{em-table columns=columns rows=rows}}`.
   * **columns** - Must be an Ember.Array of column definitions
   * **Importing column definition** - `import ColumnDefinition from 'em-table/utils/column-definition';`
   * **rows** -  An Ember.Array of Ember.Object(s)
