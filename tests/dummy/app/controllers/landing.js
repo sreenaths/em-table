@@ -74,8 +74,6 @@ function createData(columnCount, rowCount) {
 }
 
 export default Ember.Controller.extend({
-  definition: TableDef.create({
-    columns: createColumn(5),
-  }),
-  rows: createData(5, 8)
+  columns: createColumn(5),
+  rows: createData(5, 25),
 });

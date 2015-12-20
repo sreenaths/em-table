@@ -1,7 +1,7 @@
 {{!--Header--}}
 <div class='table-header'>
   {{#each headerComponentNames as |componentName|}}
-    {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
+    {{component componentName tableDefinition=_definition dataProcessor=_dataProcessor}}
   {{/each}}
 </div>
 
@@ -9,16 +9,16 @@
 <div class='table-body'>
   {{#unless _columns.length}}
     <div class="data-availability-message">No columns available!</div>
-  {{else}}{{#unless dataProcessor.processedRows.length}}
+  {{else}}{{#unless _dataProcessor.processedRows.length}}
     <div class="data-availability-message">No records available!</div>
   {{else}}
     <div class='table-scroll-body'>
       {{#each _columns as |column colIndex|}}
         {{em-table-column
-          rows=dataProcessor.processedRows
+          rows=_dataProcessor.processedRows
           definition=column.definition
           defaultWidth=column.width
-          tableDefinition=definition
+          tableDefinition=_definition
           index=colIndex
         }}
       {{/each}}
@@ -30,7 +30,7 @@
 {{#if displayFooter}}
   <div class='table-footer'>
     {{#each footerComponentNames as |componentName|}}
-      {{component componentName tableDefinition=definition dataProcessor=dataProcessor}}
+      {{component componentName tableDefinition=_definition _dataProcessor=dataProcessor}}
     {{/each}}
   </div>
 {{/if}}
