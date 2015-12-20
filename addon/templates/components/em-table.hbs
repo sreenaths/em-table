@@ -30,7 +30,7 @@
 {{#if displayFooter}}
   <div class='table-footer'>
     {{#each footerComponentNames as |componentName|}}
-      {{component componentName tableDefinition=_definition _dataProcessor=dataProcessor}}
+      {{component componentName tableDefinition=_definition dataProcessor=_dataProcessor}}
     {{/each}}
   </div>
 {{/if}}
