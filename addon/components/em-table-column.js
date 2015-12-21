@@ -47,9 +47,9 @@ export default Ember.Component.extend({
   actions: {
     sort: function () {
       var definition = this.get('definition'),
-          onSort = definition.get('onSort');
+          beforeSort = definition.get('beforeSort');
 
-      if(!onSort || onSort.call(definition, definition)) {
+      if(!beforeSort || beforeSort.call(definition, definition)) {
         let columnId = this.get('definition.id'),
             tableDefinition = this.get('tableDefinition');
 
