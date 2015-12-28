@@ -1,3 +1,5 @@
+/*jshint browser: true */
+
 import Ember from 'ember';
 
 import TableDef from 'em-table/utils/table-definition';
@@ -76,4 +78,36 @@ function createData(columnCount, rowCount) {
 export default Ember.Controller.extend({
   columns: createColumn(5),
   rows: createData(5, 30),
+
+  customTableDefinition: TableDef.create(),
+  searchText: Ember.computed.alias('customTableDefinition.searchText'),
+
+  init: function () {
+    var that = this;
+    setInterval(function () {
+      that.set('searchText', parseInt(Math.random() * 10));
+      console.log(that.get('searchText'));
+    }, 1000);
+  },
+
+  simpleColumns: ColumnDef.make([
+    {
+      id: 'id',
+      headerTitle: 'Id',
+      contentPath: 'id'
+    }, {
+      id: 'name',
+      headerTitle: 'Name',
+      contentPath: 'name'
+    }
+  ]),
+  simpleRows: Ember.A([
+    Ember.Object.create({
+      id: 1,
+      name: "Gopi"
+    }), Ember.Object.create({
+      id: 2,
+      name: "Jaya"
+    })
+  ])
 });
