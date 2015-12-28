@@ -8,7 +8,7 @@ function createAssigner(targetPath, targetKey, sourcePath) {
   return Ember.on("init", Ember.observer(targetPath, sourcePath, function () {
     var target = this.get(targetPath),
         source = this.get(sourcePath);
-    if(target && source != undefined) {
+    if(target && source !== undefined) {
       target.set(targetKey, source);
     }
   }));
