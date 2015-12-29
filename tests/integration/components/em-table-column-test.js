@@ -5,12 +5,7 @@ moduleForComponent('em-table-column', 'Integration | Component | em table column
   integration: true
 });
 
-test('it renders', function(assert) {
-  assert.expect(1);
-
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
+test('Basic rendering test', function(assert) {
   this.render(hbs`{{em-table-column}}`);
 
   assert.equal(this.$().text().trim(), '');
