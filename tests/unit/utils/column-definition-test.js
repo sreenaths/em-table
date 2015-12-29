@@ -8,6 +8,7 @@ test('Class creation test', function(assert) {
   assert.ok(ColumnDefinition);
 
   assert.ok(ColumnDefinition.make);
+  assert.ok(ColumnDefinition.makeFromModel);
 });
 
 test('make - Instance creation test', function(assert) {
@@ -34,6 +35,29 @@ test('make - Instance creation failure test', function(assert) {
   assert.throws(function () {
     ColumnDefinition.make({});
   });
+});
+
+test('makeFromModel test', function(assert) {
+  var attributes = Ember.Map.create(),
+      DummyModel = Ember.Object.create({
+        attributes: attributes
+      }),
+      getCellContent = function () {},
+      columns;
+
+  attributes.set("attr1", "path1");
+  attributes.set("attr2", "path2");
+  attributes.set("attr3", "path3");
+
+  columns = ColumnDefinition.makeFromModel(DummyModel, {
+    getCellContent: getCellContent
+  });
+
+  assert.equal(columns.length, 3);
+  assert.equal(columns[0].id, "attr1");
+  assert.equal(columns[0].headerTitle, "Attr1");
+  assert.equal(columns[0].contentPath, "attr1");
+  assert.equal(columns[0].getCellContent, getCellContent);
 });
 
 test('Instance test', function(assert) {

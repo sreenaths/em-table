@@ -50,4 +50,29 @@ ColumnDefinition.make = function (rawDefinition) {
   }
 };
 
+ColumnDefinition.makeFromModel = function (ModelClass, columnOptions) {
+  var attributes = Ember.get(ModelClass, 'attributes'),
+      columns = [];
+  if(attributes) {
+    attributes.forEach(function (meta, name) {
+      var column = Ember.Object.create({
+        id: name,
+        headerTitle: name.capitalize(),
+        contentPath: name,
+      });
+
+      if(columnOptions) {
+        column.setProperties(columnOptions);
+      }
+
+      columns.push(column);
+    });
+
+    return ColumnDefinition.make(columns);
+  }
+  else {
+    throw new Error("Value passed is not a model class");
+  }
+};
+
 export default ColumnDefinition;

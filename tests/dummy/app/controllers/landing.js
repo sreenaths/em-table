@@ -5,6 +5,8 @@ import Ember from 'ember';
 import TableDef from 'em-table/utils/table-definition';
 import ColumnDef from 'em-table/utils/column-definition';
 
+import DummyModel from '../models/dummy-model';
+
 function createColumn(columnCount) {
   var columns = [];
 
@@ -86,7 +88,6 @@ export default Ember.Controller.extend({
     var that = this;
     setInterval(function () {
       that.set('searchText', parseInt(Math.random() * 10));
-      console.log(that.get('searchText'));
     }, 1000);
   },
 
@@ -109,5 +110,15 @@ export default Ember.Controller.extend({
       id: 2,
       name: "Jaya"
     })
+  ]),
+
+  columnsFromModel: ColumnDef.makeFromModel(DummyModel),
+  rowsForColumnsFromModel: Ember.A([
+    Ember.Object.create({
+      attr1: "path1",
+      attr2: "path2",
+      attr3: "path3"
+    })
   ])
+
 });
