@@ -23,7 +23,7 @@ export default Ember.Component.extend({
   }),
 
   didInsertElement: Ember.observer("adjustedWidth", "defaultWidth", function () {
-    this.$().width(this.get('adjustedWidth') || this.get('defaultWidth'));
+    this.$().css("width", this.get('adjustedWidth') || this.get('defaultWidth'));
   }),
 
   _onColResize: function (event) {
