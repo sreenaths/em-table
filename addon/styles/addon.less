@@ -6,6 +6,8 @@
 @import "./search-ui";
 @import "./pagination-ui";
 
+@import "bower_components/snippet-ss/less/use";
+
 .em-table {
   .use-gpu;
 
@@ -46,6 +48,8 @@
       font-size: 0; // If not set, each column will have a space in between
 
       .table-column {
+        .use-border-padding-in-width-height;
+
         background-color: @table-bg;
 
         overflow: hidden;
@@ -54,7 +58,6 @@
 
         &.inner {
           border-left: 1px solid @border-color;
-          margin-left: -1px;
         }
 
         // Just the shaded
