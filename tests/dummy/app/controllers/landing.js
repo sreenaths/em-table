@@ -22,6 +22,7 @@ function createColumn(columnCount) {
 
   columns[1].headerTitle = "Header that would be clipped with ellipsis.";
 
+  // Adding linked column
   columns.push({
     id: 'linkedColumn',
     headerTitle: 'Linked Column',
@@ -34,6 +35,24 @@ function createColumn(columnCount) {
         id: row.get('rowId'),
         displayText: "Row " + row.get('rowId') + " link"
       };
+    }
+  });
+
+  // Adding observed with no value = pending column
+  columns.push({
+    id: 'pendingColumn',
+    headerTitle: 'Pending Column',
+    contentPath: 'noValue',
+    observePath: true,
+  });
+
+  // Adding date column
+  columns.push({
+    id: 'dateColumn',
+    headerTitle: 'Date Column',
+    contentPath: 'dateValue',
+    cellDefinition: {
+      type: "date"
     }
   });
 
@@ -51,6 +70,7 @@ function createData(columnCount, rowCount) {
       row.set('col' + i, 'Column ' + i + ' - Data ' + j);
     }
     row.set('rowId', j);
+    row.set("dateValue", Date.now());
     data.push(row);
   }
 

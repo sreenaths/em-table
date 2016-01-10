@@ -1,13 +1,20 @@
-{{#if _isPending}}
-  <i class="waiting"></i>&nbsp;Loading...&nbsp;
+{{#if isWaiting}}
+  Waiting...
 {{else}}
-  {{#if _cellContent}}
-    {{#if columnDefinition.cellComponentName}}
-      {{component columnDefinition.cellComponentName content=_cellContent}}
-    {{else}}
-      {{_cellContent}}
-    {{/if}}
+  {{#if columnDefinition.cellComponentName}}
+    {{component columnDefinition.cellComponentName content=_cellContent}}
   {{else}}
-    <span class="message">Not Available!</span>
+    {{#unless columnDefinition.cellDefinition}}
+      {{txt _cellContent}}
+    {{else}}
+      {{txt _cellContent
+        type=columnDefinition.cellDefinition.type
+        format=columnDefinition.cellDefinition.format
+        timeZone=columnDefinition.cellDefinition.timeZone
+        valueFormat=columnDefinition.cellDefinition.valueFormat
+        valueTimeZone=columnDefinition.cellDefinition.valueTimeZone
+        valueUnit=columnDefinition.cellDefinition.valueUnit
+      }}
+    {{/unless}}
   {{/if}}
 {{/if}}

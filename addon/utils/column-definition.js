@@ -24,6 +24,8 @@ var ColumnDefinition = Ember.Object.extend({
   contentPath: null,
   observePath: false,
 
+  cellDefinition: null,
+
   beforeSort: null,
   getCellContent: getContentAtPath,
   getSearchValue: getContentAtPath,

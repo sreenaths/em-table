@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   layout: layout,
 
   classNames: ['table-cell'],
-  classNameBindings: ['innerCell'],
+  classNameBindings: ['innerCell', 'isWaiting'],
 
   innerCell: Ember.computed('index', function () {
     if(this.get('index')) {
@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   _value: null,
   _observedPath: null,
   _cellContent: null,
-  _isPending: false,
+  isWaiting: false,
 
   _addObserver: function (path) {
     this._removeObserver();
@@ -33,14 +33,6 @@ export default Ember.Component.extend({
       this.get('row').removeObserver(path, this, this._onValueChange);
       this.set('_observedPath', null);
     }
-  },
-
-  //TODO: Create a txt component, and move formatting, not available etc. into it
-  _normalizeContent: function (content) {
-    if(typeof content === 'number') {
-      content = content.toString();
-    }
-    return content;
   },
 
   _pathObserver: Ember.on('init', Ember.observer('row', 'columnDefinition.contentPath', 'columnDefinition.observePath', function () {
@@ -60,14 +52,20 @@ export default Ember.Component.extend({
     if(cellContent && cellContent.then) {
       cellContent.then(function (content) {
         that.setProperties({
-          _cellContent: this._normalizeContent(content),
-          _isPending: false
+          _cellContent: content,
+          isWaiting: false
         });
       });
-      this.set('_isPending', true);
+      this.set('isWaiting', true);
+    }
+    else if(cellContent === undefined && this.get('columnDefinition.observePath')) {
+      this.set('isWaiting', true);
     }
     else {
-      this.set('_cellContent', this._normalizeContent(cellContent));
+      this.setProperties({
+        _cellContent: cellContent,
+        isWaiting: false
+      });
     }
   })),
 
