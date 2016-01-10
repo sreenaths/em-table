@@ -7,10 +7,10 @@
 @import "./pagination-ui";
 
 @import "bower_components/snippet-ss/less/use";
+@import "bower_components/snippet-ss/less/background";
+@import "bower_components/snippet-ss/less/effects";
 
 .em-table {
-  .use-gpu;
-
   font-size: @font-size;
   color: @text-color;
 
@@ -42,7 +42,7 @@
     .table-scroll-body {
       //Adding this here will keep the column, and table background same white
       //making the UI look better when scroll bar is shown
-      .dotted-background;
+      .dotted-bg;
 
       white-space: nowrap;
       font-size: 0; // If not set, each column will have a space in between
@@ -64,6 +64,10 @@
         .table-header-cell {
           background-color: @bg-grey;
           border-bottom: 1px solid @border-color;
+
+          &.is-sorting {
+            .animated-stripes;
+          }
         }
 
         .header-body, .table-cell {
@@ -78,16 +82,16 @@
         }
 
         .header-body {
+          cursor: pointer;
           font-weight: bold;
 
-          padding-right: 15px; // To compensate space occupied by sort/resize buttons
+          padding-right: 1em; // To compensate space occupied by sort/resize buttons
           position: relative; // So that buttons can be positioned
 
           .sort-icon {
-            cursor: pointer;
             position: absolute;
-            right: 8px;
-            top: 9px;
+            right: .5em;
+            top: .45em;
 
             &:before, &:after {
               font-size: .5em;
@@ -98,14 +102,14 @@
             &:before {
               content: "\25B2";
 
-              top: -2px;
+              top: 0em;
               right: 0px;
             }
 
             &:after {
               content: "\25BC";
 
-              top: 4px;
+              top: 1em;
               right: 0px;
             }
 
@@ -114,15 +118,17 @@
                 display: none;
               }
               &:after {
+                font-size: .7em;
                 opacity: 1;
-                top: 1px;
+                top: .1em;
               }
             }
 
             &.desc {
               &:before {
+                font-size: .7em;
                 opacity: 1;
-                top: 1px;
+                top: .1em;
               }
               &:after {
                 display: none;
@@ -142,6 +148,10 @@
         }
 
         .table-cell {
+          &.is-waiting {
+            .animated-stripes;
+          }
+
           &.inner {
             border-top: 1px dotted @border-color;
             margin-top: -1px;

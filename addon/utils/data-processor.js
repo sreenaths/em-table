@@ -14,7 +14,7 @@ export default Ember.Object.extend({
   _searchedRows: [],
 
   _searchObserver: Ember.on("init", Ember.observer('tableDefinition.searchText', '_sortedRows.[]', function () {
-      Ember.run.once(this, "startSearch");
+    Ember.run.once(this, "startSearch");
   })),
 
   _sortObserver: Ember.on("init", Ember.observer(
@@ -27,27 +27,34 @@ export default Ember.Object.extend({
   startSearch: function () {
     var searchText = this.get('tableDefinition.searchText'),
         rows = this.get('_sortedRows') || [],
-        columns = this.get('tableDefinition.columns');
-
-    function checkRow(column) {
-      var value;
-      if(!column.get('enableSearch')) {
-        return false;
-      }
-      value = column.getSearchValue(this);
-      return (typeof value === 'string') ? value.match(searchText) : false;
-    }
+        columns = this.get('tableDefinition.columns'),
+        then = this;
 
     if(searchText) {
-      rows = rows.filter(function (row) {
-        return columns.some(checkRow, row);
+      this.set("isSearching", true);
+      Ember.run.later(function () {
+        function checkRow(column) {
+          var value;
+          if(!column.get('enableSearch')) {
+            return false;
+          }
+          value = column.getSearchValue(this);
+          return (typeof value === 'string') ? value.match(searchText) : false;
+        }
+
+        rows = rows.filter(function (row) {
+          return columns.some(checkRow, row);
+        });
+
+        then.setProperties({
+          _searchedRows: rows,
+          isSearching: false
+        });
       });
     }
-
-    this.setProperties({
-      _searchedRows: rows,
-      isSearching: false
-    });
+    else {
+      this.set("_searchedRows", rows);
+    }
   },
 
   startSort: function () {

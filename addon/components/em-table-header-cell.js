@@ -9,8 +9,14 @@ export default Ember.Component.extend({
 
   definition: null,
   tableDefinition: null,
+  dataProcessor: null,
 
   classNames: ['table-header-cell'],
+  classNameBindings: ['isSorting'],
+
+  isSorting: Ember.computed("dataProcessor.isSorting", function () {
+    return this.get("dataProcessor.isSorting") && this.get('tableDefinition.sortColumnId') === this.get('definition.id');
+  }),
 
   sortIconCSS: Ember.computed('tableDefinition.sortOrder', 'tableDefinition.sortColumnId', function () {
     if(this.get('tableDefinition.sortColumnId') === this.get('definition.id')) {

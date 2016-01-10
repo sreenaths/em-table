@@ -10,16 +10,15 @@ export default Ember.Component.extend({
   index: 0,
 
   tableDefinition: null,
+  dataProcessor: null,
   adjustedWidth: null,
   defaultWidth: "",
 
   classNames: ['table-column'],
-  classNameBindings: ['innerColumn'],
+  classNameBindings: ['inner'],
 
-  innerColumn: Ember.computed('index', function () {
-    if(this.get('index')) {
-      return 'inner';
-    }
+  inner: Ember.computed('index', function () {
+    return !!this.get('index');
   }),
 
   didInsertElement: Ember.observer("adjustedWidth", "defaultWidth", function () {

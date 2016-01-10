@@ -1,12 +1,18 @@
-{{input
-  placeholder="Search..."
-  enter="search"
-  value=text
-}}
-<button type="button" {{action "search"}}>
-  {{#if dataProcessor.isSearching}}
-    Searching...
-  {{else}}
-    Search
-  {{/if}}
-</button>
+<div class="input-group">
+  {{input
+    type="text"
+    class="form-control"
+    placeholder="Search..."
+    enter="search"
+    value=text
+  }}
+  <span class="input-group-btn">
+    <button class="btn btn-default {{if dataProcessor.isSearching 'animated-stripes'}}" type="button" {{action "search"}}>
+      {{#if dataProcessor.isSearching}}
+        Searching...
+      {{else}}
+        Search
+      {{/if}}
+    </button>
+  </span>
+</div>
