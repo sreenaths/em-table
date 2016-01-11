@@ -44,6 +44,7 @@ export default Ember.Component.extend({
 
   _onValueChange: function (row, path) {
     this.set('_value', row.get(path));
+    this.highlightCell();
   },
 
   _cellContentObserver: Ember.on('init', Ember.observer('row', 'columnDefinition', '_value', function () {
@@ -68,6 +69,17 @@ export default Ember.Component.extend({
       });
     }
   })),
+
+  highlightCell: function () {
+    var element = this.$();
+
+    element.removeClass("bg-transition");
+    element.addClass("highlight");
+    Ember.run.later(function () {
+      element.addClass("bg-transition");
+      element.removeClass("highlight");
+    }, 100);
+  },
 
   willDestroy: function () {
     this._removeObserver();

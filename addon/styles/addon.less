@@ -1,14 +1,16 @@
 
 // Imports
+@import "bower_components/bootstrap/less/variables";
+
+@import "bower_components/snippet-ss/less/use";
+@import "bower_components/snippet-ss/less/background";
+@import "bower_components/snippet-ss/less/effects";
+
 @import "./variables";
 @import "./shared";
 
 @import "./search-ui";
 @import "./pagination-ui";
-
-@import "bower_components/snippet-ss/less/use";
-@import "bower_components/snippet-ss/less/background";
-@import "bower_components/snippet-ss/less/effects";
 
 .em-table {
   font-size: @font-size;
@@ -60,7 +62,7 @@
           border-left: 1px solid @border-color;
         }
 
-        // Just the shaded
+        // Just the shaded header
         .table-header-cell {
           background-color: @bg-grey;
           border-bottom: 1px solid @border-color;
@@ -82,13 +84,13 @@
         }
 
         .header-body {
-          cursor: pointer;
           font-weight: bold;
 
           padding-right: 1em; // To compensate space occupied by sort/resize buttons
           position: relative; // So that buttons can be positioned
 
           .sort-icon {
+            cursor: pointer;
             position: absolute;
             right: .5em;
             top: .45em;
@@ -148,10 +150,19 @@
         }
 
         .table-cell {
+          &.bg-transition {
+            -webkit-transition: background-color 500ms ease-out 500ms;
+            -moz-transition: background-color 500ms ease-out 500ms;
+            -o-transition: background-color 500ms ease-out 500ms;
+            transition: background-color 500ms ease-out 500ms;
+          }
+
+          &.highlight {
+            background-color: lighten(@brand-primary, 20%);
+          }
           &.is-waiting {
             .animated-stripes;
           }
-
           &.inner {
             border-top: 1px dotted @border-color;
             margin-top: -1px;

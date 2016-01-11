@@ -74,7 +74,7 @@ function createData(columnCount, rowCount) {
     data.push(row);
   }
 
-  // Null data
+  // Null data - Not Available must be displayed
   data[3].set('col0', null);
 
   // data that would be clipped with ellipsis
@@ -98,8 +98,8 @@ function createData(columnCount, rowCount) {
 }
 
 export default Ember.Controller.extend({
-  columns: createColumn(5),
-  rows: createData(5, 30),
+  columns: createColumn(3),
+  rows: createData(3, 30),
 
   customTableDefinition: TableDef.create(),
   searchText: Ember.computed.alias('customTableDefinition.searchText'),
