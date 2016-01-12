@@ -2,7 +2,7 @@
   Waiting...
 {{else}}
   {{#if columnDefinition.cellComponentName}}
-    {{component columnDefinition.cellComponentName content=_cellContent}}
+    {{component columnDefinition.cellComponentName content=_cellContent definition=columnDefinition.cellDefinition}}
   {{else}}
     {{#unless columnDefinition.cellDefinition}}
       {{txt _cellContent}}

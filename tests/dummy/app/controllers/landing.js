@@ -46,6 +46,14 @@ function createColumn(columnCount) {
     observePath: true,
   });
 
+  // Adding progress column
+  columns.push({
+    id: 'progressColumn',
+    headerTitle: 'Progress Column',
+    contentPath: 'progressValue',
+    cellComponentName: 'em-table-progress-cell'
+  });
+
   // Adding date column
   columns.push({
     id: 'dateColumn',
@@ -71,6 +79,7 @@ function createData(columnCount, rowCount) {
     }
     row.set('rowId', j);
     row.set("dateValue", Date.now());
+    row.set("progressValue", Math.random());
     data.push(row);
   }
 
