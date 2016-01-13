@@ -2,16 +2,16 @@
   {{#each normalizedLinks as |link|}}
     {{#if link.routeName}}
       {{#if link.withModel}}
-        {{#link-to link.routeName link.model}}
+        {{#link-to link.routeName link.model target=definition.target}}
           {{link.text}}
         {{/link-to}}
       {{else}}
-        {{#link-to link.routeName}}
+        {{#link-to link.routeName target=definition.target}}
           {{link.text}}
         {{/link-to}}
       {{/if}}
     {{else if link.href}}
-      <a href={{link.href}}>
+      <a href={{link.href}} target={{definition.target}}>
         {{link.text}}
       </a>
     {{else}}

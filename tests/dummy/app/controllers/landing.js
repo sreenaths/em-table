@@ -41,10 +41,13 @@ function createColumn(columnCount) {
   // Adding linked column 2
   columns.push({
     id: 'linkedColumn',
-    headerTitle: 'Column with multiple links',
+    headerTitle: 'Multiple links target=_blank',
     contentPath: 'rowId',
     observePath: true,
     cellComponentName: 'em-table-linked-cell',
+    cellDefinition: {
+      target: "_blank"
+    },
     getCellContent: function (row) {
       return [{
         routeName: 'row',

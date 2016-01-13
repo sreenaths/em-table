@@ -4,6 +4,7 @@ import layout from '../templates/components/em-table-linked-cell';
 export default Ember.Component.extend({
   layout: layout,
 
+  definition: null,
   content: null,
 
   normalizedLinks: Ember.computed("content", function () {
