@@ -1,9 +1,23 @@
-{{#if content.routeName}}
-  {{#link-to content.routeName content.id}}
-    {{content.displayText}}
-  {{/link-to}}
-{{else}}{{#if content.displayText}}
-  {{content.displayText}}
+{{#if normalizedLinks}}
+  {{#each normalizedLinks as |link|}}
+    {{#if link.routeName}}
+      {{#if link.withModel}}
+        {{#link-to link.routeName link.model}}
+          {{link.text}}
+        {{/link-to}}
+      {{else}}
+        {{#link-to link.routeName}}
+          {{link.text}}
+        {{/link-to}}
+      {{/if}}
+    {{else if link.href}}
+      <a href={{link.href}}>
+        {{link.text}}
+      </a>
+    {{else}}
+      {{link.text}}
+    {{/if}}
+  {{/each}}
 {{else}}
-  <span class="message">Not Available!</span>
-{{/if}}{{/if}}
+  <span class="txt-message">Not Available!</span>
+{{/if}}

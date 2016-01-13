@@ -22,10 +22,10 @@ function createColumn(columnCount) {
 
   columns[1].headerTitle = "Header that would be clipped with ellipsis.";
 
-  // Adding linked column
+  // Adding linked column 1
   columns.push({
     id: 'linkedColumn',
-    headerTitle: 'Linked Column',
+    headerTitle: 'Linked Column 1',
     contentPath: 'rowId',
     observePath: true,
     cellComponentName: 'em-table-linked-cell',
@@ -35,6 +35,26 @@ function createColumn(columnCount) {
         id: row.get('rowId'),
         displayText: "Row " + row.get('rowId') + " link"
       };
+    }
+  });
+
+  // Adding linked column 2
+  columns.push({
+    id: 'linkedColumn',
+    headerTitle: 'Column with multiple links',
+    contentPath: 'rowId',
+    observePath: true,
+    cellComponentName: 'em-table-linked-cell',
+    getCellContent: function (row) {
+      return [{
+        routeName: 'row',
+        model: row.get('rowId'),
+        text: "Row " + row.get('rowId') + " link 1"
+      },{
+        routeName: 'row',
+        model: row.get('rowId'),
+        text: "Row " + row.get('rowId') + " link 2"
+      }];
     }
   });
 
