@@ -50,17 +50,9 @@ export default Ember.Component.extend({
 
       if(!beforeSort || beforeSort.call(definition, definition)) {
         let columnId = this.get('definition.id'),
-            tableDefinition = this.get('tableDefinition');
+            sortOrder = this.get('tableDefinition.sortOrder') === 'asc' ? 'desc' : 'asc';
 
-        if(tableDefinition.get('sortColumnId') !== columnId) {
-          tableDefinition.setProperties({
-            sortColumnId: columnId,
-            sortOrder: 'asc'
-          });
-        }
-        else {
-          tableDefinition.set('sortOrder', tableDefinition.get('sortOrder') === 'asc' ? 'desc' : 'asc');
-        }
+        this.get('parentView').send('sort', columnId, sortOrder);
       }
     },
     startColResize: function () {

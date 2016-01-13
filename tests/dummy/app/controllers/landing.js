@@ -24,7 +24,7 @@ function createColumn(columnCount) {
 
   // Adding linked column 1
   columns.push({
-    id: 'linkedColumn',
+    id: 'linkedColumn1',
     headerTitle: 'Linked Column 1',
     contentPath: 'rowId',
     observePath: true,
@@ -40,7 +40,7 @@ function createColumn(columnCount) {
 
   // Adding linked column 2
   columns.push({
-    id: 'linkedColumn',
+    id: 'linkedColumn2',
     headerTitle: 'Multiple links target=_blank',
     contentPath: 'rowId',
     observePath: true,
@@ -171,6 +171,15 @@ export default Ember.Controller.extend({
       attr2: "path2",
       attr3: "path3"
     })
-  ])
+  ]),
+
+  actions: {
+    sortActionTest: function (colId, order) {
+      Ember.Logger.log(`sortAction called - ${colId}:${order}`);
+    },
+    pageActionTest: function (page) {
+      Ember.Logger.log(`pageAction called - ${page}`);
+    }
+  }
 
 });

@@ -71,7 +71,7 @@ export default Ember.Component.extend({
       }
     },
     changePage: function (value) {
-      this.get('parentView').send('changePage', value);
+      this.get('parentView').send('pageChanged', value);
     }
   }
 });

@@ -64,12 +64,22 @@ export default Ember.Component.extend({
   actions: {
     search: function (searchText) {
       this.set('_definition.searchText', searchText);
+      this.sendAction("searchAction", searchText);
+    },
+    sort: function (sortColumnId, sortOrder) {
+      this.get("_definition").setProperties({
+        sortColumnId,
+        sortOrder
+      });
+      this.sendAction("sortAction", sortColumnId, sortOrder);
     },
     rowChanged: function (rowCount) {
       this.set('_definition.rowCount', rowCount);
+      this.sendAction("rowAction", rowCount);
     },
-    changePage: function (pageNum) {
+    pageChanged: function (pageNum) {
       this.set('_definition.pageNum', pageNum);
+      this.sendAction("pageAction", pageNum);
     }
   }
 });
