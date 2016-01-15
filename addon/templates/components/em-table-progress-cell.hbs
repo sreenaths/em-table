@@ -1,7 +1,11 @@
-{{em-progress
-  value=content
-  valueMin=_definition.valueMin
-  valueMax=_definition.valueMax
-  striped=_definition.striped
-  style=_definition.style
-}}
+{{#if message}}
+  <span class="em-message">{{message}}</span>
+{{else}}
+  {{em-progress
+    value=content
+    valueMin=_definition.valueMin
+    valueMax=_definition.valueMax
+    striped=_definition.striped
+    style=_definition.style
+  }}
+{{/if}}

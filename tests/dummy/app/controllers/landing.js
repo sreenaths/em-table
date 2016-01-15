@@ -80,10 +80,30 @@ function createColumn(columnCount) {
   // Adding date column
   columns.push({
     id: 'dateColumn',
-    headerTitle: 'Date Column',
+    headerTitle: 'Date Formatted Column',
     contentPath: 'dateValue',
     cellDefinition: {
       type: "date"
+    }
+  });
+
+  // Adding duration column
+  columns.push({
+    id: 'durationColumn',
+    headerTitle: 'Duration Formatted Column',
+    contentPath: 'durationValue',
+    cellDefinition: {
+      type: "duration"
+    }
+  });
+
+  // Adding memory column
+  columns.push({
+    id: 'memoryColumn',
+    headerTitle: 'Memory Formatted Column',
+    contentPath: 'memoryValue',
+    cellDefinition: {
+      type: "memory"
     }
   });
 
@@ -101,16 +121,38 @@ function createData(columnCount, rowCount) {
       row.set('col' + i, 'Column ' + i + ' - Data ' + j);
     }
     row.set('rowId', j);
-    row.set("dateValue", Date.now());
     row.set("progressValue", Math.random());
+
+    row.set("dateValue", Date.now());
+    row.set("durationValue", parseInt(Math.random() * 10000));
+    row.set("memoryValue", parseInt(Math.random() * 10000));
+
     data.push(row);
   }
 
   // Null data - Not Available must be displayed
-  data[3].set('col0', null);
+  data[2].set('col0', null);
 
   // data that would be clipped with ellipsis
   data[3].set('col1', "Data that would be clipped with ellipsis.");
+
+  // Not available entries for formatted column
+  data[2].set('progressValue', undefined);
+  data[3].set('dateValue', undefined);
+  data[4].set('durationValue', undefined);
+  data[5].set('memoryValue', undefined);
+
+  // Null : Not available entries for formatted column
+  data[3].set('progressValue', null);
+  data[4].set('dateValue', null);
+  data[5].set('durationValue', null);
+  data[6].set('memoryValue', null);
+
+  // Invalid entries for formatted column
+  data[4].set('progressValue', "{}");
+  data[5].set('dateValue', "{}");
+  data[6].set('durationValue', "{}");
+  data[7].set('memoryValue', "{}");
 
   // Generate dynamic part of data
   window.setInterval(function () {
