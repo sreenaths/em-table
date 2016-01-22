@@ -1,6 +1,6 @@
 {
   "name": "em-table",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "0.1.6 - Beta",
   "directories": {
     "doc": "doc",
@@ -46,8 +46,9 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-less": "^1.4.0",
-    "ember-cli-htmlbars": "^1.0.1"
+    "phantomjs": "^1.9.19"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
