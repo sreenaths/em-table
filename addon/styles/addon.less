@@ -77,12 +77,17 @@
         .header-body, .table-cell {
           font-size: @font-size;
           white-space: nowrap;
-          text-overflow: ellipsis;
 
+          text-overflow: ellipsis;
           overflow: hidden;
 
           height: 2.1em;
           padding: 5px;
+
+          .ember-view {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
         }
 
         .header-body {

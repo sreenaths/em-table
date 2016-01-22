@@ -14,5 +14,11 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
+  app.import("bower_components/snippet-ss/less/use.less");
+  app.import("bower_components/snippet-ss/less/background.less");
+  app.import("bower_components/snippet-ss/less/effects.less");
+
+  app.import("bower_components/bootstrap/less/variables.less");
+
   return app.toTree();
 };
