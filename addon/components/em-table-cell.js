@@ -16,10 +16,18 @@ export default Ember.Component.extend({
   row: null,
   columnDefinition: null,
 
+  isWaiting: false,
+
   _value: null,
   _observedPath: null,
-  _cellContent: null,
-  isWaiting: false,
+  _cellContent: Ember.computed({
+    set: function (key, value, prevValue) {
+      if(value !== prevValue) {
+        this.highlightCell();
+      }
+      return value;
+    }
+  }),
 
   _addObserver: function (path) {
     this._removeObserver();
@@ -44,7 +52,6 @@ export default Ember.Component.extend({
 
   _onValueChange: function (row, path) {
     this.set('_value', row.get(path));
-    this.highlightCell();
   },
 
   _cellContentObserver: Ember.on('init', Ember.observer('row', 'columnDefinition', '_value', function () {
@@ -72,13 +79,14 @@ export default Ember.Component.extend({
 
   highlightCell: function () {
     var element = this.$();
-
-    element.removeClass("bg-transition");
-    element.addClass("highlight");
-    Ember.run.later(function () {
-      element.addClass("bg-transition");
-      element.removeClass("highlight");
-    }, 100);
+    if(element) {
+      element.removeClass("bg-transition");
+      element.addClass("highlight");
+      Ember.run.later(function () {
+        element.addClass("bg-transition");
+        element.removeClass("highlight");
+      }, 100);
+    }
   },
 
   willDestroy: function () {
