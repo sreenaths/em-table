@@ -17,20 +17,26 @@ export default Ember.Component.extend({
       }
 
       links = content.map(function (link) {
-        var model;
+        var model,
+            text = Ember.get(link, "text") || Ember.get(link, "displayText");
 
-        link = Ember.Object.create(link);
+        if(text) {
+          link = Ember.Object.create(link, {
+            text: text
+          });
 
-        if(!link.get("text")) {
-          link.set("text", link.get("displayText") || link.get("routeName") || link.get("href"));
+          if(link.get("model") === undefined) {
+            link.set("model", link.get("id"));
+          }
+
+          model = link.get("model");
+          link.set("withModel", model !== undefined);
+
+          return link;
         }
-        if(link.get("model") === undefined) {
-          link.set("model", link.get("id"));
-        }
+      });
 
-        model = link.get("model");
-        link.set("withModel", model !== undefined);
-
+      links = links.filter(function (link) {
         return link;
       });
     }
