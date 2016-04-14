@@ -1,9 +1,9 @@
 <div class="header-body">
   {{title}}
   {{#if tableDefinition.enableSort}}{{#if definition.enableSort}}
-    <span class="sort-icon {{sortIconCSS}}" {{action 'sort'}}></span>
+    <span title="Sort {{sortToggledTitle}}" class="sort-icon {{sortIconCSS}}" {{action 'sort'}}></span>
   {{/if}}{{/if}}
   {{#if tableDefinition.enableColumnResize}}{{#if definition.enableColumnResize}}
-    <span class="resize-column" {{action 'startColResize' on="mouseDown"}}></span>
+    <span title="Resize column" class="resize-column" {{action 'startColResize' on="mouseDown"}}></span>
   {{/if}}{{/if}}
 </div>

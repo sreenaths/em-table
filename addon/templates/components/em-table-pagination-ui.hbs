@@ -1,5 +1,5 @@
 <ul class="page-list">
-  <li class="{{unless atFirst 'clickable'}}" {{action 'changePage' 1}}>
+  <li title="Go to first page" class="{{unless atFirst 'clickable'}}" {{action 'changePage' 1}}>
     First
   </li>
   {{#each _possiblePages as |page|}}
@@ -8,14 +8,14 @@
     </li>
   {{/each}}
   {{#unless hideLast}}
-    <li class="{{unless atLast 'clickable'}}" {{action 'changePage' dataProcessor.totalPages}}>
+    <li title="Go to last page"  class="{{unless atLast 'clickable'}}" {{action 'changePage' dataProcessor.totalPages}}>
       Last - {{dataProcessor.totalPages}}
     </li>
   {{/unless}}
 </ul>
 
 <div class='row-select'>
-  <select class="form-control" onchange={{action "rowSelected" value="target.value"}}>
+  <select title="Select rows to display" class="form-control" onchange={{action "rowSelected" value="target.value"}}>
     {{#each rowCountOptions as |option|}}
       <option value={{option.value}} selected={{option.selected}}>
         {{option.value}} Rows

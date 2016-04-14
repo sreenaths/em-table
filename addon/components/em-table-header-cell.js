@@ -24,6 +24,17 @@ export default Ember.Component.extend({
     }
   }),
 
+  sortToggledTitle: Ember.computed('tableDefinition.sortOrder', 'tableDefinition.sortColumnId', function () {
+    if(this.get('tableDefinition.sortColumnId') === this.get('definition.id')) {
+      switch(this.get('tableDefinition.sortOrder')) {
+        case "asc":
+          return "descending";
+        case "desc":
+          return "ascending";
+      }
+    }
+  }),
+
   actions: {
     sort: function () {
       this.get('parentView').send('sort');
