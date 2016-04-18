@@ -1,7 +1,7 @@
 {
   "name": "em-table",
-  "version": "0.3.11",
-  "description": "0.1.6 - Beta",
+  "version": "0.3.12",
+  "description": "0.3.12 - Beta",
   "directories": {
     "doc": "doc",
     "test": "tests"

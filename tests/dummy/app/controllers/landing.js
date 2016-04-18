@@ -30,6 +30,24 @@ function createColumn(columnCount) {
     observePath: true,
   });
 
+  // Adding anchor column
+  columns.push({
+    id: 'anchorColumn',
+    headerTitle: 'Anchor Column',
+    contentPath: 'rowId',
+    cellComponentName: 'em-table-linked-cell',
+    getCellContent: function () {
+      return [{
+        href: 'https://www.npmjs.com/package/em-table',
+        displayText: "View"
+      }, {
+        href: 'https://www.npmjs.com/package/em-table',
+        displayText: "Download",
+        download: true
+      }];
+    }
+  });
+
   // Adding linked column 1
   columns.push({
     id: 'linkedColumn1',
