@@ -21,7 +21,13 @@ export default Ember.Component.extend({
     return !!this.get('index');
   }),
 
-  didInsertElement: Ember.observer("adjustedWidth", "defaultWidth", function () {
+  didInsertElement: function () {
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      this.setWidth();
+    });
+  },
+
+  setWidth: Ember.observer("adjustedWidth", "defaultWidth", function () {
     this.$().css("width", this.get('adjustedWidth') || this.get('defaultWidth'));
   }),
 
