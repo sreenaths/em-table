@@ -10,12 +10,15 @@ export default Ember.Component.extend({
   classNames: ['pagination-ui'],
   isVisible: Ember.computed.alias('tableDefinition.enablePagination'),
 
-  atFirst: Ember.computed('tableDefinition.pageNum', function () {
-    return this.get('tableDefinition.pageNum') === 1;
+  showFirst: Ember.computed('_possiblePages', function () {
+    return this.get('_possiblePages.0.pageNum') !== 1;
   }),
 
-  atLast: Ember.computed('tableDefinition.pageNum', 'dataProcessor.totalPages', function () {
-    return this.get('tableDefinition.pageNum') === this.get('dataProcessor.totalPages');
+  showLast: Ember.computed('_possiblePages', 'dataProcessor.totalPages', function () {
+    var possiblePages = this.get("_possiblePages");
+    if(possiblePages.length) {
+      return possiblePages[possiblePages.length - 1].pageNum !== this.get("dataProcessor.totalPages");
+    }
   }),
 
   rowCountOptions: Ember.computed('tableDefinition.rowCountOptions', 'tableDefinition.rowCount', function () {

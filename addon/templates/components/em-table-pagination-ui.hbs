@@ -1,17 +1,19 @@
 <ul class="page-list">
-  <li title="Go to first page" class="{{unless atFirst 'clickable'}}" {{action 'changePage' 1}}>
-    First
-  </li>
+  {{#if showFirst}}
+    <li title="Go to first page" class="clickable" {{action 'changePage' 1}}>
+      First
+    </li>
+  {{/if}}
   {{#each _possiblePages as |page|}}
     <li class="{{if page.isCurrent 'is-current' 'clickable'}}" {{action 'changePage' page.pageNum}}>
       {{page.pageNum}}
     </li>
   {{/each}}
-  {{#unless hideLast}}
-    <li title="Go to last page, {{dataProcessor.totalPages}} page(s) available in total"  class="{{unless atLast 'clickable'}}" {{action 'changePage' dataProcessor.totalPages}}>
+  {{#if showLast}}
+    <li title="Go to last page, {{dataProcessor.totalPages}} page(s) available in total"  class="clickable" {{action 'changePage' dataProcessor.totalPages}}>
       Last - {{dataProcessor.totalPages}}
     </li>
-  {{/unless}}
+  {{/if}}
 </ul>
 
 <div class='row-select'>
