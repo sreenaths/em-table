@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Object.extend({
 
+  recordType: "",
+
   // Search
   enableSearch: true,
   searchText: '',

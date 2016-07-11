@@ -61,6 +61,17 @@ export default Ember.Component.extend({
     });
   }),
 
+  message: Ember.computed('_columns.length',
+      '_dataProcessor.processedRows.length', '_definition.recordType', function () {
+    if(!this.get('_columns.length')) {
+      return "No columns available!";
+    }
+    else if(!this.get("_dataProcessor.processedRows.length")) {
+      let identifiers = Ember.String.pluralize(this.get('_definition.recordType') || "record");
+      return `No ${identifiers} available!`;
+    }
+  }),
+
   actions: {
     search: function (searchText) {
       this.set('_definition.searchText', searchText);

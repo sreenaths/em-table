@@ -7,10 +7,8 @@
 
 {{!--Body--}}
 <div class='table-body'>
-  {{#unless _columns.length}}
-    <div class="data-availability-message">No columns available!</div>
-  {{else}}{{#unless _dataProcessor.processedRows.length}}
-    <div class="data-availability-message">No records available!</div>
+  {{#if message}}
+    <h4 class="table-message">{{message}}</h4>
   {{else}}
     <div class='table-scroll-body'>
       {{#each _columns as |column colIndex|}}
@@ -24,7 +22,7 @@
         }}
       {{/each}}
     </div>
-  {{/unless}}{{/unless}}
+  {{/if}}
 </div>
 
 {{!--Footer--}}
