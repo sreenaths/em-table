@@ -37,7 +37,29 @@ test('Basic rendering test', function(assert) {
   assert.equal($(rowSelection).val(), customRowCount);
 });
 
-test('Multiple page test', function(assert) {
+test('No data test', function(assert) {
+  var customRowCount = 2,
+      definition = TableDefinition.create({
+        rowCount: customRowCount
+      }),
+      processor;
+
+  Ember.run(function () {
+    processor = DataProcessor.create({
+      tableDefinition: definition,
+      rows: Ember.A()
+    });
+  });
+
+  this.set('definition', definition);
+  this.set('processor', processor);
+  this.render(hbs`{{em-table-pagination-ui tableDefinition=definition dataProcessor=processor}}`);
+
+  var paginationItems = this.$('li');
+  assert.equal(paginationItems.length, 0);
+});
+
+test('Multiple page test; without first & last', function(assert) {
   var customRowCount = 2,
       definition = TableDefinition.create({
         rowCount: customRowCount
@@ -61,7 +83,7 @@ test('Multiple page test', function(assert) {
   assert.equal($(paginationItems[1]).text().trim(), "2");
 });
 
-test('Display first test', function(assert) {
+test('Display last test', function(assert) {
   var customRowCount = 5,
       definition = TableDefinition.create({
         rowCount: customRowCount
@@ -94,7 +116,7 @@ test('Display first test', function(assert) {
   assert.equal($(paginationItems[5]).text().trim(), "Last - 20");
 });
 
-test('Display last test', function(assert) {
+test('Display first test', function(assert) {
   var customRowCount = 5,
       definition = TableDefinition.create({
         pageNum: 20,

@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   isVisible: Ember.computed.alias('tableDefinition.enablePagination'),
 
   showFirst: Ember.computed('_possiblePages', function () {
-    return this.get('_possiblePages.0.pageNum') !== 1;
+    return this.get("dataProcessor.totalPages") && this.get('_possiblePages.0.pageNum') !== 1;
   }),
 
   showLast: Ember.computed('_possiblePages', 'dataProcessor.totalPages', function () {
