@@ -1,6 +1,6 @@
 {
   "name": "em-table",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "0.3.17 - Beta",
   "directories": {
     "doc": "doc",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
-    "em-helpers": "0.5.14",
+    "em-helpers": "0.5.15",
     "ember-bootstrap": "0.5.1",
     "ember-cli": "^1.13.13",
     "ember-cli-app-version": "^1.0.0",
@@ -48,6 +48,9 @@
   "dependencies": {
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-less": "^1.4.0",
+    "source-map": "^0.5.6"
+  },
+  "optionalDependencies": {
     "phantomjs-prebuilt": "2.1.13"
   },
   "ember-addon": {
