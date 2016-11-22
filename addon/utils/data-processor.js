@@ -57,13 +57,34 @@ export default Ember.Object.extend({
     }
   },
 
+  compareFunction: function (a, b){
+    // Checking for undefined and null to handle some special cases in JavaScript comparison
+    // Eg: 1 > undefined = false & 1 < undefined = false
+    // "a1" > null = false & "a1" < null = false
+    if(a === undefined || a === null) {
+      return -1;
+    }
+    else if(b === undefined || b === null) {
+      return 1;
+    }
+    else if(a < b) {
+      return -1;
+    }
+    else if(a > b) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  },
+
   startSort: function () {
     var rows = this.get('rows'),
         sortColumnId = this.get('tableDefinition.sortColumnId'),
         column = this.get('tableDefinition.columns').find(function (element) {
           return element.get('id') === sortColumnId;
         }),
-        ascending = this.get('tableDefinition.sortOrder') === 'asc',
+        descending = this.get('tableDefinition.sortOrder') === 'desc',
         that = this;
 
     if(rows && rows.get('length') > 0 && column) {
@@ -79,16 +100,15 @@ export default Ember.Object.extend({
             value: column.getSortValue(row),
             row: row
           };
-        });
+        }),
+        compareFunction = that.get("compareFunction");
 
-        sortArray.sort(function (a, b){
-          if(ascending ^ (a.value > b.value)) {
-            return -1;
+        sortArray.sort(function (a, b) {
+          var result = compareFunction(a.value, b.value);
+          if(descending && result) {
+            result = -result;
           }
-          else if(ascending ^ (a.value < b.value)) {
-            return 1;
-          }
-          return 0;
+          return result;
         });
 
         that.setProperties({
@@ -97,7 +117,6 @@ export default Ember.Object.extend({
           }),
           isSorting: false
         });
-
       });
     }
     else {

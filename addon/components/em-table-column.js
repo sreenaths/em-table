@@ -56,7 +56,7 @@ export default Ember.Component.extend({
 
       if(!beforeSort || beforeSort.call(definition, definition)) {
         let columnId = this.get('definition.id'),
-            sortOrder = this.get('tableDefinition.sortOrder') === 'asc' ? 'desc' : 'asc';
+            sortOrder = this.get('tableDefinition.sortOrder') === 'desc' ? 'asc' : 'desc';
 
         this.get('parentView').send('sort', columnId, sortOrder);
       }
