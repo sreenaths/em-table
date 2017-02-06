@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 import DataProcessor from '../../../utils/data-processor';
+import ColumnDefinition from '../../../utils/column-definition';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | data processor');
@@ -67,4 +68,49 @@ test('compareFunction test', function(assert) {
   assert.equal(processor.compareFunction(undefined, 2), -1);
   assert.equal(processor.compareFunction("a", undefined), 1);
   assert.equal(processor.compareFunction(undefined, "b"), -1);
+});
+
+test('startSearch test', function(assert) {
+  var processor;
+
+  assert.expect(3);
+
+  Ember.run.later = function (callback) {
+    callback();
+    assert.equal(processor.get("_searchedRows.length"), 2);
+    assert.equal(processor.get("_searchedRows.0.foo"), "Foo1");
+    assert.equal(processor.get("_searchedRows.1.foo"), "Foo12");
+  };
+
+  Ember.run(function () {
+    processor = DataProcessor.create({
+      tableDefinition: Ember.Object.create({
+        searchText: "foo1",
+        columns: [ColumnDefinition.create({
+          id: "foo",
+          contentPath: 'foo'
+        }), ColumnDefinition.create({
+          id: "bar",
+          contentPath: 'bar'
+        })]
+      }),
+      startSort: function () {
+        // Test Sort
+      },
+      _sortedRows: [Ember.Object.create({
+        foo: "Foo1",
+        bar: "Bar1"
+      }), Ember.Object.create({
+        foo: "Foo12",
+        bar: "Bar2"
+      }), Ember.Object.create({
+        foo: "Foo3",
+        bar: "Bar3"
+      }), Ember.Object.create({
+        foo: "Foo4",
+        bar: "Bar4"
+      })],
+    });
+  });
+
 });

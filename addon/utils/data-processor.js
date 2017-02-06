@@ -32,6 +32,9 @@ export default Ember.Object.extend({
 
     if(searchText) {
       this.set("isSearching", true);
+
+      searchText = searchText.toLowerCase();
+
       Ember.run.later(function () {
         function checkRow(column) {
           var value;
@@ -39,7 +42,13 @@ export default Ember.Object.extend({
             return false;
           }
           value = column.getSearchValue(this);
-          return (typeof value === 'string') ? value.match(searchText) : false;
+
+          if(typeof value === 'string') {
+            value = value.toLowerCase();
+            return value.match(searchText);
+          }
+
+          return false;
         }
 
         rows = rows.filter(function (row) {
