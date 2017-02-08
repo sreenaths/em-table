@@ -71,7 +71,8 @@ test('compareFunction test', function(assert) {
 });
 
 test('startSearch test', function(assert) {
-  var processor;
+  var processor,
+      runLater = Ember.run.later;
 
   assert.expect(3);
 
@@ -80,6 +81,8 @@ test('startSearch test', function(assert) {
     assert.equal(processor.get("_searchedRows.length"), 2);
     assert.equal(processor.get("_searchedRows.0.foo"), "Foo1");
     assert.equal(processor.get("_searchedRows.1.foo"), "Foo12");
+
+    Ember.run.later = runLater; // Reset
   };
 
   Ember.run(function () {

@@ -24,8 +24,13 @@ export default Ember.Component.extend({
   didInsertElement: function () {
     Ember.run.scheduleOnce('afterRender', this, function() {
       this.setWidth();
+      this.setMinWidth();
     });
   },
+
+  setMinWidth: Ember.observer("definition.minWidth", function () {
+    this.$().css("minWidth", this.get('definition.minWidth'));
+  }),
 
   setWidth: Ember.observer("adjustedWidth", "defaultWidth", function () {
     this.$().css("width", this.get('adjustedWidth') || this.get('defaultWidth'));

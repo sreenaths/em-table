@@ -77,6 +77,7 @@ test('Instance test', function(assert) {
 
   assert.equal(definition.id, "testId");
   assert.equal(definition.headerTitle, "Not Available!");
+  assert.equal(definition.minWidth, "150px");
   assert.equal(definition.contentPath, "a.b");
 
   assert.equal(definition.getCellContent(data), 42);
