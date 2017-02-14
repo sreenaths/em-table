@@ -95,6 +95,14 @@ function createColumn(columnCount) {
     observePath: true,
   });
 
+  // Status column
+  columns.push({
+    id: 'statusColumn',
+    headerTitle: 'Status Column',
+    contentPath: 'statusValue',
+    cellComponentName: 'em-table-status-cell'
+  });
+
   // Adding progress column
   columns.push({
     id: 'progressColumn',
@@ -145,6 +153,10 @@ function createData(columnCount, rowCount) {
         })
       });
 
+  var statuses = ["NEW", "INITED", "STARTED", "initializing",
+      "scheduled", "running", "in-progress", "committing", "finished", "succeeded",
+      "terminating", "failed", "killed", "error"];
+
   // Generate static part of data
   for(var j = 0; j < rowCount; j++) {
     row = Row.create();
@@ -154,6 +166,7 @@ function createData(columnCount, rowCount) {
     }
     row.set('rowId', j);
     row.set("progressValue", Math.random());
+    row.set("statusValue", statuses[j % statuses.length]);
 
     row.set("dateValue", Date.now());
     row.set("durationValue", parseInt(Math.random() * 10000));

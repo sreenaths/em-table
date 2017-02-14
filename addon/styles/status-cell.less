@@ -1,0 +1,68 @@
+.em-table-status-cell {
+  overflow: visible !important;
+
+  .status {
+    .label;
+    .label-default;
+  }
+  .status-icon {
+    // Must be defined by the top-level project
+  }
+
+  .status-new, .status-inited, .status-started {
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-initializing, .status-scheduled {
+    .label-primary;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-running, .status-in-progress {
+    .diagonal-stripes-bg;
+    .animate;
+    .label-info;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-committing {
+    .label-info;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-finished, .status-succeeded {
+    .label-success;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-terminating {
+    .label-warning;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-failed {
+    .label-warning;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+
+  .status-killed, .status-error {
+    .label-danger;
+    .status-icon {
+      // Must be defined by the top-level project
+    }
+  }
+}
