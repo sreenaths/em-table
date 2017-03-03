@@ -71,7 +71,7 @@ export default Ember.Component.extend({
   },
 
   _cellContentObserver: Ember.on('init', Ember.observer('row', 'columnDefinition', '_value', function () {
-    var cellContent = this.get('columnDefinition').getCellContent(this.get('row'), this.get("value")),
+    var cellContent = this.get('columnDefinition').getCellContent(this.get('row'), this.get("_value")),
         that = this;
 
     if(cellContent && cellContent.then) {
