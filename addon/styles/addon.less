@@ -158,6 +158,31 @@
         }
 
         .table-cell {
+          position: relative;
+
+          .comment-indicator {
+            position: absolute;
+
+            color: white;
+            font-size: 10px;
+            padding-left: 4px;
+
+            top: -4px;
+            right: -4px;
+
+            width: 10px;
+            height: 10px;
+            background-color: orange;
+            border-radius: 10px;
+
+            opacity: 0.6;
+
+            &:hover {
+              top: -2px;
+              right: -2px;
+            }
+          }
+
           &.bg-transition {
             -webkit-transition: background-color 500ms ease-out 500ms;
             -moz-transition: background-color 500ms ease-out 500ms;

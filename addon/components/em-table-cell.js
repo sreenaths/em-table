@@ -20,6 +20,7 @@ export default Ember.Component.extend({
 
   _value: null,
   _observedPath: null,
+  _comment: null,
   _cellContent: Ember.computed({
     set: function (key, value, prevValue) {
       if(value !== prevValue) {
@@ -54,15 +55,28 @@ export default Ember.Component.extend({
     this.set('_value', row.get(path));
   },
 
+  setContent: function (content) {
+    var comment;
+
+    if(content && content.hasOwnProperty("content")) {
+      comment = content.comment;
+      content = content.content;
+    }
+
+    this.setProperties({
+      _comment: comment,
+      _cellContent: content,
+      isWaiting: false
+    });
+  },
+
   _cellContentObserver: Ember.on('init', Ember.observer('row', 'columnDefinition', '_value', function () {
-    var cellContent = this.get('columnDefinition').getCellContent(this.get('row')),
+    var cellContent = this.get('columnDefinition').getCellContent(this.get('row'), this.get("value")),
         that = this;
+
     if(cellContent && cellContent.then) {
       cellContent.then(function (content) {
-        that.setProperties({
-          _cellContent: content,
-          isWaiting: false
-        });
+        that.setContent(content);
       });
       this.set('isWaiting', true);
     }
@@ -70,10 +84,7 @@ export default Ember.Component.extend({
       this.set('isWaiting', true);
     }
     else {
-      this.setProperties({
-        _cellContent: cellContent,
-        isWaiting: false
-      });
+      this.setContent(cellContent);
     }
   })),
 
