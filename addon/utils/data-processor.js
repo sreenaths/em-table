@@ -25,7 +25,7 @@ export default Ember.Object.extend({
   })),
 
   startSearch: function () {
-    var searchText = this.get('tableDefinition.searchText'),
+    var searchText = String(this.get('tableDefinition.searchText')),
         rows = this.get('_sortedRows') || [],
         columns = this.get('tableDefinition.columns'),
         then = this;
