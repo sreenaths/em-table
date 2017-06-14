@@ -24,39 +24,43 @@ export default Ember.Object.extend({
       Ember.run.once(this, "startSort");
   })),
 
+  regexSearch: function (clause, rows, columns) {
+    var regex = new RegExp(clause, "i");
+
+    function checkRow(column) {
+      var value;
+      if(!column.get('enableSearch')) {
+        return false;
+      }
+      value = column.getSearchValue(this);
+
+      if(typeof value === 'string') {
+        value = value.toLowerCase();
+        return value.match(regex);
+      }
+
+      return false;
+    }
+
+    return rows.filter(function (row) {
+      return columns.some(checkRow, row);
+    });
+  },
+
   startSearch: function () {
     var searchText = String(this.get('tableDefinition.searchText')),
         rows = this.get('_sortedRows') || [],
         columns = this.get('tableDefinition.columns'),
-        then = this;
+        that = this;
 
     if(searchText) {
       this.set("isSearching", true);
 
-      searchText = searchText.toLowerCase();
-
       Ember.run.later(function () {
-        function checkRow(column) {
-          var value;
-          if(!column.get('enableSearch')) {
-            return false;
-          }
-          value = column.getSearchValue(this);
+        var result = that.regexSearch(searchText, rows, columns);
 
-          if(typeof value === 'string') {
-            value = value.toLowerCase();
-            return value.match(searchText);
-          }
-
-          return false;
-        }
-
-        rows = rows.filter(function (row) {
-          return columns.some(checkRow, row);
-        });
-
-        then.setProperties({
-          _searchedRows: rows,
+        that.setProperties({
+          _searchedRows: result,
           isSearching: false
         });
       });
