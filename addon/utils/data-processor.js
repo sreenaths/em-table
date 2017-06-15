@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+import SQL from './sql';
+
 /**
  * Handles Sorting, Searching & Pagination
  */
@@ -8,6 +10,8 @@ export default Ember.Object.extend({
   isSearching: false,
 
   tableDefinition: null,
+
+  sql: SQL.create(),
 
   rows: [],
   _sortedRows: [],
@@ -57,7 +61,14 @@ export default Ember.Object.extend({
       this.set("isSearching", true);
 
       Ember.run.later(function () {
-        var result = that.regexSearch(searchText, rows, columns);
+        var result;
+
+        if(that.get("sql").validateClause(searchText, columns)) {
+          result = that.get("sql").search(searchText, rows, columns);
+        }
+        else {
+          result = that.regexSearch(searchText, rows, columns);
+        }
 
         that.setProperties({
           _searchedRows: result,

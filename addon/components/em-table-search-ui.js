@@ -10,6 +10,13 @@ export default Ember.Component.extend({
   classNames: ['search-ui'],
   isVisible: Ember.computed.alias('tableDefinition.enableSearch'),
 
+  isSQLClause: Ember.computed("text", function () {
+    var text = this.get("text"),
+        columns = this.get('tableDefinition.columns');
+
+    return this.get("dataProcessor.sql").validateClause(text, columns);
+  }),
+
   text: Ember.computed.oneWay('tableDefinition.searchText'),
 
   actions: {

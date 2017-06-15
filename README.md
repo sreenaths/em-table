@@ -23,6 +23,9 @@ For more info & examples please visit [em-table wiki](https://github.com/sreenat
 * ember v1.13.11 or above
 * ember-cli v1.13.11 or above
 
+## Running UTs
+* `npm run test`
+
 ## Running demo app
 
 * `ember server`

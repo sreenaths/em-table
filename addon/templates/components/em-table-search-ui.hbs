@@ -11,6 +11,13 @@
       {{#if dataProcessor.isSearching}}
         Searching...
       {{else}}
+        {{#if text}}
+          {{#if isSQLClause}}
+            SQL
+          {{else}}
+            Regex
+          {{/if}}
+        {{/if}}
         Search
       {{/if}}
     </button>

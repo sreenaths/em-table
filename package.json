@@ -1,6 +1,6 @@
 {
   "name": "em-table",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "description": "Beta",
   "directories": {
     "doc": "doc",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:testall"
+    "test": "ember test"
   },
   "repository": "https://github.com/sreenaths/em-table.git",
   "engines": {

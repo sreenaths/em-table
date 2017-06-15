@@ -20,5 +20,7 @@ module.exports = function(defaults) {
 
   app.import("bower_components/bootstrap/less/variables.less");
 
+  app.import('bower_components/alasql/dist/alasql.js');
+
   return app.toTree();
 };
