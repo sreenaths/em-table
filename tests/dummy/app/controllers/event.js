@@ -108,6 +108,13 @@ export default Ember.Controller.extend({
     return columns;
   }),
 
+  columns7: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns[3].pin = "left";
+    columns[4].pin = "right";
+    return columns;
+  }),
+
   rows: Ember.computed(function () {
     var rows = [];
 
