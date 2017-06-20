@@ -4,7 +4,7 @@ import ColumnDefinition from 'em-table/utils/column-definition';
 
 export default Ember.Controller.extend({
 
-  columns: ColumnDefinition.make([{
+  columns1: ColumnDefinition.make([{
     id: 'name',
     headerTitle: 'Event Name',
     contentPath: 'name',
@@ -15,11 +15,13 @@ export default Ember.Controller.extend({
         model: row.get("entityID"),
         text: row.get("name")
       };
-    }
+    },
+    pin: "left"
   },{
     id: 'entityID',
     headerTitle: 'Id',
-    contentPath: 'entityID'
+    contentPath: 'entityID',
+    pin: "left",
   },{
     id: 'submitter',
     headerTitle: 'Submitter',
@@ -72,8 +74,39 @@ export default Ember.Controller.extend({
     cellComponentName: "em-table-linked-cell",
     cellDefinition: {
       target: "_blank"
-    }
+    },
+    pin: "right"
   }]),
+
+  columns2: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(10, 1);
+    return columns;
+  }),
+
+  columns3: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(0, 2);
+    return columns;
+  }),
+
+  columns4: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(2, 8);
+    return columns;
+  }),
+
+  columns5: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(2, 9);
+    return columns;
+  }),
+
+  columns6: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(0, 10);
+    return columns;
+  }),
 
   rows: Ember.computed(function () {
     var rows = [];

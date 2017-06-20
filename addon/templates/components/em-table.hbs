@@ -5,24 +5,68 @@
   {{/each}}
 </div>
 
-{{!--Body--}}
-<div class='table-body'>
+<div class="table-mid">
+  <div class='table-panel-left'>
+    {{#if leftPanelComponentName}}
+      {{component leftPanelComponentName tableDefinition=_definition dataProcessor=_dataProcessor}}
+    {{/if}}
+  </div>
+
   {{#if message}}
     <h4 class="table-message">{{message}}</h4>
   {{else}}
-    <div class='table-scroll-body'>
-      {{#each _columns as |column colIndex|}}
-        {{em-table-column
+    {{!--Body--}}
+    {{#if _columns.left.length}}
+      <div class='table-body-left'>
+        {{#each _columns.left as |column colIndex|}}
+          {{em-table-column
           rows=_dataProcessor.processedRows
           definition=column.definition
           defaultWidth=column.width
           tableDefinition=_definition
           dataProcessor=_dataProcessor
           index=colIndex
-        }}
-      {{/each}}
+          }}
+        {{/each}}
+      </div>
+    {{/if}}
+
+    <div class='table-body'>
+      <div class='table-scroll-body'>
+        {{#each _columns.center as |column colIndex|}}
+          {{em-table-column
+          rows=_dataProcessor.processedRows
+          definition=column.definition
+          defaultWidth=column.width
+          tableDefinition=_definition
+          dataProcessor=_dataProcessor
+          index=colIndex
+          }}
+        {{/each}}
+      </div>
     </div>
+
+    {{#if _columns.right.length}}
+      <div class='table-body-right'>
+        {{#each _columns.right as |column colIndex|}}
+          {{em-table-column
+          rows=_dataProcessor.processedRows
+          definition=column.definition
+          defaultWidth=column.width
+          tableDefinition=_definition
+          dataProcessor=_dataProcessor
+          index=colIndex
+          }}
+        {{/each}}
+      </div>
+    {{/if}}
   {{/if}}
+
+  <div class='table-panel-right'>
+    {{#if rightPanelComponentName}}
+      {{component rightPanelComponentName tableDefinition=_definition dataProcessor=_dataProcessor}}
+    {{/if}}
+  </div>
 </div>
 
 {{!--Footer--}}

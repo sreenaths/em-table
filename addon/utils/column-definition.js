@@ -11,6 +11,10 @@ function getContentAtPath(row) {
   }
 }
 
+function returnEmptyString() {
+  return "";
+}
+
 var ColumnDefinition = Ember.Object.extend({
   id: "",
   headerTitle: "Not Available!",
@@ -27,6 +31,8 @@ var ColumnDefinition = Ember.Object.extend({
   observePath: false,
 
   cellDefinition: null,
+
+  pin: "center",
 
   beforeSort: null,
   getCellContent: getContentAtPath,
@@ -78,5 +84,17 @@ ColumnDefinition.makeFromModel = function (ModelClass, columnOptions) {
     throw new Error("Value passed is not a model class");
   }
 };
+
+ColumnDefinition.fillerColumn = ColumnDefinition.create({
+  id: "fillerColumn",
+  headerTitle: "",
+  getCellContent: returnEmptyString,
+  getSearchValue: returnEmptyString,
+  getSortValue: returnEmptyString,
+
+  enableSearch: false,
+  enableSort: false,
+  enableColumnResize: false,
+});
 
 export default ColumnDefinition;

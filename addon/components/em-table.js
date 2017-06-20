@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Definition from '../utils/table-definition';
+import ColumnDefinition from '../utils/column-definition';
 import DataProcessor from '../utils/data-processor';
 
 import layout from '../templates/components/em-table';
@@ -22,6 +23,9 @@ export default Ember.Component.extend({
 
   headerComponentNames: ['em-table-search-ui', 'em-table-pagination-ui'],
   footerComponentNames: ['em-table-pagination-ui'],
+
+  leftPanelComponentName: "",
+  rightPanelComponentName: "",
 
   classNames: ["em-table"],
 
@@ -50,15 +54,35 @@ export default Ember.Component.extend({
   }),
 
   _columns: Ember.computed('_definition.columns', function () {
-    var columns = this.get('_definition.columns'),
-        widthText = (100 / columns.length) + "%";
+    var rawColumns = this.get('_definition.columns'),
+        normalisedColumns = {
+          left: [],
+          center: [],
+          right: [],
+          length: rawColumns.length
+        },
+        widthText;
 
-    return columns.map(function (column) {
-      return {
-        definition: column,
-        width: widthText
-      };
+    rawColumns.forEach(function (column) {
+      normalisedColumns[column.get("pin")].push({
+        definition: column
+      });
     });
+
+    if(normalisedColumns.center.length) {
+      widthText = (100 / normalisedColumns.center.length) + "%";
+      normalisedColumns.center.forEach(function (column) {
+        column.width = widthText;
+      });
+    }
+    else {
+      normalisedColumns.center = [{
+        definition: ColumnDefinition.fillerColumn,
+        width: "100%"
+      }];
+    }
+
+    return normalisedColumns;
   }),
 
   message: Ember.computed('_columns.length',

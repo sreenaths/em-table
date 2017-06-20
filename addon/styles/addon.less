@@ -26,22 +26,76 @@
     .clear-fix;
   }
 
+  .table-mid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+
+    .table-panel-left, table-panel-right, .table-body-left, .table-body-right {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: auto;
+    }
+
+    .table-panel-left {
+      margin-right: 5px;
+    }
+    .table-panel-right {
+      margin-left: 5px;
+    }
+
+    .table-body, .table-message {
+      order: 0;
+      flex: 1 1 auto;
+      align-self: auto;
+      border: 1px solid @border-color;
+    }
+
+    &>div:nth-child(2) {
+      border-top-left-radius: @border-radius;
+      border-bottom-left-radius: @border-radius;
+      border-left: 1px solid @border-color;
+    }
+
+    &>div:nth-last-child(2) {
+      border-top-right-radius: @border-radius;
+      border-bottom-right-radius: @border-radius;
+      border-right: 1px solid @border-color;
+    }
+  }
+
   .table-footer {
     .clear-fix;
   }
 
-  .table-body{
-    .force-scrollbar;
+  .table-body-left, .table-body-right, .table-body {
+    border-top: 1px solid @border-color;
+    border-bottom: 1px solid @border-color;
+    background-color: @table-bg;
+  }
 
-    border: 1px solid @border-color;
+  .table-message {
     border-radius: @border-radius;
     background-color: @table-bg;
 
-    margin: 5px 0px;
+    text-align: center;
+    padding: 10px;
+  }
 
-    .table-message {
-      text-align: center;
-    }
+  .table-body-left, .table-body-right, .table-body {
+    margin: 5px 0px;
+  }
+
+  .table-body-left, .table-body-right {
+    white-space: nowrap;
+    font-size: 0; // If not set, each column will have a space in between
+  }
+
+  .table-body{
+    .force-scrollbar;
 
     .table-scroll-body {
       //Adding this here will keep the column, and table background same white
@@ -50,157 +104,157 @@
 
       white-space: nowrap;
       font-size: 0; // If not set, each column will have a space in between
+    }
+  }
 
-      .table-column {
-        .use-border-padding-in-width-height;
+  .table-column {
+    .use-border-padding-in-width-height;
 
-        background-color: @table-bg;
+    background-color: @table-bg;
 
-        vertical-align: top;
+    vertical-align: top;
+    overflow: hidden;
+    display: inline-block;
+    min-width: 150px;
+
+    &.inner {
+      border-left: 1px solid @border-color;
+    }
+
+    // Just the shaded header
+    .table-header-cell {
+      background-color: @bg-grey;
+      border-bottom: 1px solid @border-color;
+
+      &.is-sorting {
+        .animated-stripes;
+      }
+    }
+
+    .header-body, .table-cell {
+      font-size: @font-size;
+      white-space: nowrap;
+
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      height: 2.1em;
+      padding: 5px;
+
+      .ember-view {
+        text-overflow: ellipsis;
         overflow: hidden;
-        display: inline-block;
-        min-width: 150px;
+      }
+    }
 
-        &.inner {
-          border-left: 1px solid @border-color;
+    .header-body {
+      font-weight: bold;
+
+      padding-right: 1.1em; // To compensate space occupied by sort/resize buttons
+      position: relative; // So that buttons can be positioned
+
+      .sort-icon {
+        cursor: pointer;
+        position: absolute;
+        right: .5em;
+        top: .6em;
+
+        &:before, &:after {
+          font-size: .5em;
+          opacity: .5;
+          position: absolute;
         }
 
-        // Just the shaded header
-        .table-header-cell {
-          background-color: @bg-grey;
-          border-bottom: 1px solid @border-color;
+        &:before {
+          content: "\25B2";
 
-          &.is-sorting {
-            .animated-stripes;
-          }
+          top: 0em;
+          right: 0px;
         }
 
-        .header-body, .table-cell {
-          font-size: @font-size;
-          white-space: nowrap;
+        &:after {
+          content: "\25BC";
 
-          text-overflow: ellipsis;
-          overflow: hidden;
-
-          height: 2.1em;
-          padding: 5px;
-
-          .ember-view {
-            text-overflow: ellipsis;
-            overflow: hidden;
-          }
+          top: 1em;
+          right: 0px;
         }
 
-        .header-body {
-          font-weight: bold;
-
-          padding-right: 1.1em; // To compensate space occupied by sort/resize buttons
-          position: relative; // So that buttons can be positioned
-
-          .sort-icon {
-            cursor: pointer;
-            position: absolute;
-            right: .5em;
-            top: .6em;
-
-            &:before, &:after {
-              font-size: .5em;
-              opacity: .5;
-              position: absolute;
-            }
-
-            &:before {
-              content: "\25B2";
-
-              top: 0em;
-              right: 0px;
-            }
-
-            &:after {
-              content: "\25BC";
-
-              top: 1em;
-              right: 0px;
-            }
-
-            &.asc{
-              &:before {
-                display: none;
-              }
-              &:after {
-                font-size: .7em;
-                opacity: 1;
-                top: .1em;
-              }
-            }
-
-            &.desc {
-              &:before {
-                font-size: .7em;
-                opacity: 1;
-                top: .1em;
-              }
-              &:after {
-                display: none;
-              }
-            }
+        &.asc{
+          &:before {
+            display: none;
           }
-
-          .resize-column:after {
-            content: "\22EE";
-            cursor: col-resize;
-            opacity: .3;
-
-            position: absolute;
-            right: 2px;
-            top: 6px;
+          &:after {
+            font-size: .7em;
+            opacity: 1;
+            top: .1em;
           }
         }
 
-        .table-cell {
-          position: relative;
-
-          .comment-indicator {
-            position: absolute;
-
-            color: white;
-            font-size: 10px;
-            padding-left: 4px;
-
-            top: -4px;
-            right: -4px;
-
-            width: 10px;
-            height: 10px;
-            background-color: orange;
-            border-radius: 10px;
-
-            opacity: 0.6;
-
-            &:hover {
-              top: -2px;
-              right: -2px;
-            }
+        &.desc {
+          &:before {
+            font-size: .7em;
+            opacity: 1;
+            top: .1em;
           }
-
-          &.bg-transition {
-            -webkit-transition: background-color 500ms ease-out 500ms;
-            -moz-transition: background-color 500ms ease-out 500ms;
-            -o-transition: background-color 500ms ease-out 500ms;
-            transition: background-color 500ms ease-out 500ms;
-          }
-
-          &.highlight {
-            background-color: lighten(@brand-primary, 20%);
-          }
-          &.is-waiting {
-            .animated-stripes;
-          }
-          &.inner {
-            border-top: 1px dotted @border-color;
-            margin-top: -1px;
+          &:after {
+            display: none;
           }
         }
+      }
+
+      .resize-column:after {
+        content: "\22EE";
+        cursor: col-resize;
+        opacity: .3;
+
+        position: absolute;
+        right: 2px;
+        top: 6px;
+      }
+    }
+
+    .table-cell {
+      position: relative;
+
+      .comment-indicator {
+        position: absolute;
+
+        color: white;
+        font-size: 10px;
+        padding-left: 4px;
+
+        top: -4px;
+        right: -4px;
+
+        width: 10px;
+        height: 10px;
+        background-color: orange;
+        border-radius: 10px;
+
+        opacity: 0.6;
+
+        &:hover {
+          top: -2px;
+          right: -2px;
+        }
+      }
+
+      &.bg-transition {
+        -webkit-transition: background-color 500ms ease-out 500ms;
+        -moz-transition: background-color 500ms ease-out 500ms;
+        -o-transition: background-color 500ms ease-out 500ms;
+        transition: background-color 500ms ease-out 500ms;
+      }
+
+      &.highlight {
+        background-color: lighten(@brand-primary, 20%);
+      }
+      &.is-waiting {
+        .animated-stripes;
+      }
+      &.inner {
+        border-top: 1px dotted @border-color;
+        margin-top: -1px;
       }
     }
   }

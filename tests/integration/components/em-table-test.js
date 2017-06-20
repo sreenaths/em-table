@@ -1,9 +1,8 @@
-import Ember from 'ember';
-
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 import TableDefinition from '../../../utils/table-definition';
+import ColumnDefinition from '../../../utils/column-definition';
 
 moduleForComponent('em-table', 'Integration | Component | em table', {
   integration: true
@@ -20,7 +19,7 @@ test('Records missing test', function(assert) {
     recordType: "vertex"
   });
 
-  this.set("columns", [Ember.Object.create()]);
+  this.set("columns", [ColumnDefinition.fillerColumn]);
 
   this.render(hbs`{{em-table columns=columns}}`);
   assert.equal(this.$('.table-message').text().trim(), 'No records available!');
