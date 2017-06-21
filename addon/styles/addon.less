@@ -240,14 +240,14 @@
       }
 
       &.bg-transition {
-        -webkit-transition: background-color 500ms ease-out 500ms;
-        -moz-transition: background-color 500ms ease-out 500ms;
-        -o-transition: background-color 500ms ease-out 500ms;
-        transition: background-color 500ms ease-out 500ms;
+        -webkit-transition: box-shadow 500ms ease-out 500ms;
+        -moz-transition: box-shadow 500ms ease-out 500ms;
+        -o-transition: box-shadow 500ms ease-out 500ms;
+        transition: box-shadow 500ms ease-out 500ms;
       }
 
       &.highlight {
-        background-color: lighten(@brand-primary, 20%);
+        box-shadow: 0 0 60px lighten(@brand-primary, 10%) inset;
       }
       &.is-waiting {
         .animated-stripes;

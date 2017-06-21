@@ -5,6 +5,8 @@ import DataProcessor from '../utils/data-processor';
 
 import layout from '../templates/components/em-table';
 
+const DEFAULT_ROW_HIGHLIGHT_COLOR = "#EEE";
+
 function createAssigner(targetPath, targetKey, sourcePath) {
   return Ember.on("init", Ember.observer(targetPath, sourcePath, function () {
     var target = this.get(targetPath),
@@ -20,6 +22,8 @@ export default Ember.Component.extend({
 
   definition: null,
   dataProcessor: null,
+
+  highlightRowOnMouse: false, // Could be true or {color: "#XYZ"}
 
   headerComponentNames: ['em-table-search-ui', 'em-table-pagination-ui'],
   footerComponentNames: ['em-table-pagination-ui'],
@@ -95,6 +99,54 @@ export default Ember.Component.extend({
       return `No ${identifiers} available!`;
     }
   }),
+
+  highlightRow: function (index) {
+    var element = Ember.$(this.get("element")),
+        sheet = element.find("style")[0].sheet,
+        elementID = element.attr("id"),
+        color = this.get("highlightRowOnMouse.color") || DEFAULT_ROW_HIGHLIGHT_COLOR;
+
+    try {
+      sheet.deleteRule(0);
+    }catch(e){}
+
+    if(index >= 0) {
+      sheet.insertRule(`#${elementID} .table-cell:nth-child(${index}){ background-color: ${color}; }`, 0);
+    }
+  },
+
+  didInsertElement: Ember.observer("highlightRowOnMouse", function () {
+    var highlightRowOnMouse = this.get("highlightRowOnMouse"),
+        element = this.get("element"),
+        that = this;
+
+    function mouseOver() {
+      var index = Ember.$(this).index() + 1;
+      that.highlightRow(index);
+    }
+
+    function mouseLeave() {
+      that.highlightRow(-1);
+    }
+
+    if(element) {
+      element = Ember.$(element).find(".table-mid");
+
+      if(highlightRowOnMouse) {
+        element.on('mouseover', '.table-cell', mouseOver);
+        element.on('mouseleave', mouseLeave);
+      }
+      else {
+        element.off('mouseover', '.table-cell', mouseOver);
+        element.off('mouseleave', mouseLeave);
+      }
+    }
+  }),
+
+  willDestroyElement: function () {
+    this._super();
+    Ember.$(this.get("element")).off();
+  },
 
   actions: {
     search: function (searchText) {
