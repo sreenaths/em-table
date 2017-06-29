@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+import facetTypes from './facet-types';
+
 function getContentAtPath(row) {
   var contentPath = this.get('contentPath');
 
@@ -34,6 +36,8 @@ var ColumnDefinition = Ember.Object.extend({
 
   pin: "center",
 
+  facetType: facetTypes.VALUES,
+
   beforeSort: null,
   getCellContent: getContentAtPath,
   getSearchValue: getContentAtPath,
@@ -43,7 +47,7 @@ var ColumnDefinition = Ember.Object.extend({
     if(!this.get("id")) {
       throw new Error("ID is not set.");
     }
-  }
+  },
 });
 
 ColumnDefinition.make = function (rawDefinition) {

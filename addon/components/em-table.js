@@ -28,7 +28,7 @@ export default Ember.Component.extend({
   headerComponentNames: ['em-table-search-ui', 'em-table-pagination-ui'],
   footerComponentNames: ['em-table-pagination-ui'],
 
-  leftPanelComponentName: "",
+  leftPanelComponentName: "em-table-facet-panel",
   rightPanelComponentName: "",
 
   classNames: ["em-table"],

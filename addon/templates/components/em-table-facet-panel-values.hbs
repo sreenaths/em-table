@@ -1,0 +1,28 @@
+<div class="field-name" {{action "toggleValueDisplay"}}>
+  <div class="field-title">{{data.column.headerTitle}}</div>
+  <div class="field-count">({{data.facets.length}})</div>
+</div>
+
+<ul class="value-list">
+  {{#if enableFilter}}
+    {{input type="text" class="search-box" value=filterText placeholder="Filter"}}
+  {{/if}}
+  {{#each data.facets key="value" as |facet index|}}
+    <li>
+      <div>
+        <div id="check-{{index}}" class="facet-checkbox" {{action "clickedCheckbox" index}}></div>
+      </div>
+      <div class="facet-value">{{facet.value}}</div>
+      <a class="facet-count">{{facet.count}}</a>
+    </li>
+  {{/each}}
+  {{#if showMore}}
+    <a class="more-less" {{action 'toggleMore'}}>
+      {{#if moreClicked}}
+        Less
+      {{else}}
+        More
+      {{/if}}
+    </a>
+  {{/if}}
+</ul>

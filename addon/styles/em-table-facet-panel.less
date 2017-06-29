@@ -1,0 +1,156 @@
+.em-table-facet-panel {
+  width: 160px;
+
+  margin: 5px 5px 0 0;
+
+  border: 1px solid @border-color;
+  border-radius: @border-radius;
+
+  padding: 5px 10px 10px 10px;
+
+  background-color: @table-bg;
+
+  overflow: hidden;
+
+  .search-box {
+    width: 100%;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  li {
+    margin: 2px 0;
+  }
+
+  ul.field-list {
+    padding-top: 5px;
+    padding-left: 0px;
+
+    .em-table-facet-panel-values {
+
+      .field-name {
+        .no-select;
+
+        cursor: pointer;
+
+        display: flex;
+
+        &::before {
+          content: "\25bc";
+          font-size: .7em;
+          color: @text-light;
+          margin-top: 5px;
+        }
+
+        .field-title {
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin: 0 3px;
+        }
+
+        .field-count {
+          color: @text-light;
+          white-space: nowrap;
+        }
+      }
+
+      .value-list {
+        overflow: hidden;
+
+        padding-left: 10px;
+
+        li {
+          display: flex;
+
+          .facet-checkbox {
+            .no-select;
+
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+
+            border: 1px solid grey;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #FFF;
+
+            cursor: pointer;
+
+            box-shadow: inset 0 0 2px 2px #EEE;
+
+            margin: 5px 5px 0 0;
+
+            &:hover {
+              box-shadow: none;
+            }
+
+            &[value="1"] {
+              background-color: green;
+              box-shadow: none;
+              &:before {
+                content: "+";
+                position: relative;
+                top: -6px;
+                left: 1px;
+              }
+            }
+            &[value="2"] {
+              background-color: red;
+              box-shadow: none;
+              &:before {
+                content: "-";
+                position: relative;
+                top: -6px;
+                left: 2px;
+              }
+            }
+          }
+
+          .facet-value {
+            order: 0;
+            flex: 1 1 auto;
+            align-self: auto;
+            padding-right: 2px;
+
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .facet-count {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: auto;
+
+            &:hover{
+              text-decoration: none;
+            }
+          }
+        }
+      }
+
+      &.hide-values {
+        .value-list {
+          display: none;
+        }
+
+        .field-name::before {
+          transform: rotate(-90deg) translate(2px, 2px);
+        }
+      }
+
+      .more-less {
+        display: block;
+
+        cursor: pointer;
+
+        text-align: center;
+        border-top: 1px dotted @border-color;
+      }
+    }
+  }
+}

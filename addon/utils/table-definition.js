@@ -8,6 +8,10 @@ export default Ember.Object.extend({
   enableSearch: true,
   searchText: '',
 
+  // Faceting
+  enableFaceting: false,
+  facetConditions: null,
+
   // Sort
   enableSort: true,
   sortColumnId: '',
