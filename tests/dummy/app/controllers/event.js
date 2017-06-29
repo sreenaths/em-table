@@ -1,8 +1,13 @@
 import Ember from 'ember';
 
 import ColumnDefinition from 'em-table/utils/column-definition';
+import TableDef from 'em-table/utils/table-definition';
 
 export default Ember.Controller.extend({
+
+  customTableDefinition: TableDef.create({
+    enableFaceting: true,
+  }),
 
   columns1: ColumnDefinition.make([{
     id: 'name',
