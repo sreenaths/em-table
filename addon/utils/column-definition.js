@@ -21,6 +21,8 @@ var ColumnDefinition = Ember.Object.extend({
   id: "",
   headerTitle: "Not Available!",
 
+  classNames: [],
+
   cellComponentName: null,
 
   enableSearch: true,

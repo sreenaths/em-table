@@ -15,10 +15,14 @@ export default Ember.Component.extend({
   defaultWidth: "",
 
   classNames: ['table-column'],
-  classNameBindings: ['inner'],
+  classNameBindings: ['inner', 'extraClassNames'],
 
   inner: Ember.computed('index', function () {
     return !!this.get('index');
+  }),
+
+  extraClassNames: Ember.computed("definition.classNames", function () {
+    return this.get("definition.classNames").join(" ");
   }),
 
   didInsertElement: function () {

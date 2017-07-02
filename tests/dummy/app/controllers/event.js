@@ -26,6 +26,7 @@ export default Ember.Controller.extend({
     id: 'entityID',
     headerTitle: 'Id',
     contentPath: 'entityID',
+    classNames: ["red-top-border", "green-right-border"],
     pin: "left",
   },{
     id: 'submitter',
