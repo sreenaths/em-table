@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
 
   columns1: ColumnDefinition.make([{
     id: 'name',
-    headerTitle: 'Event Name',
+    headerTitle: 'Event Name (Faceting disabled)',
     contentPath: 'name',
     cellComponentName: 'em-table-linked-cell',
     getCellContent: function (row) {
@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
         text: row.get("name")
       };
     },
+    facetType: null,
     pin: "left"
   },{
     id: 'entityID',

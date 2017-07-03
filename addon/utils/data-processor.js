@@ -194,12 +194,15 @@ export default Ember.Object.extend({
         fields = [];
 
     columns.forEach(function (column) {
-      var facetedData = column.facetType.facetRows(column, searchedRows);
-      if(facetedData) {
-        fields.push({
-          column: column,
-          facets: facetedData
-        });
+      var facetedData;
+      if(column.facetType) {
+        facetedData = column.facetType.facetRows(column, searchedRows);
+        if(facetedData) {
+          fields.push({
+            column: column,
+            facets: facetedData
+          });
+        }
       }
     });
 
