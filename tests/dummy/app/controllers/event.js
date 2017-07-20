@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
 
   customTableDefinition: TableDef.create({
     enableFaceting: true,
+    minFieldsForFilter: 0,
   }),
 
   columns1: ColumnDefinition.make([{

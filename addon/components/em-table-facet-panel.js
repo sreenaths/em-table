@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/em-table-facet-panel';
 
-const MIN_VALUES_FOR_FILTER = 15;
-
 export default Ember.Component.extend({
   layout: layout,
 
@@ -14,8 +12,8 @@ export default Ember.Component.extend({
   tmpFacetConditions: {},
 
   filterText: null,
-  enableFilter: Ember.computed("dataProcessor.facetedFields.length", function () {
-    return this.get("dataProcessor.facetedFields.length") >= MIN_VALUES_FOR_FILTER;
+  enableFilter: Ember.computed("dataProcessor.facetedFields.length", "tableDefinition.minFieldsForFilter", function () {
+    return this.get("dataProcessor.facetedFields.length") >= this.get("tableDefinition.minFieldsForFilter");
   }),
 
   didInsertElement: Ember.observer("filterText", "dataProcessor.facetedFields", function () {
