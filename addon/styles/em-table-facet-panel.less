@@ -12,8 +12,17 @@
 
   overflow: hidden;
 
-  .search-box {
+  .filter-box {
     width: 100%;
+  }
+  .filter-message {
+    color: #999;
+  }
+
+  h4 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0px;
   }
 
   ul {
@@ -60,6 +69,8 @@
       .value-list {
         overflow: hidden;
 
+        max-height: 200em;
+
         padding-left: 10px;
 
         li {
@@ -88,7 +99,7 @@
               box-shadow: none;
             }
 
-            &[value="1"] {
+            &[selection="1"] {
               background-color: green;
               box-shadow: none;
               &:before {
@@ -98,7 +109,7 @@
                 left: 1px;
               }
             }
-            &[value="2"] {
+            &[selection="2"] {
               background-color: red;
               box-shadow: none;
               &:before {
@@ -133,16 +144,6 @@
         }
       }
 
-      &.hide-values {
-        .value-list {
-          display: none;
-        }
-
-        .field-name::before {
-          transform: rotate(-90deg) translate(2px, 2px);
-        }
-      }
-
       .more-less {
         display: block;
 
@@ -151,6 +152,39 @@
         text-align: center;
         border-top: 1px dotted @border-color;
       }
+
+      &.hide-values {
+        .value-list {
+          display: none;
+        }
+
+        .more-less {
+          display: none;
+        }
+
+        .field-name::before {
+          transform: rotate(-90deg) translate(2px, 2px);
+        }
+      }
+
+      &.hide-filter {
+        .filter-box {
+          display: none;
+        }
+      }
+
+      &.hide-more-less {
+        .more-less {
+          display: none;
+        }
+      }
+
+      &.limit-list { // Hide more than 7 values
+        .value-list {
+          max-height: 14em;
+        }
+      }
+
     }
   }
 }

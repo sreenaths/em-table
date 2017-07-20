@@ -1,16 +1,18 @@
-<b>Refine</b>
-
 {{#if enableFilter}}
   {{input type="text" class="search-box" value=filterText placeholder="Filter"}}
 {{/if}}
 
-<ul class="field-list">
-  {{#each dataProcessor.facetedFields key="column.id" as |field fieldIndex|}}
-    <li>{{component field.column.facetType.componentName data=field tableDefinition=tableDefinition dataProcessor=dataProcessor valueChanged="valueChanged"}}</li>
-  {{/each}}
-</ul>
+{{#if dataProcessor.facetedFields.length}}
+  <ul class="field-list">
+    {{#each dataProcessor.facetedFields key="column.id" as |field fieldIndex|}}
+      <li>{{component field.column.facetType.componentName data=field tableDefinition=tableDefinition dataProcessor=dataProcessor facetConditions=tmpFacetConditions valueChanged="valueChanged"}}</li>
+    {{/each}}
+  </ul>
 
-<div class="buttons">
-  <button type="button" class="btn btn-primary" {{action "applyFilters"}}>Apply</button>
-  <button type="button" class="btn btn-default" {{action "clearFilters"}}>Clear</button>
-</div>
+  <div class="buttons">
+    <button type="button" class="btn btn-primary" {{action "applyFilters"}}>Apply</button>
+    <button type="button" class="btn btn-default" {{action "clearFilters"}}>Clear</button>
+  </div>
+{{else}}
+  <h4>Not Available!</h4>
+{{/if}}

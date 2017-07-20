@@ -4,25 +4,24 @@
 </div>
 
 <ul class="value-list">
-  {{#if enableFilter}}
-    {{input type="text" class="search-box" value=filterText placeholder="Filter"}}
-  {{/if}}
-  {{#each data.facets key="value" as |facet index|}}
+  {{input type="text" class="filter-box" value=filterText placeholder="Filter"}}
+  {{#each filteredFacets key="value" as |facet index|}}
     <li>
       <div>
-        <div id="check-{{index}}" class="facet-checkbox" {{action "clickedCheckbox" index}}></div>
+        <div class="facet-checkbox" selection="{{facet.selection}}" {{action "clickedCheckbox" facet}}></div>
       </div>
       <div class="facet-value">{{facet.value}}</div>
       <a class="facet-count">{{facet.count}}</a>
     </li>
+  {{else}}
+    <span class="filter-message">No fields!</span>
   {{/each}}
-  {{#if showMore}}
-    <a class="more-less" {{action 'toggleMore'}}>
-      {{#if moreClicked}}
-        Less
-      {{else}}
-        More
-      {{/if}}
-    </a>
-  {{/if}}
 </ul>
+
+<a class="more-less" {{action 'toggleListLimit'}}>
+  {{#if limitList}}
+    More
+  {{else}}
+    Less
+  {{/if}}
+</a>

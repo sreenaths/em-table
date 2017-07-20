@@ -22,7 +22,10 @@ export default Ember.Component.extend({
   }),
 
   extraClassNames: Ember.computed("definition.classNames", function () {
-    return this.get("definition.classNames").join(" ");
+    var classNames = this.get("definition.classNames");
+    if(classNames) {
+      return classNames.join(" ");
+    }
   }),
 
   didInsertElement: function () {

@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
     facetType: null,
     pin: "left"
   },{
-    id: 'entityID',
+    id: 'id',
     headerTitle: 'Id',
     contentPath: 'entityID',
     classNames: ["red-top-border", "green-right-border"],
@@ -138,9 +138,9 @@ export default Ember.Controller.extend({
       }),
     });
 
-    for(var i = 0; i < 100; i++) {
+    for(var i = 0; i < 110; i++) {
       var record = Record.create({
-        entityID: "id_" + getRandNum(1),
+        entityID: "id_" + i,
         name: "name " + getRandNum(5),
         submitter: "submitter_" + getRandNum(1),
 

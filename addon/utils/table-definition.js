@@ -29,8 +29,12 @@ export default Ember.Object.extend({
 
   columns: [],
 
-  _pageNumResetObserver: Ember.observer('searchText', 'rowCount', function () {
+  _pageNumResetObserver: Ember.observer('searchText', 'facetConditions', 'rowCount', function () {
     this.set('pageNum', 1);
+  }),
+
+  _facetResetObserver: Ember.observer('searchText', function () {
+    this.set('facetConditions', null);
   }),
 
 });

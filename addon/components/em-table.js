@@ -89,9 +89,12 @@ export default Ember.Component.extend({
     return normalisedColumns;
   }),
 
-  message: Ember.computed('_columns.length',
-      '_dataProcessor.processedRows.length', '_definition.recordType', function () {
-    if(!this.get('_columns.length')) {
+  message: Ember.computed('_dataProcessor.message', '_columns.length', '_dataProcessor.processedRows.length', function () {
+    var message = this.get("_dataProcessor.message");
+    if(message) {
+      return message;
+    }
+    else if(!this.get('_columns.length')) {
       return "No columns available!";
     }
     else if(!this.get("_dataProcessor.processedRows.length")) {

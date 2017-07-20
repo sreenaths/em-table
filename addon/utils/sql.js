@@ -26,10 +26,20 @@ export default Ember.Object.extend({
     return valid;
   },
 
+  createFacetClause: function (conditions, columns) {
+    if(conditions && columns) {
+      return columns.map(function (column) {
+        if(column.get("facetType")) {
+          return column.get("facetType.toClause")(column, conditions[Ember.get(column, "id")]);
+        }
+      }).filter(clause => clause).join(" AND ");
+    }
+  },
+
   normaliseClause: function (clause, columns) {
     columns.forEach(function (column) {
       var headerTitle = column.get("headerTitle");
-      clause = clause.replace(new RegExp(`"${headerTitle}"`, "g"), column.get("id"));
+      clause = clause.replace(new RegExp(`"${headerTitle}"`, "gi"), column.get("id"));
     });
     return clause;
   },

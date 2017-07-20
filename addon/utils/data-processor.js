@@ -109,12 +109,21 @@ export default Ember.Object.extend({
 
   startSort: function () {
     var rows = this.get('rows'),
+        tableDefinition = this.get('tableDefinition'),
         sortColumnId = this.get('tableDefinition.sortColumnId'),
-        column = this.get('tableDefinition.columns').find(function (element) {
-          return element.get('id') === sortColumnId;
-        }),
         descending = this.get('tableDefinition.sortOrder') === 'desc',
-        that = this;
+        that = this,
+        column;
+
+    if(tableDefinition) {
+      column = tableDefinition.get('columns').find(function (element) {
+        return element.get('id') === sortColumnId;
+      });
+    }
+
+    if(rows && Array.isArray(rows.content)) {
+      rows = rows.toArray();
+    }
 
     if(rows && rows.get('length') > 0 && column) {
       this.set('isSorting', true);
@@ -153,21 +162,13 @@ export default Ember.Object.extend({
     }
   },
 
-  createClause: function (conditions) {
-    if(conditions) {
-      return this.get('tableDefinition.columns').map(function (column) {
-        return column.get("facetType.toClause")(column, conditions[column.get("id")]);
-      }).filter(clause => clause).join(" AND ");
-    }
-  },
-
   startFacetedFilter: function () {
-    var clause = this.createClause(this.get('tableDefinition.facetConditions')),
+    var clause = this.get("sql").createFacetClause(this.get('tableDefinition.facetConditions'), this.get("tableDefinition.columns")),
         rows = this.get('_searchedRows') || [],
         columns = this.get('tableDefinition.columns'),
         that = this;
 
-    if(clause) {
+    if(clause && columns) {
       this.set("isSearching", true);
 
       Ember.run.later(function () {
@@ -184,30 +185,56 @@ export default Ember.Object.extend({
     }
   },
 
-  totalPages: Ember.computed('_facetFilteredRows.length', 'tableDefinition.rowCount', function () {
-    return Math.ceil(this.get('_facetFilteredRows.length') / this.get('tableDefinition.rowCount'));
-  }),
-
   facetedFields: Ember.computed('_searchedRows.[]', 'tableDefinition.columns', function () {
     var searchedRows = this.get("_searchedRows"),
         columns = this.get('tableDefinition.columns'),
         fields = [];
 
-    columns.forEach(function (column) {
-      var facetedData;
-      if(column.facetType) {
-        facetedData = column.facetType.facetRows(column, searchedRows);
-        if(facetedData) {
-          fields.push({
-            column: column,
-            facets: facetedData
-          });
+    if(columns) {
+      columns.forEach(function (column) {
+        var facetedData;
+        if(column.facetType) {
+          facetedData = column.facetType.facetRows(column, searchedRows);
+          if(facetedData) {
+            fields.push({
+              column: column,
+              facets: facetedData
+            });
+          }
         }
-      }
-    });
+      });
+    }
 
     return fields;
   }),
+
+  pageDetails: Ember.computed("tableDefinition.rowCount", "tableDefinition.pageNum", "_facetFilteredRows.length", function () {
+    var tableDefinition = this.get("tableDefinition"),
+
+        pageNum = tableDefinition.get('pageNum'),
+        rowCount =  tableDefinition.get('rowCount'),
+
+        startIndex = (pageNum - 1) * rowCount,
+
+        totalRecords = this.get('_facetFilteredRows.length');
+
+    if(startIndex < 0) {
+      startIndex = 0;
+    }
+
+    return {
+      pageNum: pageNum,
+      totalPages: Math.ceil(totalRecords / rowCount),
+      rowCount: rowCount,
+
+      startIndex: startIndex,
+
+      fromRecord: totalRecords ? startIndex + 1 : 0,
+      toRecord: Math.min(startIndex + rowCount, totalRecords),
+      totalRecords: totalRecords
+    };
+  }),
+  totalPages: Ember.computed.alias("pageDetails.totalPages"), // Adding an alias for backward compatibility
 
   // Paginate
   processedRows: Ember.computed('_facetFilteredRows.[]', 'tableDefinition.rowCount', 'tableDefinition.pageNum', function () {

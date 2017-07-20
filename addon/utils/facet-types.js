@@ -10,14 +10,16 @@ var facetTypes = {
       if(facetConditions) {
         if(Ember.get(facetConditions, "in.length")) {
           values = facetConditions.in.map(function (value) {
-            return JSON.stringify(value);
+            value = value.replace(/'/g, "''");
+            return `'${value}'`;
           });
           clauses.push(`${column.id} IN (${values})`);
         }
 
         if(Ember.get(facetConditions, "notIn.length")) {
           values = facetConditions.notIn.map(function (value) {
-            return JSON.stringify(value);
+            value = value.replace(/'/g, "''");
+            return `'${value}'`;
           });
           clauses.push(`${column.id} NOT IN (${values})`);
         }
