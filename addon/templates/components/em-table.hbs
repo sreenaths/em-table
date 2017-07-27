@@ -34,6 +34,9 @@
       </div>
     {{/if}}
 
+    <span class='left-scroll-shadow'>
+      <span class='shadow-container'></span>
+    </span>
     <div class='table-body'>
       <div class='table-scroll-body'>
         {{#each _columns.center as |column colIndex|}}
@@ -48,6 +51,9 @@
         {{/each}}
       </div>
     </div>
+    <span class='right-scroll-shadow'>
+      <span class='shadow-container'></span>
+    </span>
 
     {{#if _columns.right.length}}
       <div class='table-body-right'>

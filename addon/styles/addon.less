@@ -105,40 +105,66 @@
   }
 
   &.show-scroll-shadow {
-    .table-mid {
-      .table-body {
-        background-color: transparent;
-        transition: box-shadow 0.2s ease-in-out;
+    .left-scroll-shadow, .right-scroll-shadow {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: stretch;
+      position: relative;
 
-        .table-scroll-body {
-          position: relative;
-          z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s;
+
+      width: 0px;
+      z-index: 99;
+
+      pointer-events: none;
+
+      .shadow-container {
+        position: absolute;
+        overflow: hidden;
+
+        top: 0px;
+        bottom: 0px;
+        width: 50px;
+
+        &:before {
+          content: "";
+          position: absolute;
+
+          top: 10px;
+          bottom: 15px;
+          width: 50px;
         }
-
-        &::-webkit-scrollbar-track {
-          border-radius: 0px;
+      }
+    }
+    .left-scroll-shadow {
+      .shadow-container {
+        &:before {
+          left: -50px;
+          box-shadow: 12px 0 40px -4px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+    .right-scroll-shadow {
+      .shadow-container {
+        right: 0px;
+        &:before {
+          left: 50px;
+          box-shadow: -12px 0 40px -4px rgba(0, 0, 0, 0.2);
         }
       }
     }
 
-    &.show-scroll-shadow {
-      &.show-left-scroll-shadow {
-        .table-body {
-          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0.2), inset -12px 0 20px -4px rgba(0, 0, 0, 0);
-        }
-      }
-      &.show-right-scroll-shadow {
-        .table-body {
-          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0), inset -12px 0 20px -4px rgba(0, 0, 0, 0.2);
-        }
-      }
-      &.show-left-scroll-shadow.show-right-scroll-shadow {
-        .table-body {
-          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0.2), inset -12px 0 20px -4px rgba(0, 0, 0, 0.2);
-        }
+    &.show-left-scroll-shadow {
+      .left-scroll-shadow {
+        opacity: 1;
       }
     }
-
+    &.show-right-scroll-shadow {
+      .right-scroll-shadow {
+        opacity: 1;
+      }
+    }
   }
 
   .table-column {
