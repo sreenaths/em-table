@@ -192,8 +192,9 @@ export default Ember.Component.extend({
 
     this.sendAction("scrollChangeAction", scrollValues);
 
-    this.set("showLeftScrollShadow", scrollValues.left > 1)
-    this.set("showRightScrollShadow", scrollValues.left < (scrollValues.width - scrollValues.viewPortWidth))
+
+    this.set("showLeftScrollShadow", scrollValues.left > 1);
+    this.set("showRightScrollShadow", scrollValues.left < (scrollValues.width - scrollValues.viewPortWidth));
   }),
 
   scrollChangeActionObserver: Ember.observer("scrollChangeAction", "message", "showScrollShadow", function () {

@@ -121,19 +121,21 @@
       }
     }
 
-    &.show-left-scroll-shadow {
-      .table-body {
-        box-shadow: inset 12px 0 15px -4px rgba(0, 0, 0, 0.2);
+    &.show-scroll-shadow {
+      &.show-left-scroll-shadow {
+        .table-body {
+          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0.2), inset -12px 0 20px -4px rgba(0, 0, 0, 0);
+        }
       }
-    }
-    &.show-right-scroll-shadow {
-      .table-body {
-        box-shadow: inset -12px 0 8px -4px rgba(0, 0, 0, 0.2);
+      &.show-right-scroll-shadow {
+        .table-body {
+          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0), inset -12px 0 20px -4px rgba(0, 0, 0, 0.2);
+        }
       }
-    }
-    &.show-left-scroll-shadow.show-right-scroll-shadow {
-      .table-body {
-        box-shadow: inset 12px 0 15px -4px rgba(0, 0, 0, 0.2), inset -12px 0 8px -4px rgba(0, 0, 0, 0.2);
+      &.show-left-scroll-shadow.show-right-scroll-shadow {
+        .table-body {
+          box-shadow: inset 12px 0 20px -4px rgba(0, 0, 0, 0.2), inset -12px 0 20px -4px rgba(0, 0, 0, 0.2);
+        }
       }
     }
 
