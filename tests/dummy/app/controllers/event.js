@@ -34,12 +34,14 @@ export default Ember.Controller.extend({
   },{
     id: 'submitter',
     headerTitle: 'Submitter',
-    contentPath: 'submitter'
+    contentPath: 'submitter',
+    minWidth: '100px'
   },{
     id: 'status',
     headerTitle: 'Status',
     contentPath: 'status',
     cellComponentName: 'em-table-status-cell',
+    minWidth: '100px',
     observePath: true
   },{
     id: 'progress',
