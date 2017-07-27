@@ -25,6 +25,7 @@ export default Ember.Object.extend({
   rowCountOptions: [5, 10, 25, 50, 100],
 
   enableColumnResize: true,
+  showScrollShadow: false,
 
   minRowsForFooter: 25,
 

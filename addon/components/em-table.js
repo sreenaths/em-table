@@ -40,6 +40,9 @@ const HANDLERS = {
 export default Ember.Component.extend({
   layout: layout,
 
+  classNames: ["em-table"],
+  classNameBindings: ["showScrollShadow", "showLeftScrollShadow", "showRightScrollShadow"],
+
   definition: null,
   dataProcessor: null,
 
@@ -57,8 +60,6 @@ export default Ember.Component.extend({
   scrollValues: null,
   _widthTrackerTimer: null,
 
-  classNames: ["em-table"],
-
   init: function() {
     this._super();
     this.set("scrollValues", Ember.Object.create({
@@ -67,6 +68,10 @@ export default Ember.Component.extend({
       viewPortWidth: 0
     }));
   },
+
+  showScrollShadow: false,
+  showLeftScrollShadow: false,
+  showRightScrollShadow: false,
 
   assignDefinitionInProcessor: createAssigner('_dataProcessor', 'tableDefinition', '_definition'),
   assignRowsInProcessor: createAssigner('_dataProcessor', 'rows', 'rows'),
@@ -183,21 +188,26 @@ export default Ember.Component.extend({
   }),
 
   scrollValuesObserver: Ember.observer("scrollValues.left", "scrollValues.width", "scrollValues.viewPortWidth", function () {
-    this.sendAction("scrollChangeAction", this.get("scrollValues"));
+    var scrollValues = this.get("scrollValues");
+
+    this.sendAction("scrollChangeAction", scrollValues);
+
+    this.set("showLeftScrollShadow", scrollValues.left > 1)
+    this.set("showRightScrollShadow", scrollValues.left < (scrollValues.width - scrollValues.viewPortWidth))
   }),
 
-  scrollChangeActionObserver: Ember.observer("scrollChangeAction", "message", function () {
+  scrollChangeActionObserver: Ember.observer("scrollChangeAction", "message", "showScrollShadow", function () {
     Ember.run.scheduleOnce('afterRender', this, function() {
-      var scrollChangeAction = this.get("scrollChangeAction"),
+      var addScrollListener = this.get("scrollChangeAction") || this.get("showScrollShadow"),
           element = this.$().find(".table-body"),
           scrollValues = this.get("scrollValues");
 
-      if(scrollChangeAction && element) {
+      if(addScrollListener && element) {
         element = element.get(0);
 
         clearInterval(this.get("_widthTrackerTimer"));
 
-        if(scrollChangeAction) {
+        if(addScrollListener) {
           Ember.$(element).on('scroll', this, HANDLERS.onScroll);
 
           this.set("_widthTrackerTimer", setInterval(function () {

@@ -104,6 +104,41 @@
     }
   }
 
+  &.show-scroll-shadow {
+    .table-mid {
+      .table-body {
+        background-color: transparent;
+        transition: box-shadow 0.2s ease-in-out;
+
+        .table-scroll-body {
+          position: relative;
+          z-index: -1;
+        }
+
+        &::-webkit-scrollbar-track {
+          border-radius: 0px;
+        }
+      }
+    }
+
+    &.show-left-scroll-shadow {
+      .table-body {
+        box-shadow: inset 12px 0 15px -4px rgba(0, 0, 0, 0.2);
+      }
+    }
+    &.show-right-scroll-shadow {
+      .table-body {
+        box-shadow: inset -12px 0 8px -4px rgba(0, 0, 0, 0.2);
+      }
+    }
+    &.show-left-scroll-shadow.show-right-scroll-shadow {
+      .table-body {
+        box-shadow: inset 12px 0 15px -4px rgba(0, 0, 0, 0.2), inset -12px 0 8px -4px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+  }
+
   .table-column {
     .use-border-padding-in-width-height;
 
@@ -255,4 +290,5 @@
       }
     }
   }
+
 }
