@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     },
     clearFilters: function () {
       this.set("tableDefinition.facetConditions", null);
-      Ember.$(this.get("element")).find(".facet-checkbox").attr("value", 0);
+      Ember.$(this.get("element")).find(".facet-checkbox").attr("selection", 0);
     },
     valueChanged: function (column, facetConditions) {
       this.set(`tmpFacetConditions.${column.id}`, facetConditions);
