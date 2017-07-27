@@ -5,6 +5,8 @@ export default Ember.Component.extend({
   layout: layout,
 
   classNames: ["em-table-facet-panel"],
+  classNameBindings: ['isEmpty', 'hideFilter'],
+
   isVisible: Ember.computed.alias('tableDefinition.enableFaceting'),
 
   tableDefinition: null,
@@ -12,8 +14,11 @@ export default Ember.Component.extend({
   tmpFacetConditions: {},
 
   filterText: null,
-  enableFilter: Ember.computed("dataProcessor.facetedFields.length", "tableDefinition.minFieldsForFilter", function () {
-    return this.get("dataProcessor.facetedFields.length") >= this.get("tableDefinition.minFieldsForFilter");
+  isEmpty: Ember.computed("dataProcessor.facetedFields.length", function () {
+    return this.get("dataProcessor.facetedFields.length") === 0;
+  }),
+  hideFilter: Ember.computed("dataProcessor.facetedFields.length", "tableDefinition.minFieldsForFilter", function () {
+    return this.get("dataProcessor.facetedFields.length") < this.get("tableDefinition.minFieldsForFilter");
   }),
 
   didInsertElement: Ember.observer("filterText", "dataProcessor.facetedFields", function () {

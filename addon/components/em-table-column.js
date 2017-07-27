@@ -40,7 +40,9 @@ export default Ember.Component.extend({
   }),
 
   setWidth: Ember.observer("adjustedWidth", "defaultWidth", function () {
-    this.$().css("width", this.get('adjustedWidth') || this.get('defaultWidth'));
+    var thisElement = this.$();
+    thisElement.css("width", this.get('adjustedWidth') || this.get('defaultWidth'));
+    this.get('parentView').send('columnWidthChanged', thisElement.width(), this.get("definition"), this.get("index"));
   }),
 
   _onColResize: function (event) {
@@ -51,7 +53,7 @@ export default Ember.Component.extend({
       data.startEvent = event;
     }
 
-    width = (data.startWidth + event.clientX - data.startEvent.clientX) + 'px';
+    width = data.startWidth + event.clientX - data.startEvent.clientX;
     data.thisObj.set('adjustedWidth', width);
   },
 

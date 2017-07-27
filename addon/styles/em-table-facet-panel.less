@@ -12,9 +12,16 @@
 
   overflow: hidden;
 
-  .filter-box {
+  .field-filter-box {
     width: 100%;
   }
+
+  &.hide-filter {
+    .field-filter-box {
+      display: none;
+    }
+  }
+
   .filter-message {
     color: #999;
   }
@@ -72,6 +79,10 @@
         max-height: 200em;
 
         padding-left: 10px;
+
+        .filter-box {
+          width: 100%;
+        }
 
         li {
           display: flex;

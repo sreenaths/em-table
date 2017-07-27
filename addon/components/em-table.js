@@ -17,6 +17,26 @@ function createAssigner(targetPath, targetKey, sourcePath) {
   }));
 }
 
+const HANDLERS = {
+  // Mouse handlers
+  mouseOver: function(event) {
+    var index = Ember.$(this).index() + 1;
+    event.data.highlightRow(index);
+  },
+  mouseLeave: function(event) {
+    event.data.highlightRow(-1);
+  },
+
+  // Scroll handler
+  onScroll: function(event) {
+    var tableBody = event.currentTarget,
+        scrollValues = event.data.get("scrollValues");
+
+    scrollValues.set("left", tableBody.scrollLeft);
+    scrollValues.set("width", tableBody.scrollWidth);
+  }
+};
+
 export default Ember.Component.extend({
   layout: layout,
 
@@ -31,7 +51,22 @@ export default Ember.Component.extend({
   leftPanelComponentName: "em-table-facet-panel",
   rightPanelComponentName: "",
 
+  columnWidthChangeAction: null,
+
+  scrollChangeAction: null,
+  scrollValues: null,
+  _widthTrackerTimer: null,
+
   classNames: ["em-table"],
+
+  init: function() {
+    this._super();
+    this.set("scrollValues", Ember.Object.create({
+      left: 0,
+      width: 0,
+      viewPortWidth: 0
+    }));
+  },
 
   assignDefinitionInProcessor: createAssigner('_dataProcessor', 'tableDefinition', '_definition'),
   assignRowsInProcessor: createAssigner('_dataProcessor', 'rows', 'rows'),
@@ -57,6 +92,15 @@ export default Ember.Component.extend({
     this.sendAction('rowsChanged', this.get('_dataProcessor.processedRows'));
   }),
 
+  _setColumnWidth: function (columns) {
+    var widthText = (100 / columns.length) + "%";
+    columns.forEach(function (column) {
+      if(!column.width) {
+        column.width = widthText;
+      }
+    });
+  },
+
   _columns: Ember.computed('_definition.columns', function () {
     var rawColumns = this.get('_definition.columns'),
         normalisedColumns = {
@@ -64,27 +108,22 @@ export default Ember.Component.extend({
           center: [],
           right: [],
           length: rawColumns.length
-        },
-        widthText;
+        };
 
     rawColumns.forEach(function (column) {
       normalisedColumns[column.get("pin")].push({
-        definition: column
+        definition: column,
+        width: column.width
       });
     });
 
-    if(normalisedColumns.center.length) {
-      widthText = (100 / normalisedColumns.center.length) + "%";
-      normalisedColumns.center.forEach(function (column) {
-        column.width = widthText;
-      });
-    }
-    else {
+    if(normalisedColumns.center.length === 0) {
       normalisedColumns.center = [{
         definition: ColumnDefinition.fillerColumn,
-        width: "100%"
       }];
     }
+
+    this._setColumnWidth(normalisedColumns.center);
 
     return normalisedColumns;
   }),
@@ -118,36 +157,68 @@ export default Ember.Component.extend({
     }
   },
 
-  didInsertElement: Ember.observer("highlightRowOnMouse", function () {
+  didInsertElement: function () {
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      this.highlightRowOnMouseObserver();
+      this.scrollChangeActionObserver();
+    });
+  },
+
+  highlightRowOnMouseObserver: Ember.observer("highlightRowOnMouse", function () {
     var highlightRowOnMouse = this.get("highlightRowOnMouse"),
-        element = this.get("element"),
-        that = this;
-
-    function mouseOver() {
-      var index = Ember.$(this).index() + 1;
-      that.highlightRow(index);
-    }
-
-    function mouseLeave() {
-      that.highlightRow(-1);
-    }
+        element = this.get("element");
 
     if(element) {
       element = Ember.$(element).find(".table-mid");
 
       if(highlightRowOnMouse) {
-        element.on('mouseover', '.table-cell', mouseOver);
-        element.on('mouseleave', mouseLeave);
+        element.on('mouseover', '.table-cell', this, HANDLERS.mouseOver);
+        element.on('mouseleave', this, HANDLERS.mouseLeave);
       }
       else {
-        element.off('mouseover', '.table-cell', mouseOver);
-        element.off('mouseleave', mouseLeave);
+        element.off('mouseover', '.table-cell', HANDLERS.mouseOver);
+        element.off('mouseleave', HANDLERS.mouseLeave);
       }
     }
   }),
 
+  scrollValuesObserver: Ember.observer("scrollValues.left", "scrollValues.width", "scrollValues.viewPortWidth", function () {
+    this.sendAction("scrollChangeAction", this.get("scrollValues"));
+  }),
+
+  scrollChangeActionObserver: Ember.observer("scrollChangeAction", "message", function () {
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      var scrollChangeAction = this.get("scrollChangeAction"),
+          element = this.$().find(".table-body"),
+          scrollValues = this.get("scrollValues");
+
+      if(scrollChangeAction && element) {
+        element = element.get(0);
+
+        clearInterval(this.get("_widthTrackerTimer"));
+
+        if(scrollChangeAction) {
+          Ember.$(element).on('scroll', this, HANDLERS.onScroll);
+
+          this.set("_widthTrackerTimer", setInterval(function () {
+            scrollValues.setProperties({
+              width: element.scrollWidth,
+              viewPortWidth: element.offsetWidth
+            });
+          }, 1000));
+        }
+        else {
+          element.off('scroll', HANDLERS.onScroll);
+        }
+      }
+    });
+  }),
+
   willDestroyElement: function () {
     this._super();
+    clearInterval(this.get("_widthTrackerTimer"));
+    Ember.$(this.get("element").find(".table-body")).off();
+    Ember.$(this.get("element").find(".table-mid")).off();
     Ember.$(this.get("element")).off();
   },
 
@@ -170,6 +241,9 @@ export default Ember.Component.extend({
     pageChanged: function (pageNum) {
       this.set('_definition.pageNum', pageNum);
       this.sendAction("pageAction", pageNum);
+    },
+    columnWidthChanged: function (width, columnDefinition, index) {
+      this.sendAction("columnWidthChangeAction", width, columnDefinition, index);
     }
   }
 });

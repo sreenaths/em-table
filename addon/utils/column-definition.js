@@ -29,6 +29,7 @@ var ColumnDefinition = Ember.Object.extend({
   enableSort: true,
   enableColumnResize: true,
 
+  width: null,
   minWidth: "150px",
 
   contentPath: null,

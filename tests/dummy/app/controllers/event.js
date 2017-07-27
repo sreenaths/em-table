@@ -23,6 +23,7 @@ export default Ember.Controller.extend({
       };
     },
     facetType: null,
+    width: "200px",
     pin: "left"
   },{
     id: 'id',
@@ -88,35 +89,41 @@ export default Ember.Controller.extend({
 
   columns2: Ember.computed(function () {
     var columns = this.get("columns1").slice();
-    columns.splice(10, 1);
+    columns.splice(4, 5);
     return columns;
   }),
 
   columns3: Ember.computed(function () {
     var columns = this.get("columns1").slice();
-    columns.splice(0, 2);
+    columns.splice(10, 1);
     return columns;
   }),
 
   columns4: Ember.computed(function () {
     var columns = this.get("columns1").slice();
-    columns.splice(2, 8);
+    columns.splice(0, 2);
     return columns;
   }),
 
   columns5: Ember.computed(function () {
     var columns = this.get("columns1").slice();
-    columns.splice(2, 9);
+    columns.splice(2, 8);
     return columns;
   }),
 
   columns6: Ember.computed(function () {
     var columns = this.get("columns1").slice();
-    columns.splice(0, 10);
+    columns.splice(2, 9);
     return columns;
   }),
 
   columns7: Ember.computed(function () {
+    var columns = this.get("columns1").slice();
+    columns.splice(0, 10);
+    return columns;
+  }),
+
+  columns8: Ember.computed(function () {
     var columns = this.get("columns1").slice();
     columns[3].pin = "left";
     columns[4].pin = "right";
@@ -160,6 +167,16 @@ export default Ember.Controller.extend({
       rows.push(record);
     }
     return rows;
-  })
+  }),
+
+  actions: {
+    columnWidthChange: function (width, definition) {
+      var headerTitle = definition.get("headerTitle").split("|")[0];
+      definition.set("headerTitle", `${headerTitle}| width: ${width}`);
+    },
+    scrollChange: function (scrollData) {
+      console.log(scrollData.get("left"), scrollData.get("width"), scrollData.get("viewPortWidth"));
+    }
+  }
 
 });

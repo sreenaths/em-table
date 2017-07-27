@@ -1,9 +1,6 @@
-{{#if enableFilter}}
-  {{input type="text" class="filter-box" value=filterText placeholder="Filter"}}
-{{/if}}
-
 {{#if dataProcessor.facetedFields.length}}
   <ul class="field-list">
+    {{input type="text" class="field-filter-box" value=filterText placeholder="Filter"}}
     {{#each dataProcessor.facetedFields key="column.id" as |field fieldIndex|}}
       <li>{{component field.column.facetType.componentName data=field tableDefinition=tableDefinition dataProcessor=dataProcessor facetConditions=tmpFacetConditions valueChanged="valueChanged"}}</li>
     {{/each}}
