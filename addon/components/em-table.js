@@ -228,9 +228,9 @@ export default Ember.Component.extend({
   willDestroyElement: function () {
     this._super();
     clearInterval(this.get("_widthTrackerTimer"));
-    Ember.$(this.get("element").find(".table-body")).off();
-    Ember.$(this.get("element").find(".table-mid")).off();
-    Ember.$(this.get("element")).off();
+    Ember.$(this.$().find(".table-body")).off();
+    Ember.$(this.$().find(".table-mid")).off();
+    Ember.$(this.$()).off();
   },
 
   actions: {
