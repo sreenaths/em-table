@@ -17,6 +17,7 @@ export default Ember.Object.extend({
   enableSort: true,
   sortColumnId: '',
   sortOrder: '',
+  headerAsSortButton: false,
 
   // Pagination
   enablePagination: true,

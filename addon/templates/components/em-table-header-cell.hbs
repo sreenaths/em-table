@@ -2,6 +2,9 @@
   {{title}}
   {{#if tableDefinition.enableSort}}{{#if definition.enableSort}}
     <span title="Sort {{sortToggledTitle}}" class="sort-icon {{sortIconCSS}}" {{action 'sort'}}></span>
+    {{#if tableDefinition.headerAsSortButton}}
+      <span class="sort-bar" {{action 'sort'}}></span>
+    {{/if}}
   {{/if}}{{/if}}
   {{#if tableDefinition.enableColumnResize}}{{#if definition.enableColumnResize}}
     <span title="Resize column" class="resize-column" {{action 'startColResize' on="mouseDown"}}></span>
