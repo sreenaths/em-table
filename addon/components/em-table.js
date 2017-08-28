@@ -208,18 +208,20 @@ export default Ember.Component.extend({
 
         clearInterval(this.get("_widthTrackerTimer"));
 
-        if(addScrollListener) {
-          Ember.$(element).on('scroll', this, HANDLERS.onScroll);
+        if(element) {
+          if(addScrollListener) {
+            Ember.$(element).on('scroll', this, HANDLERS.onScroll);
 
-          this.set("_widthTrackerTimer", setInterval(function () {
-            scrollValues.setProperties({
-              width: element.scrollWidth,
-              viewPortWidth: element.offsetWidth
-            });
-          }, 1000));
-        }
-        else {
-          element.off('scroll', HANDLERS.onScroll);
+            this.set("_widthTrackerTimer", setInterval(function () {
+              scrollValues.setProperties({
+                width: element.scrollWidth,
+                viewPortWidth: element.offsetWidth
+              });
+            }, 1000));
+          }
+          else {
+            element.off('scroll', HANDLERS.onScroll);
+          }
         }
       }
     });
