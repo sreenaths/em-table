@@ -12,7 +12,7 @@ test('Basic renders', function(assert) {
 
   this.render(hbs`{{em-table-facet-panel}}`);
 
-  assert.equal(this.$().text().replace(/\n|\r\n|\r| /g, '').trim(), 'RefineApplyClear');
+  assert.equal(this.$().text().replace(/\n|\r\n|\r| /g, '').trim(), 'NotAvailable!');
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -21,5 +21,5 @@ test('Basic renders', function(assert) {
     {{/em-table-facet-panel}}
   `);
 
-  assert.equal(this.$().text().replace(/\n|\r\n|\r| /g, '').trim(), 'RefineApplyClear');
+  assert.equal(this.$().text().replace(/\n|\r\n|\r| /g, '').trim(), 'NotAvailable!');
 });

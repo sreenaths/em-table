@@ -7,15 +7,18 @@ export default Ember.Component.extend({
   layout: layout,
 
   data: null,
+  checkedCount: null,
 
   tableDefinition: null,
   dataProcessor: null,
+
+  tmpFacetConditions: null,
 
   hideValues: true,
   limitList: true,
 
   classNames: ['em-table-facet-panel-values'],
-  classNameBindings: ['hideValues', 'limitList', 'hideFilter', 'hideMoreLess'],
+  classNameBindings: ['hideValues', 'limitList', 'hideFilter', 'hideMoreLess', 'hideSelectAll'],
 
   filterText: null,
   hideFilter: Ember.computed("allFacets.length", function () {
@@ -24,36 +27,40 @@ export default Ember.Component.extend({
   hideMoreLess: Ember.computed("filteredFacets.length", function () {
     return this.get("filteredFacets.length") < LIST_LIMIT;
   }),
+  hideSelectAll: Ember.computed("fieldFacetConditions", "checkedCount", "data.facets", function () {
+    return this.get("fieldFacetConditions.in.length") === this.get("data.facets.length");
+  }),
 
-  getSelectionHash: function (facetConditions) {
-    var selectionHash = {};
+  fieldFacetConditions: Ember.computed("tmpFacetConditions", "data.column.id", function () {
+    var columnID = this.get("data.column.id"),
+        conditions = this.get(`tmpFacetConditions.${columnID}`),
+        facets = this.get("data.facets") || [];
 
-    if(facetConditions) {
-      if(facetConditions.in) {
-        facetConditions.in.forEach(function (valueText) {
-          selectionHash[valueText] = 1;
-        });
-      }
-      if(facetConditions.notIn) {
-        facetConditions.notIn.forEach(function (valueText) {
-          selectionHash[valueText] = 2;
-        });
-      }
+    if(!conditions) {
+      conditions = {
+        in: facets.map(facet => facet.value)
+      };
+      this.set(`tmpFacetConditions.${columnID}`, conditions);
     }
 
-    return selectionHash;
-  },
+    return conditions;
+  }),
 
-  allFacets: Ember.computed("data.facets", "tableDefinition.facetConditions", "data.column.id", function () {
-    var facets = this.get("data.facets"),
+  allFacets: Ember.computed("data.facets", "fieldFacetConditions", function () {
+    var facets = this.get("data.facets") || [],
 
-        columnID = this.get("data.column.id"),
-        facetConditions = this.get(`tableDefinition.facetConditions.${columnID}`),
-        selectionHash = this.getSelectionHash(facetConditions);
+        checkedValues = this.get("fieldFacetConditions.in"),
+        selectionHash = {};
+
+    if(checkedValues) {
+      checkedValues.forEach(function (valueText) {
+        selectionHash[valueText] = 1;
+      });
+    }
 
     return Ember.A(facets.map(function (facet) {
       facet = Ember.Object.create(facet);
-      facet.set("selection", selectionHash[facet.value]);
+      facet.set("checked", selectionHash[facet.value]);
       return facet;
     }));
   }),
@@ -75,28 +82,6 @@ export default Ember.Component.extend({
     return filteredFacets;
   }),
 
-  _getFacetConditions: function () {
-    var facets = this.get("allFacets"),
-        inValues = [],
-        notInValues = [];
-
-    facets.forEach(function (facet) {
-      switch(facet.get("selection")) {
-        case 1:
-          inValues.push(facet.value);
-        break;
-        case 2:
-          notInValues.push(facet.value);
-        break;
-      }
-    });
-
-    return {
-      in: inValues,
-      notIn: notInValues
-    };
-  },
-
   actions: {
     toggleValueDisplay: function () {
       this.toggleProperty("hideValues");
@@ -105,13 +90,65 @@ export default Ember.Component.extend({
       this.toggleProperty("limitList");
     },
     clickedCheckbox: function (facet) {
-      var value = facet.get("selection") || 0,
-          column = this.get("data.column");
+      var checkedValues = this.get("fieldFacetConditions.in"),
+          value = facet.get("value"),
+          valueIndex = checkedValues.indexOf(value);
 
-      value = (value + 1) % 3;
-      facet.set("selection", value);
+      facet.toggleProperty("checked");
 
-      this.sendAction("valueChanged", column, this._getFacetConditions());
+      if(facet.get("checked")) {
+        if(valueIndex === -1) {
+          checkedValues.push(value);
+        }
+      }
+      else if(valueIndex !== -1) {
+        checkedValues.splice(valueIndex, 1);
+      }
+
+      this.set("checkedCount", checkedValues.length);
+    },
+
+    selectAll: function () {
+      var filteredFacets = this.get("filteredFacets"),
+          checkedValues = this.get("fieldFacetConditions.in");
+
+      filteredFacets.forEach(function (facet) {
+        if(!facet.get("checked")) {
+          checkedValues.push(facet.get("value"));
+        }
+
+        facet.set("checked", true);
+      });
+
+      this.set("fieldFacetConditions.in", checkedValues);
+      this.set("checkedCount", checkedValues.length);
+    },
+    clickedOnly: function (facet) {
+      var filteredFacets = this.get("filteredFacets"),
+          checkedValues = this.get("fieldFacetConditions.in"),
+          checkedHash = {};
+
+      checkedValues.forEach(function (value) {
+        checkedHash[value] = true;
+      });
+
+      filteredFacets.forEach(function (facet) {
+        checkedHash[facet.get("value")] = false;
+        facet.set("checked", false);
+      });
+
+      facet.set("checked", true);
+      checkedHash[facet.get("value")] = true;
+
+      checkedValues = [];
+      for(var value in checkedHash) {
+        if(checkedHash[value]) {
+          checkedValues.push(value);
+        }
+      }
+
+      this.set("fieldFacetConditions.in", checkedValues);
+      this.set("checkedCount", checkedValues.length);
     }
   }
 

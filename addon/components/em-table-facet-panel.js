@@ -21,8 +21,8 @@ export default Ember.Component.extend({
     return this.get("dataProcessor.facetedFields.length") < this.get("tableDefinition.minFieldsForFilter");
   }),
 
-  didInsertElement: Ember.observer("filterText", "dataProcessor.facetedFields", function () {
-    var fields = this.get("dataProcessor.facetedFields"),
+  didInsertElement: Ember.observer("filterText", "facetedFields", function () {
+    var fields = this.get("facetedFields"),
         filterText = this.get("filterText"),
         filterRegex = new RegExp(filterText, "i"),
         elements = Ember.$(this.get("element")).find(".field-list>li");
@@ -43,11 +43,8 @@ export default Ember.Component.extend({
       this.set("tableDefinition.facetConditions", this.get("tmpFacetConditions"));
     },
     clearFilters: function () {
-      this.set("tableDefinition.facetConditions", null);
-      Ember.$(this.get("element")).find(".facet-checkbox").attr("selection", 0);
+      this.set("tmpFacetConditions", {});
+      this.set("tableDefinition.facetConditions", {});
     },
-    valueChanged: function (column, facetConditions) {
-      this.set(`tmpFacetConditions.${column.id}`, facetConditions);
-    }
   }
 });

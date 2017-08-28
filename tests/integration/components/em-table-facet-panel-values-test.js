@@ -5,21 +5,22 @@ moduleForComponent('em-table-facet-panel-values', 'Integration | Component | em 
   integration: true
 });
 
-test('Basic renders', function(assert) {
+test('Basic render test', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs`{{em-table-facet-panel-values}}`);
+  this.set("tmpFacetConditions", {});
+  this.render(hbs`{{em-table-facet-panel-values tmpFacetConditions=tmpFacetConditions}}`);
 
-  assert.equal(this.$().text().trim(), '()');
+  assert.ok(this.$().text().trim());
 
   // Template block usage:" + EOL +
   this.render(hbs`
-    {{#em-table-facet-panel-values}}
+    {{#em-table-facet-panel-values tmpFacetConditions=tmpFacetConditions}}
       template block text
     {{/em-table-facet-panel-values}}
   `);
 
-  assert.equal(this.$().text().trim(), '()');
+  assert.ok(this.$().text().trim());
 });

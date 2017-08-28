@@ -174,7 +174,9 @@ export default Ember.Controller.extend({
   actions: {
     columnWidthChange: function (width, definition) {
       var headerTitle = definition.get("headerTitle").split("|")[0];
-      definition.set("headerTitle", `${headerTitle}| width: ${width}`);
+      if(definition.get("id") !== "id") {
+        definition.set("headerTitle", `${headerTitle}| width: ${width}`);
+      }
     },
     scrollChange: function (scrollData) {
       console.log(scrollData.get("left"), scrollData.get("width"), scrollData.get("viewPortWidth"));

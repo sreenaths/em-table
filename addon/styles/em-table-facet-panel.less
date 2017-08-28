@@ -46,11 +46,14 @@
 
     .em-table-facet-panel-values {
 
+      position: relative;
+
       .field-name {
         .no-select;
 
-        cursor: pointer;
+        padding-right: 20px;
 
+        cursor: pointer;
         display: flex;
 
         &::before {
@@ -71,6 +74,22 @@
           color: @text-light;
           white-space: nowrap;
         }
+
+        .all-button {
+          margin-left: 5px;
+          position: absolute;
+          right: 0px;
+        }
+      }
+
+      &.hide-select-all {
+        .field-name {
+          padding-right: 0px;
+
+          .all-button {
+            display: none;
+          }
+        }
       }
 
       .value-list {
@@ -87,49 +106,12 @@
         li {
           display: flex;
 
-          .facet-checkbox {
-            .no-select;
+          .checkbox-container {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: auto;
 
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            overflow: hidden;
-
-            border: 1px solid grey;
-            border-radius: 3px;
-            font-weight: bold;
-            color: #FFF;
-
-            cursor: pointer;
-
-            box-shadow: inset 0 0 2px 2px #EEE;
-
-            margin: 5px 5px 0 0;
-
-            &:hover {
-              box-shadow: none;
-            }
-
-            &[selection="1"] {
-              background-color: green;
-              box-shadow: none;
-              &:before {
-                content: "+";
-                position: relative;
-                top: -6px;
-                left: 1px;
-              }
-            }
-            &[selection="2"] {
-              background-color: red;
-              box-shadow: none;
-              &:before {
-                content: "-";
-                position: relative;
-                top: -6px;
-                left: 2px;
-              }
-            }
+            padding-right: 5px;
           }
 
           .facet-value {
@@ -143,6 +125,17 @@
             white-space: nowrap;
           }
 
+          .only-button {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: auto;
+
+            cursor: pointer;
+
+            display: none;
+            padding: 0 5px;
+          }
+
           .facet-count {
             order: 0;
             flex: 0 1 auto;
@@ -150,6 +143,12 @@
 
             &:hover{
               text-decoration: none;
+            }
+          }
+
+          &:hover {
+            .only-button {
+              display: inline;
             }
           }
         }
@@ -176,6 +175,10 @@
         .field-name::before {
           transform: rotate(-90deg) translate(2px, 2px);
         }
+
+        .field-name .all-button {
+          display: none;
+        }
       }
 
       &.hide-filter {
@@ -192,7 +195,7 @@
 
       &.limit-list { // Hide more than 7 values
         .value-list {
-          max-height: 14em;
+          max-height: 13em;
         }
       }
 
