@@ -21,6 +21,9 @@ export default Ember.Component.extend({
   classNameBindings: ['hideValues', 'limitList', 'hideFilter', 'hideMoreLess', 'hideSelectAll'],
 
   filterText: null,
+  isVisible: Ember.computed("data.facets.length", function () {
+    return this.get("data.facets.length") > 1;
+  }),
   hideFilter: Ember.computed("allFacets.length", function () {
     return this.get("allFacets.length") < LIST_LIMIT;
   }),

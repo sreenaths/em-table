@@ -1,4 +1,4 @@
-<div class="field-name" {{action "toggleValueDisplay"}}>
+<div class="field-name" {{action "toggleValueDisplay"}} title={{data.column.headerTitle}}>
   <div class="field-title">{{data.column.headerTitle}}</div>
   <div class="field-count">({{data.facets.length}})</div>
   <a class="all-button" {{action "selectAll" bubbles=false}}>All</a>
@@ -7,7 +7,7 @@
 <ul class="value-list">
   {{input type="text" class="filter-box" value=filterText placeholder="Filter"}}
   {{#each filteredFacets key="value" as |facet index|}}
-    <li>
+    <li title={{facet.value}}>
       <div class="checkbox-container">
         <input type="checkbox" checked={{facet.checked}} onclick={{action "clickedCheckbox" facet}} />
       </div>
