@@ -21,8 +21,8 @@ export default Ember.Component.extend({
   classNameBindings: ['hideValues', 'limitList', 'hideFilter', 'hideMoreLess', 'hideSelectAll'],
 
   filterText: null,
-  isVisible: Ember.computed("data.facets.length", function () {
-    return this.get("data.facets.length") > 1;
+  isVisible: Ember.computed("data.facets.length", "tableDefinition.minValuesToDisplay", function () {
+    return this.get("data.facets.length") >= this.get("tableDefinition.minValuesToDisplay");
   }),
   hideFilter: Ember.computed("allFacets.length", function () {
     return this.get("allFacets.length") < LIST_LIMIT;
@@ -88,6 +88,7 @@ export default Ember.Component.extend({
   actions: {
     toggleValueDisplay: function () {
       this.toggleProperty("hideValues");
+      this.get("parentView").sendAction("toggleValuesDisplayAction", !this.get("hideValues"), this.get("data"));
     },
     toggleListLimit: function () {
       this.toggleProperty("limitList");

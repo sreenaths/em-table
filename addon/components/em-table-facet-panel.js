@@ -21,8 +21,8 @@ export default Ember.Component.extend({
     return this.get("dataProcessor.facetedFields.length") < this.get("tableDefinition.minFieldsForFilter");
   }),
 
-  didInsertElement: Ember.observer("filterText", "facetedFields", function () {
-    var fields = this.get("facetedFields"),
+  didInsertElement: Ember.observer("filterText", "dataProcessor.facetedFields", function () {
+    var fields = this.get("dataProcessor.facetedFields"),
         filterText = this.get("filterText"),
         filterRegex = new RegExp(filterText, "i"),
         elements = Ember.$(this.get("element")).find(".field-list>li");

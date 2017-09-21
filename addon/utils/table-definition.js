@@ -12,6 +12,7 @@ export default Ember.Object.extend({
   enableFaceting: false,
   facetConditions: null,
   minFieldsForFilter: 15,
+  minValuesToDisplay: 2,
 
   // Sort
   enableSort: true,
