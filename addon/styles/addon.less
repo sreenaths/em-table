@@ -227,10 +227,10 @@
         cursor: pointer;
         position: absolute;
         right: .5em;
-        top: .6em;
+        top: .2em;
 
         &:before, &:after {
-          font-size: .5em;
+          font-size: .7em;
           opacity: .5;
           position: absolute;
         }
@@ -251,23 +251,19 @@
 
         &.asc{
           &:before {
-            display: none;
+            opacity: 1;
           }
           &:after {
-            font-size: .7em;
-            opacity: 1;
-            top: .1em;
+            opacity: .5;
           }
         }
 
         &.desc {
           &:before {
-            font-size: .7em;
-            opacity: 1;
-            top: .1em;
+            opacity: .5;
           }
           &:after {
-            display: none;
+            opacity: 1;
           }
         }
       }
