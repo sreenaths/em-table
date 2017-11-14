@@ -54,6 +54,12 @@ var facetTypes = {
         });
         return facetedDataArr;
       }
+    },
+
+    normaliseConditions: function (conditions, data) {
+      if(Ember.get(conditions, "in.length") < data.length) {
+        return conditions;
+      }
     }
   },
 };

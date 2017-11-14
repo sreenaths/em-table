@@ -33,14 +33,32 @@ export default Ember.Component.extend({
     });
   }),
 
-  _facetConditionsObserver: Ember.observer("tableDefinition.facetConditions", function () {
+  _facetConditionsObserver: Ember.observer("tableDefinition.facetConditions", "dataProcessor.processedRows.[]", function () {
     var facetConditions = Ember.$.extend({}, this.get("tableDefinition.facetConditions"));
     this.set("tmpFacetConditions", facetConditions);
   }),
 
   actions: {
     applyFilters: function () {
-      this.set("tableDefinition.facetConditions", this.get("tmpFacetConditions"));
+      var tmpFacetConditions = this.get("tmpFacetConditions"),
+          facetedFields = this.get("dataProcessor.facetedFields"),
+          normalizedTmpFacetConditions = {};
+
+      facetedFields.forEach(function (field) {
+        var column = field.column,
+            columnId = column.get("id"),
+            facetType = column.get("facetType"),
+            normalizedConditions;
+
+        if(facetType) {
+          normalizedConditions = facetType.normaliseConditions(tmpFacetConditions[columnId], field.facets);
+          if(normalizedConditions) {
+            normalizedTmpFacetConditions[columnId] = normalizedConditions;
+          }
+        }
+      });
+
+      this.set("tableDefinition.facetConditions", normalizedTmpFacetConditions);
     },
     clearFilters: function () {
       this.set("tmpFacetConditions", {});

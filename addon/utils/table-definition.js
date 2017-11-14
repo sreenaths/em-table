@@ -37,8 +37,4 @@ export default Ember.Object.extend({
     this.set('pageNum', 1);
   }),
 
-  _facetResetObserver: Ember.observer('searchText', function () {
-    this.set('facetConditions', null);
-  }),
-
 });
