@@ -12,6 +12,8 @@ export default Ember.Object.extend({
   },
 
   validateClause: function (clause, columns) {
+    clause = clause.toString();
+
     var query = this.constructQuery(this.normaliseClause(clause, columns || [])),
         valid = false;
 
@@ -37,6 +39,7 @@ export default Ember.Object.extend({
   },
 
   normaliseClause: function (clause, columns) {
+    clause = clause.toString();
     columns.forEach(function (column) {
       var headerTitle = column.get("headerTitle");
       clause = clause.replace(new RegExp(`"${headerTitle}"`, "gi"), column.get("id"));

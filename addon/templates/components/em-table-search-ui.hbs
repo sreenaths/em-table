@@ -1,4 +1,16 @@
 <div class="input-group">
+  {{#if (eq tableDefinition.searchType "manual")}}
+    <span class="input-group-btn">
+      <select class="type-select form-control btn btn-default" onchange={{action (mut actualSearchType) value="target.value"}}>
+        {{#each searchTypes as |searchType|}}
+          <option value={{searchType}} selected={{eq searchType actualSearchType}}>
+            {{searchType}}
+          </option>
+        {{/each}}
+      </select>
+    </span>
+  {{/if}}
+
   {{input
     type="text"
     class="form-control"
@@ -6,17 +18,14 @@
     enter="search"
     value=text
   }}
+
   <span class="input-group-btn">
     <button class="btn btn-default {{if dataProcessor.isSearching 'animated-stripes'}}" type="button" {{action "search"}}>
       {{#if dataProcessor.isSearching}}
         Searching...
       {{else}}
-        {{#if text}}
-          {{#if isSQLClause}}
-            SQL
-          {{else}}
-            Regex
-          {{/if}}
+        {{#if (eq tableDefinition.searchType "auto")}}
+          {{actualSearchType}}
         {{/if}}
         Search
       {{/if}}

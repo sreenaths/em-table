@@ -1,6 +1,6 @@
 {
   "name": "em-table",
-  "version": "0.11.4",
+  "version": "0.12.0",
   "description": "Beta",
   "directories": {
     "doc": "doc",
@@ -37,7 +37,8 @@
     "ember-data": "2.1.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
-    "ember-resolver": "^2.0.3"
+    "ember-resolver": "^2.0.3",
+    "ember-truth-helpers": "2.0.0"
   },
   "keywords": [
     "ember-addon",

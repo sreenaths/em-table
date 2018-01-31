@@ -7,6 +7,8 @@ export default Ember.Object.extend({
   // Search
   enableSearch: true,
   searchText: '',
+  searchType: 'auto', // Can be either of auto, manual, regex OR sql
+  _actualSearchType: "Regex", // Set from em-table-search-ui
 
   // Faceting
   enableFaceting: false,

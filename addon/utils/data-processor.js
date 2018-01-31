@@ -18,7 +18,7 @@ export default Ember.Object.extend({
   _searchedRows: [],
   _facetFilteredRows: [],
 
-  _searchObserver: Ember.on("init", Ember.observer('tableDefinition.searchText', '_sortedRows.[]', function () {
+  _searchObserver: Ember.on("init", Ember.observer('tableDefinition.searchText', 'tableDefinition._actualSearchType', '_sortedRows.[]', function () {
     Ember.run.once(this, "startSearch");
   })),
 
@@ -34,7 +34,14 @@ export default Ember.Object.extend({
   })),
 
   regexSearch: function (clause, rows, columns) {
-    var regex = new RegExp(clause, "i");
+    var regex;
+
+    try {
+      regex = new RegExp(clause, "i");
+    }
+    catch(e) {
+      regex = new RegExp("", "i");
+    }
 
     function checkRow(column) {
       var value;
@@ -60,6 +67,7 @@ export default Ember.Object.extend({
     var searchText = String(this.get('tableDefinition.searchText')),
         rows = this.get('_sortedRows') || [],
         columns = this.get('tableDefinition.columns'),
+        actualSearchType = this.get('tableDefinition._actualSearchType'),
         that = this;
 
     if(searchText) {
@@ -68,11 +76,15 @@ export default Ember.Object.extend({
       Ember.run.later(function () {
         var result;
 
-        if(that.get("sql").validateClause(searchText, columns)) {
-          result = that.get("sql").search(searchText, rows, columns);
-        }
-        else {
-          result = that.regexSearch(searchText, rows, columns);
+        switch(actualSearchType) {
+          case "SQL":
+            result = that.get("sql").search(searchText, rows, columns);
+            break;
+
+          case "Regex":
+          default:
+            result = that.regexSearch(searchText, rows, columns);
+            break;
         }
 
         that.setProperties({

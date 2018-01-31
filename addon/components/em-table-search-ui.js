@@ -8,20 +8,72 @@ export default Ember.Component.extend({
   dataProcessor: null,
 
   classNames: ['search-ui'],
+  classNameBindings: ['hasError'],
   isVisible: Ember.computed.alias('tableDefinition.enableSearch'),
 
-  isSQLClause: Ember.computed("text", function () {
-    var text = this.get("text"),
-        columns = this.get('tableDefinition.columns');
-
-    return this.get("dataProcessor.sql").validateClause(text, columns);
-  }),
+  searchTypes: ["Regex", "SQL"],
+  actualSearchType: null,
 
   text: Ember.computed.oneWay('tableDefinition.searchText'),
 
+  _actualSearchTypeDecider: Ember.observer("tableDefinition.searchType", "text", function () {
+    var searchType = this.get("tableDefinition.searchType"),
+        actualSearchType = this.get("actualSearchType");
+
+    switch(searchType) {
+      case "SQL":
+      case "Regex":
+        actualSearchType = searchType;
+        break;
+
+      case "manual":
+        if(!actualSearchType) {
+          actualSearchType = "Regex";
+        }
+        // Will be set from the template
+        break;
+
+      case "auto":
+        var text = this.get("text"),
+            columns = this.get('tableDefinition.columns');
+
+        if(text) {
+          actualSearchType = this.get("dataProcessor.sql").validateClause(text, columns) ? "SQL" : "Regex";
+        }
+        else {
+          actualSearchType = null;
+        }
+        break;
+    }
+
+    this.set("actualSearchType", actualSearchType);
+  }),
+
+  hasError: Ember.computed("text", "actualSearchType", "tableDefinition.searchType", function () {
+    var text = this.get("text"),
+        columns = this.get('tableDefinition.columns'),
+        actualSearchType = this.get("actualSearchType");
+
+    if(text) {
+      switch(actualSearchType) {
+        case "SQL":
+            return !this.get("dataProcessor.sql").validateClause(text, columns);
+          break;
+        case "Regex":
+          try {
+            new RegExp(text);
+          }
+          catch(e) {
+            return true;
+          }
+          break;
+      }
+    }
+  }),
+
   actions: {
     search: function () {
-      this.get('parentView').send('search', this.get('text'));
+      this.get('parentView').send('search', this.get('text'), this.get("actualSearchType"));
     }
   }
 });

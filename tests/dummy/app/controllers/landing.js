@@ -220,6 +220,9 @@ export default Ember.Controller.extend({
   columns: createColumn(3),
   rows: createData(3, 30),
 
+  manualSearchTypeDef: TableDef.create({
+    searchType: "manual"
+  }),
   customTableDefinition: TableDef.create(),
   searchText: Ember.computed.alias('customTableDefinition.searchText'),
 

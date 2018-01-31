@@ -236,8 +236,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    search: function (searchText) {
+    search: function (searchText, actualSearchType) {
       this.set('_definition.searchText', searchText);
+      this.set('_definition._actualSearchType', actualSearchType);
       this.sendAction("searchAction", searchText);
     },
     sort: function (sortColumnId, sortOrder) {
