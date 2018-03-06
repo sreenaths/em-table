@@ -128,28 +128,15 @@ export default Ember.Component.extend({
       this.set("checkedCount", checkedValues.length);
     },
     clickedOnly: function (facet) {
-      var filteredFacets = this.get("filteredFacets"),
-          checkedValues = this.get("fieldFacetConditions.in"),
-          checkedHash = {};
+      var allFacets = this.get("allFacets"),
+          checkedValues = [];
 
-      checkedValues.forEach(function (value) {
-        checkedHash[value] = true;
-      });
-
-      filteredFacets.forEach(function (facet) {
-        checkedHash[facet.get("value")] = false;
+      allFacets.forEach(function (facet) {
         facet.set("checked", false);
       });
 
       facet.set("checked", true);
-      checkedHash[facet.get("value")] = true;
-
-      checkedValues = [];
-      for(var value in checkedHash) {
-        if(checkedHash[value]) {
-          checkedValues.push(value);
-        }
-      }
+      checkedValues.push(facet.get("value"));
 
       this.set("fieldFacetConditions.in", checkedValues);
       this.set("checkedCount", checkedValues.length);
