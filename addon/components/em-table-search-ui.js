@@ -58,7 +58,6 @@ export default Ember.Component.extend({
       switch(actualSearchType) {
         case "SQL":
             return !this.get("dataProcessor.sql").validateClause(text, columns);
-          break;
         case "Regex":
           try {
             new RegExp(text);
@@ -66,7 +65,6 @@ export default Ember.Component.extend({
           catch(e) {
             return true;
           }
-          break;
       }
     }
   }),

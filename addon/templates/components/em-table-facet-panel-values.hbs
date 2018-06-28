@@ -7,11 +7,11 @@
 <ul class="value-list">
   {{input type="text" class="filter-box" value=filterText placeholder="Filter"}}
   {{#each filteredFacets key="value" as |facet index|}}
-    <li title={{facet.value}}>
+    <li title={{facet.displayText}}>
       <div class="checkbox-container">
         <input type="checkbox" checked={{facet.checked}} onclick={{action "clickedCheckbox" facet}} />
       </div>
-      <div class="facet-value">{{facet.value}}</div>
+      <div class="facet-value">{{facet.displayText}}</div>
       <a class="only-button" {{action "clickedOnly" facet}}>only</a>
       <a class="facet-count">{{facet.count}}</a>
     </li>

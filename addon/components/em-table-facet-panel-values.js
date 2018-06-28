@@ -64,6 +64,11 @@ export default Ember.Component.extend({
     return Ember.A(facets.map(function (facet) {
       facet = Ember.Object.create(facet);
       facet.set("checked", selectionHash[facet.value]);
+
+      if(!facet.get("displayText")) {
+        facet.set("displayText", facet.get("value"));
+      }
+
       return facet;
     }));
   }),
