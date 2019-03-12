@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/em-table-facet-panel-values';
 
 const LIST_LIMIT = 7;
+const LIST_MAX_LENGTH = 200;
 
 export default Ember.Component.extend({
   layout: layout,
@@ -87,7 +88,12 @@ export default Ember.Component.extend({
       filteredFacets = allFacets;
     }
 
-    return filteredFacets;
+    return filteredFacets.slice(0, LIST_MAX_LENGTH);
+  }),
+
+  taperedFacets: Ember.computed("filteredFacets", function () {
+    var filteredFacets = this.get("filteredFacets");
+    return filteredFacets.slice(0, LIST_MAX_LENGTH);
   }),
 
   actions: {
