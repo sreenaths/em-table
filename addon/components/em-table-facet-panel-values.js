@@ -88,7 +88,7 @@ export default Ember.Component.extend({
       filteredFacets = allFacets;
     }
 
-    return filteredFacets;
+    return filteredFacets.slice(0, LIST_MAX_LENGTH);
   }),
 
   taperedFacets: Ember.computed("filteredFacets", function () {
