@@ -81,7 +81,7 @@ export default Ember.Object.extend({
             result = that.get("sql").search(searchText, rows, columns);
             break;
 
-          case "Regex":
+          //case "Regex": Commenting as default will be called anyways
           default:
             result = that.regexSearch(searchText, rows, columns);
             break;
