@@ -95,8 +95,6 @@
       .value-list {
         overflow: hidden;
 
-        max-height: 200em;
-
         padding-left: 10px;
 
         .filter-box {
@@ -152,23 +150,33 @@
             }
           }
         }
-      }
 
-      .more-less {
-        display: block;
+        .pagination-controls {
+          padding-top: 5px;
 
-        cursor: pointer;
+          position: relative;
 
-        text-align: center;
-        border-top: 1px dotted @border-color;
+          .arrows {
+            position: absolute;
+            top: 5px;
+            right: 0px;
+          }
+
+          span {
+            user-select: none;
+            color: lightgrey;
+
+            &.active {
+              cursor: pointer;
+              color: #3B99FC;
+            }
+          }
+        }
+
       }
 
       &.hide-values {
         .value-list {
-          display: none;
-        }
-
-        .more-less {
           display: none;
         }
 
@@ -184,18 +192,6 @@
       &.hide-filter {
         .filter-box {
           display: none;
-        }
-      }
-
-      &.hide-more-less {
-        .more-less {
-          display: none;
-        }
-      }
-
-      &.limit-list { // Hide more than 7 values
-        .value-list {
-          max-height: 13em;
         }
       }
 

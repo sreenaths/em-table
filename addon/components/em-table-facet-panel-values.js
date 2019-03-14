@@ -2,7 +2,6 @@ import Ember from 'ember';
 import layout from '../templates/components/em-table-facet-panel-values';
 
 const LIST_LIMIT = 7;
-const LIST_MAX_LENGTH = 200;
 
 export default Ember.Component.extend({
   layout: layout,
@@ -16,10 +15,11 @@ export default Ember.Component.extend({
   tmpFacetConditions: null,
 
   hideValues: true,
-  limitList: true,
+
+  currentPage: 1,
 
   classNames: ['em-table-facet-panel-values'],
-  classNameBindings: ['hideValues', 'limitList', 'hideFilter', 'hideMoreLess', 'hideSelectAll'],
+  classNameBindings: ['hideValues', 'hideFilter', 'hideSelectAll'],
 
   filterText: null,
   isVisible: Ember.computed("data.facets.length", "tableDefinition.minValuesToDisplay", function () {
@@ -27,9 +27,6 @@ export default Ember.Component.extend({
   }),
   hideFilter: Ember.computed("allFacets.length", function () {
     return this.get("allFacets.length") < LIST_LIMIT;
-  }),
-  hideMoreLess: Ember.computed("filteredFacets.length", function () {
-    return this.get("filteredFacets.length") < LIST_LIMIT;
   }),
   hideSelectAll: Ember.computed("fieldFacetConditions", "checkedCount", "data.facets", function () {
     return this.get("fieldFacetConditions.in.length") === this.get("data.facets.length");
@@ -91,18 +88,41 @@ export default Ember.Component.extend({
     return filteredFacets;
   }),
 
-  taperedFacets: Ember.computed("filteredFacets", function () {
-    var filteredFacets = this.get("filteredFacets");
-    return filteredFacets.slice(0, LIST_MAX_LENGTH);
+  _filterObserver: Ember.observer("filterText", function () {
+    this.set("currentPage", 1);
+  }),
+
+  totalPages: Ember.computed("filteredFacets.length", "tableDefinition.facetValuesPageSize", function () {
+    return Math.ceil(this.get("filteredFacets.length") / this.get("tableDefinition.facetValuesPageSize"));
+  }),
+  showPagination: Ember.computed("totalPages", function () {
+    return this.get("totalPages") > 1;
+  }),
+  showPrevious: Ember.computed("currentPage", function () {
+    return this.get("currentPage") > 1;
+  }),
+  showNext: Ember.computed("currentPage", "totalPages", function () {
+    return this.get("currentPage") < this.get("totalPages");
+  }),
+
+  paginatedFacets: Ember.computed("filteredFacets", "currentPage", "tableDefinition.facetValuesPageSize", function () {
+    let currentPage = this.get("currentPage"),
+        pageSize = this.get("tableDefinition.facetValuesPageSize");
+    return this.get("filteredFacets").slice(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize);
   }),
 
   actions: {
+    changePage: function (factor) {
+      var newPage = this.get("currentPage") + factor;
+      if(newPage > 0 && newPage <= this.get("totalPages")) {
+        this.set("currentPage", newPage);
+      }
+    },
     toggleValueDisplay: function () {
       this.toggleProperty("hideValues");
       this.get("parentView").sendAction("toggleValuesDisplayAction", !this.get("hideValues"), this.get("data"));
-    },
-    toggleListLimit: function () {
-      this.toggleProperty("limitList");
     },
     clickedCheckbox: function (facet) {
       var checkedValues = this.get("fieldFacetConditions.in"),

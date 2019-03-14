@@ -6,7 +6,18 @@
 
 <ul class="value-list">
   {{input type="text" class="filter-box" value=filterText placeholder="Filter"}}
-  {{#each taperedFacets key="value" as |facet index|}}
+
+  {{#if showPagination}}
+    <div class="pagination-controls">
+      {{currentPage}}/{{totalPages}}
+      <div class="arrows">
+        <span {{action "changePage" -1}} class="{{if showPrevious 'active'}}">&#9668;</span>
+        <span {{action "changePage" 1}} class="{{if showNext 'active'}}">&#9658;</span>
+      </div>
+    </div>
+  {{/if}}
+
+  {{#each paginatedFacets key="value" as |facet index|}}
     <li title={{facet.displayText}}>
       <div class="checkbox-container">
         <input type="checkbox" checked={{facet.checked}} onclick={{action "clickedCheckbox" facet}} />
@@ -19,11 +30,3 @@
     <span class="filter-message">No fields!</span>
   {{/each}}
 </ul>
-
-<a class="more-less" {{action 'toggleListLimit'}}>
-  {{#if limitList}}
-    More
-  {{else}}
-    Less
-  {{/if}}
-</a>

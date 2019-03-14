@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
   customTableDefinition: TableDef.create({
     enableFaceting: true,
     minFieldsForFilter: 0,
+    facetValuesPageSize: 15
   }),
 
   columns1: ColumnDefinition.make([{
