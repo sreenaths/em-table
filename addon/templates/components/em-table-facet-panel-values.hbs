@@ -1,7 +1,7 @@
 <div class="field-name" {{action "toggleValueDisplay"}} title={{data.column.headerTitle}}>
   <div class="field-title">{{data.column.headerTitle}}</div>
   <div class="field-count">({{data.facets.length}})</div>
-  <a class="all-button" {{action "selectAll" bubbles=false}}>All</a>
+  <a class="all-button" title={{allButtonTitle}} {{action "selectAll" bubbles=false}}>All</a>
 </div>
 
 <ul class="value-list">

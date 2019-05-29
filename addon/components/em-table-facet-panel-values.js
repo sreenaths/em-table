@@ -22,6 +22,10 @@ export default Ember.Component.extend({
   classNameBindings: ['hideValues', 'hideFilter', 'hideSelectAll'],
 
   filterText: null,
+  allButtonTitle: Ember.computed("filterText", function () {
+    let filterText = this.get("filterText");
+    return filterText ? `Select all with substring '${filterText}'` : "Select all";
+  }),
   isVisible: Ember.computed("data.facets.length", "tableDefinition.minValuesToDisplay", function () {
     return this.get("data.facets.length") >= this.get("tableDefinition.minValuesToDisplay");
   }),
